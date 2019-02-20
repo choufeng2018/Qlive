@@ -116,9 +116,4 @@ class Room extends Admin
                 ->content($return);
         }
     }
-
-    public function test()
-    {
-
-    }
 }
