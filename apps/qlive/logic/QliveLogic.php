@@ -1,11 +1,11 @@
 <?php
-// Qlive模块逻辑层
-// +----------------------------------------------------------------------
-// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.
-// +----------------------------------------------------------------------
-// | [EacooPHP] 并不是自由软件,可免费使用,未经许可不能去掉EacooPHP相关版权。
-// | 禁止在EacooPHP整体或任何部分基础上发展任何派生、修改或第三方版本用于重新分发
-// +----------------------------------------------------------------------
+/**
+ * Created by PhpStorm.
+ * User: xpwsg
+ * Date: 2019/2/20
+ * Time: 14:58
+ */
+
 namespace app\Qlive\logic;
 
 use app\common\logic\Base as BaseLogic;
@@ -52,7 +52,7 @@ class QliveLogic extends BaseLogic
             ->value('config'), true);
         $mac = new Mac($this->liveConfig['AccessKey'], $this->liveConfig['SecretKey']);
         $client = new Client($mac);
-        $this->hub = $client->hub($this->liveConfig['hubName']);
+        $this->hub = $client->hub($this->liveConfig['HubName']);
     }
 
     /**
@@ -75,10 +75,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $res = $this->hub->create($streamKey);
-            return $res;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $res;
     }
 
     /**
@@ -90,24 +90,25 @@ class QliveLogic extends BaseLogic
     {
         try {
             $res = $this->hub->stream($streamKey)->info();
-            return $res;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $res;
     }
 
     /**
      * @return array|\Exception|mixed|string
      * 列出当前直播空间的所有流
      */
-    public function listAllStream()
+    public function listAllStreams()
     {
         try {
             $res = $this->hub->listStreams('', '', '');
-            return $res;
+
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $res;
     }
 
     /**
@@ -118,10 +119,11 @@ class QliveLogic extends BaseLogic
     {
         try {
             $res = $this->hub->listLiveStreams('', '', '');
-            return $res;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $res;
+
     }
 
     /**
@@ -133,10 +135,11 @@ class QliveLogic extends BaseLogic
     {
         try {
             $status = $stream = $this->hub->stream($streamKey)->liveStatus();
-            return $status;
+
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $status;
     }
 
     /**
@@ -150,10 +153,11 @@ class QliveLogic extends BaseLogic
         try {
             $stream = $this->hub->stream($streamKey)->disable(\time() + $disableTime);
             $status = $stream->liveStatus();
-            return $status;
+
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $status;
     }
 
     /**
@@ -166,10 +170,10 @@ class QliveLogic extends BaseLogic
         try {
             $stream = $this->hub->stream($streamKey)->enable();
             $status = $stream->liveStatus();
-            return $status;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $status;
     }
 
     /**
@@ -181,10 +185,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $fname = $this->hub->stream($streamKey)->save(0, 0);
-            return $fname;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $fname;
     }
 
     /**
@@ -201,10 +205,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $res = $this->hub->stream($streamKey)->saveas($options);
-            return $res;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $res;
     }
 
     /**
@@ -216,10 +220,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $res = $this->hub->stream($streamKey)->historyActivity();
-            return $res;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $res;
     }
 
     /**
@@ -232,10 +236,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $res = $this->hub->stream($streamKey)->snapshot($options);
-            return $res;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $res;
     }
 
     /**
@@ -248,10 +252,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $res = $this->hub->stream($streamKey)->updateConverts($profiles);
-            return $res;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $res;
     }
 
     /**
@@ -264,10 +268,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $url = \Qiniu\Pili\RTMPPublishURL($this->liveConfig['LiveDomain'], $this->liveConfig['HubName'], $streamKey, $expireAfterSeconds, $this->liveConfig['AccessKey'], $this->liveConfig['SecretKey']);
-            return $url;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $url;
     }
 
     /**
@@ -279,10 +283,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $url = \Qiniu\Pili\RTMPPlayURL($this->liveConfig['LiveDomain'], $this->liveConfig['HubName'], $streamKey);
-            return $url;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $url;
     }
 
     /**
@@ -294,10 +298,10 @@ class QliveLogic extends BaseLogic
     {
         try {
             $url = \Qiniu\Pili\HLSPlayURL($this->liveConfig['LiveDomain'], $this->liveConfig['HubName'], $streamKey);
-            return $url;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $url;
     }
 
     /**
@@ -309,9 +313,9 @@ class QliveLogic extends BaseLogic
     {
         try {
             $url = \Qiniu\Pili\HDLPlayURL($this->liveConfig['LiveDomain'], $this->liveConfig['HubName'], $streamKey);
-            return $url;
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
+        return $url;
     }
 }
