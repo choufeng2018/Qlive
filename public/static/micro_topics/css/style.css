@@ -1,0 +1,1061 @@
+ul,li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+a {
+    transition: all ease .5s;
+}
+.bbs_main {
+    background: #cccccc;
+}
+.bbs_content {
+    width: 100%;
+    overflow: hidden;
+}
+.bbs_mainbody {
+    float: left;
+    width: 100%;
+}
+.bbs_sidebar {
+    float: right;
+    width: 23%;
+    display: none;
+}
+.bbs_header {
+    margin-bottom: 5px;
+}
+.bbs_header_a {
+    background: url("../img/header_bg.jpg");
+    height: 110px;
+    width: 100%;
+    background-size: cover;
+    display: none;
+}
+.bbs_header_b {
+    position: relative;
+    background: #FFFFFF;
+    height: 100px;
+}
+.bbs_header_avatar {
+    position: absolute;
+    top: 3px;
+    left: 10px;
+    border: 3px solid #ffffff;
+    border-radius: 2px;
+    width: 20%;
+}
+.bbs_header_avatar img {
+    width: 100%;
+}
+.bbs_header_des {
+    position: absolute;
+    top: 10px;
+    left: 105px;
+    overflow: hidden;
+}
+.bbs_header_top {
+    overflow: hidden;
+}
+.bbs_header_top h4,.bbs_header_top h5 {
+    margin: 0;
+    float: left;
+}
+.bbs_header_top h4 {
+    margin-right: 100px;
+}
+.bbs_header_top i {
+    font-style: normal;
+    color: red;
+}
+.bbs_header_bottom {
+    margin-top: 20px;
+}
+.bbs_cat {
+    background: white;
+    overflow: hidden;
+    padding: 10px 10px;
+    border-bottom: 1px solid #e3e2e2;
+}
+.bbs_cat > h2 {
+    margin: 0 0 30px 0px;
+    font-size: 18px;
+}
+.bbs_cat .add-post {
+    float: right;
+    font-size: 14px;
+    color: white;
+    background: #5fb878;
+    padding: 5px 10px
+}
+.bbs_cat .add-post:hover {
+    background: #278240;
+}
+.bbs_cat li {
+    float: left;
+    margin: 10px;
+}
+.bbs_cat li a {
+    padding: 5px 10px;
+    background: #0b7fd1;
+    color: white;
+    font-size: 14px;
+}
+.bbs_cat li:hover a {
+    background: #c9302c;
+}
+.bbs_list_box {
+    background: white;
+    padding-top: 10px;
+}
+.bbs_list_box > h2 {
+    margin: 10px;
+    font-size: 18px;
+}
+.bbs_list_box > h2 .bbs_type {
+    float: right;
+}
+.bbs_list_box > h2 .bbs_type li {
+    float: left;
+    font-size: 16px;
+    padding: 0 5px 10px;
+    position: relative;
+    margin: 0 10px;
+}
+.bbs_list_box > h2 .bbs_type li a {
+    color: black;
+}
+.bbs_list_box > h2 .bbs_type li:hover a {
+    color: #00af00;
+}
+.bbs_list_box > h2 .bbs_type li.bbs_current:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #00af00;
+    left: 0;
+    bottom: 0;
+}
+.bbs_list_box > h2 .bbs_type li:hover:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #00af00;
+    left: 0;
+    bottom: 0;
+}
+.overhead_list {
+    border-bottom: 1px solid #e3e2e2;
+}
+.bbs_list_box .list {
+    overflow: hidden;
+}
+.bbs_list_box .list li {
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+.bbs_list_box .avatar {
+    float: left;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    position: relative;
+}
+i.vip_icon {
+    width: 25px;
+    height: 12px;
+    position: absolute;
+    background: url(../img/vip-icon.png);
+    z-index: 1;
+}
+i.verify_icon {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    background: url(../img/verify-icon.png);
+    background-size: 16px;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+i.verify_official {
+    background-position: 0px -20px;
+}
+i.verify_common {
+    background-position: 0px -1px;
+}
+.bbs_list_box .avatar img {
+    width: 100%;
+    transition: all ease .8s;
+}
+.bbs_list_box .avatar:hover img {
+    transform:rotate(360deg);
+    -ms-transform:rotate(360deg); 	/* IE 9 */
+    -moz-transform:rotate(360deg); 	/* Firefox */
+    -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+    -o-transform:rotate(360deg); 	/* Opera */
+}
+.bbs_list_box .main {
+    float: left;
+    margin-left: 30px;
+    width: 89%;
+}
+.bbs_list_box .main h1 {
+    font-size: 16px;
+    margin: 0;
+}
+.bbs_list_box .main h1 a {
+    color: black;
+}
+.bbs_list_box .main h1 a:hover {
+    color: #c9302c;
+}
+.bbs_list_box .main h1 a i.title {
+    font-style: normal;
+}
+.bbs_list_box .main h1 a span {
+    padding: 2px 8px;
+    font-size: 12px;
+    color: #fff;
+    border-radius: 2px;
+    background: #508aeb;
+    margin-right: 10px;
+    line-height: 24px;
+    position: relative;
+}
+.bbs_list_box .main h1 a span.cat_name:after {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    position: absolute;
+    top: 7px;
+    right: -4px;
+    border-left: 4px solid #508aeb;
+}
+.bbs_list_box .main h1 a:hover span.cat_name {
+    color: white;
+}
+.bbs_list_box .main h1 div.comment {
+    float: right;
+}
+.bbs_list_box span.overhead,.bbs_list_box span.recommend,.bbs_list_box span.essence {
+    margin: 10px 0;
+}
+.bbs_list_box .main h1 a span:nth-of-type(2) {
+    margin-left: 20px;
+}
+.bbs_list_box .addition {
+    margin-top: 23px;
+    font-size: 12px;
+    color: #999;
+}
+.bbs_list_box .addition span {
+    margin-right: 20px;
+}
+.bbs_list_box .addition span.comments_time {
+    margin-right: 0;
+}
+.bbs_detail_box {
+    float: left;
+    width: 100%;
+}
+.bbs_detail_box h1 span {
+    background-color: #1499f8;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 7px;
+    margin: 0 2px;
+    font-weight: normal;
+}
+.bbs_detail_box h1 span:first-of-type {
+    margin-left: 20px;
+}
+.bbs_detail_box li {
+    margin-bottom: 20px;
+    background: white;
+    padding: 20px 0 0;
+}
+.bbs_detail_box li {
+
+}
+.bbs_detail_box li h1.title {
+    margin: 0 0 20px 20px;
+    font-size: 20px;
+    font-weight: bolder;
+}
+.bbs_detail_box .bbs_letf {
+    width: 70px;
+    overflow: hidden;
+    float: left;
+}
+.bbs_detail_box .bbs_letf a {
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+}
+.bbs_detail_box .bbs_letf img {
+    width: 100%;
+    border-radius: 50%;
+}
+.bbs_detail_box .bbs_letf a span {
+    display: block;
+    margin-top: 10px;
+}
+.bbs_detail_box .bbs_right {
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+.bbs_detail_box .bbs_right .content {
+    min-height: 180px;
+}
+.bbs_detail_box .bbs_right .respond-visible {
+    border: 1px dashed #c9302c;
+    padding: 7px 20px;
+    color: #827f7f;
+}
+.bbs_detail_box .bbs_right .respond-visible .respond-visible-title {
+    width: 100%;
+    text-align: center;
+    color: #827f7f;
+    margin-bottom: 40px;
+}
+.bbs_detail_box .bbs_right .other {
+    float: right;
+    margin-right: 30px;
+    font-size: 12px;
+    color: #999999;
+}
+.bbs_detail_box .bbs_right span.time{
+
+}
+.bbs_detail_box .bbs_right span.view {
+    margin: 0 10px;
+}
+.bbs_detail_box .bbs_right span.floor{
+    margin: 0 10px;
+}
+.bbs_detail_box .bbs_right span.reply{
+    font-size: 14px;
+    color: #0b7fd1;
+    cursor: pointer;
+}
+.bbs_detail_box .bbs_right span.reply:hover {
+    color: #28a1ff;
+}
+.bbs-detail-edit {
+    background: white;
+    overflow: hidden;
+    padding: 20px;
+}
+.bbs-detail-edit {
+
+}
+.reply_box {
+    display: none;
+}
+.reply_box .btn {
+    float: right;
+}
+.reply_box .btn div {
+    padding: 5px 10px;
+    color: white;
+    float: left;
+}
+.reply_box .btn .btn_close {
+    background: #cccccc;
+}
+.reply_box .btn .btn_suess {
+    background: #42b513;
+    margin-left: 30px;
+}
+.bbs_sidebar_box {
+    background: white;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.bbs_ranking_user {
+
+}
+.bbs_ranking_user .tab_title {
+    text-align: center;
+    border-bottom: 1px solid #e2e2e2;
+}
+.bbs_ranking_user .tab_title li {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 16px;
+    position: relative;
+    padding: 10px;
+    transition: all ease .5s;
+}
+.bbs_ranking_user .tab_title li.active {
+    color: #5fb878;
+}
+.bbs_ranking_user .tab_title li.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #5fb878;
+}
+.bbs_ranking_user .tab_box {
+    padding: 15px 15px 0;
+}
+.bbs_ranking_user .tab_box div {
+    display: none;
+}
+.bbs_ranking_user .tab_box li {
+    display: inline-block;
+    width: 30%;
+    margin: 0 10px 10px 0;
+}
+.bbs_ranking_user .tab_box li:nth-of-type(3n){
+    margin-right: 0;
+}
+.bbs_ranking_user .tab_box li a:hover {
+    opacity: .7;
+}
+.bbs_ranking_user .tab_box li img {
+    width: 100%;
+}
+.bbs_sidebar_box > h3 {
+    font-size: 14px;
+    border-left: 3px solid #23a649;
+    line-height: 16px;
+    margin-bottom: 10px;
+    margin: 10px 10px 5px;
+    padding-left: 8px;
+}
+.bbs_sidebar_box .hot_post {
+    margin: 15px;
+    margin-top: 20px;
+}
+.bbs_sidebar_box .hot_post a {
+    color: black;
+}
+.bbs_sidebar_box .hot_post li {
+    margin: 10px 0;
+}
+.bbs_sidebar_box .hot_post a:hover {
+    color: #c9302c;
+}
+.layui-layer-setwin .layui-layer-close {
+    background-position: 1px -40px;
+    cursor: pointer;
+}
+/*登录框*/
+.bbs_login_box {
+    display: none;
+    margin: 20px 50px;
+}
+.loginh {
+    overflow: hidden;
+}
+.loginh .fl {
+    font-size: 26px;
+    line-height: 40px;
+    color: #292929;
+    float: left;
+}
+.loginh .fr {
+    font-size: 14px;
+    line-height: 50px;
+    color: #707070;
+    float: right;
+}
+.loginh .fr a {
+    font-size: 14px;
+    line-height: 50px;
+    color: #FF4200;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.loginwrap h3 {
+    font-size: 14px;
+    font-weight: 500;
+    height: 20px;
+    margin-top: 15px;
+    color: #292929;
+}
+.logininput input {
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+.logininput input {
+    display: block;
+    line-height: 14px;
+    width: 100%;
+    border: #DAE2E5 1px solid;
+    text-indent: 10px;
+    overflow: hidden;
+    color: #979696;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+.logininput .loginusername {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+.loginbtn {
+    margin-top: 25px;
+}
+.loginsubmit {
+    float: left;
+    padding: 10px 15px;
+    background: #0ebb0b;
+    color: white;
+    cursor: pointer;
+}
+.loginsubmit_one {
+    float: right;
+    line-height: 70px;
+}
+.loginsubmit_one a {
+
+}
+
+
+/*
+    媒介适配
+*/
+/* 小屏幕（平板，大于等于 768px） */
+@media (min-width: 768px) {
+    .bbs_header_a {
+        height: 150px;
+        display: block;
+    }
+    .bbs_header_avatar {
+        width: 12%;
+    }
+    .bbs_header_des {
+        left: 120px;
+        top: 20px;
+    }
+    .bbs_cat {
+        padding: 20px;
+    }
+    .bbs_list_box > h2 {
+        margin: 20px;
+    }
+}
+
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+@media (min-width: 992px) {
+    .bbs_header_a {
+        height: 150px;
+        display: block;
+    }
+    .bbs_header_b {
+        height: 140px;
+    }
+    .bbs_header_avatar {
+        width: 12%;
+    }
+    .bbs_header_des {
+        left: 160px;
+        top: 20px;
+    }
+    .bbs_cat {
+        padding: 20px;
+    }
+    .bbs_list_box > h2 {
+        margin: 20px;
+    }
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1200px） */
+@media (min-width: 1200px) {
+    .bbs_content {
+        width: 1200px;
+        margin: 0 auto;
+        padding: 30px 0;
+        overflow: hidden;
+    }
+    .bbs_mainbody {
+        float: left;
+        width: 75%;
+    }
+    .bbs_sidebar {
+        float: right;
+        width: 23%;
+        display: block;
+    }
+    .bbs_header {
+        margin-bottom: 20px;
+    }
+    .bbs_header_a {
+        background: url("../img/header_bg.jpg");
+        height: 200px;
+        width: 100%;
+        background-size: cover;
+    }
+    .bbs_header_b {
+        position: relative;
+        background: #FFFFFF;
+        height: 100px;
+    }
+    .bbs_header_avatar {
+        position: absolute;
+        top: -80px;
+        left: 50px;
+        border: 5px solid #ffffff;
+        border-radius: 2px;
+    }
+    .bbs_header_des {
+        position: absolute;
+        top: 30px;
+        left: 250px;
+        overflow: hidden;
+    }
+    .bbs_header_top {
+        overflow: hidden;
+    }
+    .bbs_header_top h4,.bbs_header_top h5 {
+        margin: 0;
+        float: left;
+    }
+    .bbs_header_top h4 {
+        margin-right: 500px;
+    }
+    .bbs_header_top i {
+        font-style: normal;
+        color: red;
+    }
+    .bbs_header_bottom {
+        margin-top: 20px;
+    }
+    .bbs_cat {
+        background: white;
+        overflow: hidden;
+        padding: 30px 40px;
+        border-bottom: 1px solid #e3e2e2;
+    }
+    .bbs_cat > h2 {
+        margin: 0 0 30px 0px;
+        font-size: 18px;
+    }
+    .bbs_cat li {
+        float: left;
+        margin: 10px;
+    }
+    .bbs_cat li a {
+        padding: 5px 10px;
+        background: #0b7fd1;
+        color: white;
+        font-size: 14px;
+    }
+    .bbs_cat li:hover a {
+        background: #c9302c;
+    }
+    .bbs_list_box {
+        background: white;
+        padding-top: 20px;
+    }
+    .bbs_list_box > h2 {
+        margin: 30px 30px 30px 40px;
+        font-size: 18px;
+    }
+    .bbs_list_box > h2 .bbs_type {
+        float: right;
+    }
+    .bbs_list_box > h2 .bbs_type li {
+        float: left;
+        font-size: 16px;
+        padding: 0 5px 10px;
+        position: relative;
+        margin: 0 10px;
+    }
+    .bbs_list_box > h2 .bbs_type li a {
+        color: black;
+    }
+    .bbs_list_box > h2 .bbs_type li:hover a {
+        color: #00af00;
+    }
+    .bbs_list_box > h2 .bbs_type li.bbs_current:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: #00af00;
+        left: 0;
+        bottom: 0;
+    }
+    .bbs_list_box > h2 .bbs_type li:hover:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: #00af00;
+        left: 0;
+        bottom: 0;
+    }
+    .overhead_list {
+        border-bottom: 1px solid #e3e2e2;
+    }
+    .bbs_list_box .list {
+        margin: 0 30px;
+    }
+    .bbs_list_box .list li {
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+    .bbs_list_box .avatar {
+        float: left;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        position: relative;
+    }
+    i.vip_icon {
+        width: 25px;
+        height: 12px;
+        position: absolute;
+        background: url(../img/vip-icon.png);
+        z-index: 1;
+    }
+    i.verify_icon {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        background: url(../img/verify-icon.png);
+        background-size: 16px;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+    i.verify_official {
+        background-position: 0px -20px;
+    }
+    i.verify_common {
+        background-position: 0px -1px;
+    }
+    .bbs_list_box .avatar img {
+        width: 100%;
+        transition: all ease .8s;
+    }
+    .bbs_list_box .avatar:hover img {
+        transform:rotate(360deg);
+        -ms-transform:rotate(360deg); 	/* IE 9 */
+        -moz-transform:rotate(360deg); 	/* Firefox */
+        -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+        -o-transform:rotate(360deg); 	/* Opera */
+    }
+    .bbs_list_box .main {
+        float: left;
+        margin-left: 30px;
+        width: 89%;
+    }
+    .bbs_list_box .main h1 {
+        font-size: 16px;
+        margin: 0;
+    }
+    .bbs_list_box .main h1 a {
+        color: black;
+    }
+    .bbs_list_box .main h1 a:hover {
+        color: #c9302c;
+    }
+    .bbs_list_box .main h1 a i.title {
+        font-style: normal;
+    }
+    .bbs_list_box .main h1 a span {
+        padding: 2px 8px;
+        font-size: 12px;
+        color: #fff;
+        border-radius: 2px;
+        background: #508aeb;
+        margin-right: 10px;
+        line-height: 24px;
+        position: relative;
+    }
+    .bbs_list_box .main h1 a span.cat_name:after {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        position: absolute;
+        top: 7px;
+        right: -4px;
+        border-left: 4px solid #508aeb;
+    }
+    .bbs_list_box .main h1 a:hover span.cat_name {
+        color: white;
+    }
+    .bbs_list_box .main h1 div.comment {
+        float: right;
+    }
+    .bbs_list_box span.overhead,.bbs_list_box span.recommend,.bbs_list_box span.essence {
+        margin: 10px 0;
+    }
+    .bbs_list_box .main h1 a span:nth-of-type(2) {
+        margin-left: 20px;
+    }
+    .bbs_list_box .addition {
+        margin-top: 23px;
+        font-size: 12px;
+        color: #999;
+    }
+    .bbs_list_box .addition span {
+        margin-right: 20px;
+    }
+    .bbs_list_box .addition span.comments_time {
+        margin-right: 0;
+    }
+    .bbs_detail_box {
+        float: left;
+        width: 75%;
+    }
+    .bbs_detail_box h1 span {
+        background-color: #1499f8;
+        color: #fff;
+        font-size: 12px;
+        padding: 2px 7px;
+        margin: 0 2px;
+        font-weight: normal;
+    }
+    .bbs_detail_box h1 span:first-of-type {
+        margin-left: 20px;
+    }
+    .bbs_detail_box li {
+        margin-bottom: 20px;
+        background: white;
+        padding: 20px 0 0;
+    }
+    .bbs_detail_box li {
+
+    }
+    .bbs_detail_box li h1.title {
+        margin: 0 0 20px 20px;
+        font-size: 20px;
+        font-weight: bolder;
+    }
+    .bbs_detail_box .bbs_letf {
+        width: 160px;
+        overflow: hidden;
+        float: left;
+    }
+    .bbs_detail_box .bbs_letf a {
+        width: 100px;
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+        position: relative;
+    }
+    .bbs_detail_box .bbs_letf img {
+        width: 100%;
+        border-radius: 50%;
+    }
+    .bbs_detail_box .bbs_letf a span {
+        display: block;
+        margin-top: 10px;
+    }
+    .bbs_detail_box .bbs_right {
+        overflow: hidden;
+        padding-bottom: 10px;
+    }
+    .bbs_detail_box .bbs_right .content {
+        min-height: 180px;
+    }
+    .bbs_detail_box .bbs_right .other {
+        float: right;
+        margin-right: 30px;
+        font-size: 12px;
+        color: #999999;
+    }
+    .bbs_detail_box .bbs_right span.time{
+
+    }
+    .bbs_detail_box .bbs_right span.view {
+        margin: 0 10px;
+    }
+    .bbs_detail_box .bbs_right span.floor{
+        margin: 0 10px;
+    }
+    .bbs_detail_box .bbs_right span.reply{
+        font-size: 14px;
+        color: #0b7fd1;
+        cursor: pointer;
+    }
+    .bbs_detail_box .bbs_right span.reply:hover {
+        color: #28a1ff;
+    }
+
+    .reply_box {
+        display: none;
+    }
+    .reply_box .btn {
+        float: right;
+    }
+    .reply_box .btn div {
+        padding: 5px 10px;
+        color: white;
+        float: left;
+    }
+    .reply_box .btn .btn_close {
+        background: #cccccc;
+    }
+    .reply_box .btn .btn_suess {
+        background: #42b513;
+        margin-left: 30px;
+    }
+    .bbs_sidebar_box {
+        background: white;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+    .bbs_ranking_user {
+
+    }
+    .bbs_ranking_user .tab_title {
+        text-align: center;
+        border-bottom: 1px solid #e2e2e2;
+    }
+    .bbs_ranking_user .tab_title li {
+        display: inline-block;
+        cursor: pointer;
+        font-size: 16px;
+        position: relative;
+        padding: 10px;
+        transition: all ease .5s;
+    }
+    .bbs_ranking_user .tab_title li.active {
+        color: #5fb878;
+    }
+    .bbs_ranking_user .tab_title li.active:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #5fb878;
+    }
+    .bbs_ranking_user .tab_box {
+        padding: 15px 15px 0;
+    }
+    .bbs_ranking_user .tab_box div {
+        display: none;
+    }
+    .bbs_ranking_user .tab_box li {
+        display: inline-block;
+        width: 30%;
+        margin: 0 10px 10px 0;
+    }
+    .bbs_ranking_user .tab_box li:nth-of-type(3n){
+        margin-right: 0;
+    }
+    .bbs_ranking_user .tab_box li a:hover {
+        opacity: .7;
+    }
+    .bbs_ranking_user .tab_box li img {
+        width: 100%;
+    }
+    .bbs_sidebar_box > h3 {
+        font-size: 14px;
+        border-left: 3px solid #23a649;
+        line-height: 16px;
+        margin-bottom: 10px;
+        margin: 10px 10px 5px;
+        padding-left: 8px;
+    }
+    .bbs_sidebar_box .hot_post {
+        margin: 15px;
+        margin-top: 20px;
+    }
+    .bbs_sidebar_box .hot_post a {
+        color: black;
+    }
+    .bbs_sidebar_box .hot_post li {
+        margin: 10px 0;
+    }
+    .bbs_sidebar_box .hot_post a:hover {
+        color: #c9302c;
+    }
+    .layui-layer-setwin .layui-layer-close {
+        background-position: 1px -40px;
+        cursor: pointer;
+    }
+    /*登录框*/
+    .bbs_login_box {
+        display: none;
+        margin: 20px 50px;
+    }
+    .loginh {
+        overflow: hidden;
+    }
+    .loginh .fl {
+        font-size: 26px;
+        line-height: 40px;
+        color: #292929;
+        float: left;
+    }
+    .loginh .fr {
+        font-size: 14px;
+        line-height: 50px;
+        color: #707070;
+        float: right;
+    }
+    .loginh .fr a {
+        font-size: 14px;
+        line-height: 50px;
+        color: #FF4200;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    .loginwrap h3 {
+        font-size: 14px;
+        font-weight: 500;
+        height: 20px;
+        margin-top: 15px;
+        color: #292929;
+    }
+    .logininput input {
+        -webkit-transition: all 0.2s ease-in;
+        -moz-transition: all 0.2s ease-in;
+        -o-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+    }
+    .logininput input {
+        display: block;
+        line-height: 14px;
+        width: 100%;
+        border: #DAE2E5 1px solid;
+        text-indent: 10px;
+        overflow: hidden;
+        color: #979696;
+        padding-top: 13px;
+        padding-bottom: 13px;
+    }
+    .logininput .loginusername {
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+    .loginbtn {
+        margin-top: 25px;
+    }
+    .loginsubmit {
+        float: left;
+        padding: 10px 15px;
+        background: #0ebb0b;
+        color: white;
+        cursor: pointer;
+    }
+    .loginsubmit_one {
+        float: right;
+        line-height: 70px;
+    }
+    .loginsubmit_one a {
+
+    }
+}
