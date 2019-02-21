@@ -25,10 +25,10 @@ class QliveLogic extends BaseLogic
      * 直播模块配置数据
      * array(5) {
      * ["status"] => string(1) "1"
-     * ["AccessKey"] => string(40) "wkkOpP-qcNGq3Wj9Cs7bTdEAh_r0IOMyEyxpPb4V"
-     * ["SecretKey"] => string(40) "qq9cWnsl5Pfd5xAAuISzwbQbdPwBb2keVjDYJ2zY"
-     * ["HubName"] => string(16) "qiniuniulive2019"
-     * ["LiveDomain"] => string(30) "pili-publish.live.qiniuniu.com"
+     * ["AccessKey"] => string(40) ""
+     * ["SecretKey"] => string(40) ""
+     * ["HubName"] => string(16) ""
+     * ["LiveDomain"] => string(30) ""
      * }
      */
     protected $liveConfig;
