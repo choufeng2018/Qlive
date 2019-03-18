@@ -99,12 +99,27 @@ class QliveLogic extends BaseLogic
     /**
      * @return array|\Exception|mixed|string
      * 列出当前直播空间的所有流
+     * 根据 prefix 遍历 Hub 的流列表.(没有prefix则为空)
      */
     public function listAllStreams()
     {
         try {
             $res = $this->hub->listStreams('', '', '');
+        } catch (\Exception $exception) {
+            return "Error:" . $exception->getMessage();
+        }
+        return $res;
+    }
 
+    /**
+     * @param array $streamKeys
+     * @return mixed|string
+     * 批量查询当前直播空间所有直播中的流信息.
+     */
+    public function batchLiveStreamsStatus($streamKeys = [])
+    {
+        try {
+            $res = $this->hub->batchLiveStatus($streamKeys);
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }

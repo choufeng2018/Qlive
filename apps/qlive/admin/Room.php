@@ -14,11 +14,7 @@ use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
 use app\qlive\model\QliveRoomList;
-use Qiniu\Pili\Client;
-use Qiniu\Pili\Mac;
 use think\Db;
-use think\Exception;
-
 /**
  * Class Room
  * @package app\qlive\admin

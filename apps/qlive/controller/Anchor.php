@@ -15,7 +15,7 @@ class Anchor extends Home
 {
     public function index()
     {
-        $res = \logic('QliveLogic')->listAllStreams();
+        $res = \logic('QliveLogic')->batchLiveStreamsStatus();
         \halt($res);
     }
 }
