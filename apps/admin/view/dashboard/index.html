@@ -36,31 +36,9 @@
                 </tbody>
               </table>
            </div>
-                 
-        </div>
-      </div>  
-
-      <div class="col-md-5">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">官方动态</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body pt-0" id="eacoo_news">
-            <table class="table table-condensed f14">
-              <tbody>
-              {volist name="eacoo_news_list.data" id="row"}
-                  <tr>
-                    <td><a href="{$row.href}" target="_blank">{$row.title}</a></td>
-                  </tr>
-              {/volist}
-              </tbody>
-            </table>
-          </div>
-          <!-- /.box-body -->
         </div>
       </div>
-    </div> 
+    </div>
 
   </div>
 </section>
@@ -68,7 +46,7 @@
 
 {block name="script"}
 <script type="text/javascript">
-  $(function(){ 
+  $(function(){
     //驱动提示
     {php}if(config('attachment_options.driver')=='local' || !config('attachment_options.driver')){{/php}
       var eacooadmin_localdriver_tip = sessionStorage.getItem('eacooadmin_localdriver_tip');
@@ -81,9 +59,9 @@
           btn2: function(index, layero){
               var storage_data = 1;
               sessionStorage.setItem('eacooadmin_localdriver_tip',storage_data);
-          }}); 
+          }});
       }
-      
+
     {php}}{/php}
   })
 </script>

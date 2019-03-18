@@ -1,7 +1,7 @@
 <?php
 // 初始化应用
 // +----------------------------------------------------------------------
-// | Copyright (c) 2017-2018 https://www.eacoophp.com, All rights reserved.         
+// | Copyright (c) 2017-2018 https://www.eacoophp.com, All rights reserved.
 // +----------------------------------------------------------------------
 // | [EacooPHP] 并不是自由软件,可免费使用,未经许可不能去掉EacooPHP相关版权。
 // | 禁止在EacooPHP整体或任何部分基础上发展任何派生、修改或第三方版本用于重新分发
@@ -16,7 +16,7 @@ class InitApp {
 
 	public function run(&$params) {
         define('EACOOPHP_V','1.3.1');
-        define('BUILD_VERSION','201812021322');//编译版本
+        define('BUILD_VERSION','20190318');//编译版本
 
         $this->initConst();
 
@@ -56,7 +56,7 @@ class InitApp {
                     404 =>  THEME_PATH.'404.html',
                     // 还可以定义其它的HTTP status
                     401 =>  THEME_PATH.'401.html',
-                ],                
+                ],
             ];
             //定义接口地址
             $ec_config['eacoo_api_url']='https://www.eacoophp.com';
@@ -71,16 +71,16 @@ class InitApp {
     private function initConst()
     {
         $this->initSystemConst();
-        
+
         $this->initResultConst();
 
         $this->initDataStatusConst();
-        
+
         $this->initTimeConst();
 
         $this->initDbInfo();
 
-        
+
     }
 
     /**
@@ -111,13 +111,13 @@ class InitApp {
      */
     private function initDbInfo()
     {
-        
+
         $database_config = config('database');
-        
+
         $list_rows = config('list_rows');
-    
+
         define('DB_PREFIX', $database_config['prefix']);
-        
+
         empty($list_rows) ? define('DB_LIST_ROWS', 10) : define('DB_LIST_ROWS', $list_rows);
 
     }
@@ -128,7 +128,7 @@ class InitApp {
      */
     private function initResultConst()
     {
-        
+
         define('RESULT_SUCCESS' , 'success');
         define('RESULT_ERROR'   , 'error');
         define('RESULT_REDIRECT', 'redirect');
@@ -144,7 +144,7 @@ class InitApp {
      */
     private function initDataStatusConst()
     {
-        
+
         define('DATA_COMMON_STATUS' ,  'status');
         define('DATA_NORMAL'        ,  1);
         define('DATA_DISABLE'       ,  0);
@@ -160,7 +160,7 @@ class InitApp {
      */
     private function initTimeConst()
     {
-        
+
         define('TIME_CT_NAME' ,  'create_time');
         define('TIME_UT_NAME' ,  'update_time');
         define('TIME_NOW'     ,   time());
