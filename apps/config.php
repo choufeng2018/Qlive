@@ -37,7 +37,7 @@ $config = [
         APP_PATH . 'functions/string.php',
         APP_PATH . 'functions/time.php',
         APP_PATH . 'functions/request.php',
-        APP_PATH . 'functions/attachment.php', 
+        APP_PATH . 'functions/attachment.php',
         APP_PATH . 'functions/role.php',
         APP_PATH . 'functions/term.php',
         APP_PATH . 'functions/admin.php',
@@ -71,7 +71,7 @@ $config = [
     // +----------------------------------------------------------------------
 
     // 默认模块名
-    'default_module'         => 'home',
+    'default_module'         => 'admin',
     // 禁止访问模块
     'deny_module_list'       => ['common'],
     // 默认控制器名
@@ -184,7 +184,7 @@ $config = [
         // 内置Html Console 支持扩展
         'type' => 'Html',
     ],
-    
+
     //分页配置
     'paginate'      => [
         'type'      => 'bootstrap',

@@ -1,7 +1,7 @@
 <?php
 // 登录
 // +----------------------------------------------------------------------
-// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.         
+// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.
 // +----------------------------------------------------------------------
 // | [EacooPHP] 并不是自由软件,可免费使用,未经许可不能去掉EacooPHP相关版权。
 // | 禁止在EacooPHP整体或任何部分基础上发展任何派生、修改或第三方版本用于重新分发
@@ -9,6 +9,7 @@
 // | Author:  心云间、凝听 <981248356@qq.com>
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
+
 use app\common\controller\Base;
 
 use app\admin\logic\AdminUser as AdminUserLogic;
@@ -17,59 +18,61 @@ use think\Url;
 
 class Login extends Base
 {
-    public function _initialize() {
+    public function _initialize()
+    {
         parent::_initialize();
 
-        if (SERVER_SOFTWARE_TYPE=='nginx') {
+        if (SERVER_SOFTWARE_TYPE == 'nginx') {
             Url::root('/admin.php?s=');
-        } else{
+        } else {
             Url::root('/admin.php');
         }
     }
-    
+
     /**
      * 后台登录
      */
-    public function index(){ 
-        if(is_admin_login()) $this->redirect('admin/index/index');
+    public function index()
+    {
+        if (is_admin_login()) $this->redirect('admin/index/index');
 
         if (IS_POST) {
-          $data = $this->request->param();
-          $result = $this->validate($data,[
-                                        ['username','require|min:1','登录名不能为空|登录名格式不正确'],
-                                        ['password','require|length:6,32','请填写密码|密码格式不正确'],
-                                        ['captcha','require','请填写验证码']
-                                    ]);
-          if(true !== $result){
-              // 验证失败 输出错误信息
-              $this->error($result);
-              exit;
-          }
+            $data = $this->request->param();
+            $result = $this->validate($data, [
+                ['username', 'require|min:1', '登录名不能为空|登录名格式不正确'],
+                ['password', 'require|length:6,32', '请填写密码|密码格式不正确'],
+                ['captcha', 'require', '请填写验证码']
+            ]);
+            if (true !== $result) {
+                // 验证失败 输出错误信息
+                $this->error($result);
+                exit;
+            }
 
-          $login = model('AdminUser')->where(['username|email|mobile' => $data['username'],'status'=>1])->value('uid');
+            $login = model('AdminUser')->where(['username|email|mobile' => $data['username'], 'status' => 1])->value('uid');
 
-          if (empty($login)) {
-              $this->error('该用户不存在或禁用');
-           }
+            if (empty($login)) {
+                $this->error('该用户不存在或禁用');
+            }
 
-           $captcha = new Captcha();
-            if(!$captcha->check($data['captcha'],1)){
+            $captcha = new Captcha();
+            if (!$captcha->check($data['captcha'], 1)) {
                 $this->error('验证码错误');
             }
-            $rememberme = $data['rememberme']==1 ? true : false;
+            $rememberme = $data['rememberme'] == 1 ? true : false;
 
-            $result = AdminUserLogic::login($data['username'],$data['password'], $rememberme);
-            if ($result['code']==1) {
-                $uid = !empty($result['data']['uid']) ? $result['data']['uid']:0;
-                $this->success('登录成功！',url('admin/index/index'));
+            $result = AdminUserLogic::login($data['username'], $data['password'], $rememberme);
+            if ($result['code'] == 1) {
+                $uid = !empty($result['data']['uid']) ? $result['data']['uid'] : 0;
+                $this->success('登录成功！', url('admin/index/index'));
 
-            } elseif ($result['code']==0) {
+            } elseif ($result['code'] == 0) {
                 $this->error($result['msg']);
             } else {
                 $this->logout();
             }
 
-        } else{
+        } else {
             return $this->fetch();
         }
     }
@@ -78,14 +81,16 @@ class Login extends Base
      * 退出登录
      * @return [type] [description]
      */
-    public function logout(){
+    public function logout()
+    {
         session(null);
-        cookie(null,config('cookie.prefix'));
+        cookie(null, config('cookie.prefix'));
         $this->redirect('admin/login/index');
     }
 
-     //图片验证码
-    public function verify_img($id = 1){
+    //图片验证码
+    public function verify_img($id = 1)
+    {
         ob_clean();     //预防相关文件有BOM头，导致无法显示图片
         $captcha = new Captcha((array)config('captcha'));
         return $captcha->entry($id);
