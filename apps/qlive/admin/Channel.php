@@ -13,18 +13,30 @@ use app\admin\controller\Admin;
 
 class Channel extends Admin
 {
+    protected $logic;
+
     public function _initialize()
     {
         parent::_initialize();
+        $this->logic = \logic('QliveLogic');
     }
 
     public function index()
     {
-
+        $list = $this->logic->listAllStreams();
+        \halt($list);
     }
 
-    public function edit($id = 0)
+    public function info()
     {
+        $list = $this->logic->getLiveStatus('test1');
+        \halt($list);
+    }
 
+    public function add($name)
+    {
+        $name = create_stream_name($name);
+        $res = $this->logic->createStream($name);
+        \halt($res);
     }
 }

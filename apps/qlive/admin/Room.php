@@ -15,6 +15,7 @@ use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
 use app\qlive\model\QliveRoomList;
 use think\Db;
+
 /**
  * Class Room
  * @package app\qlive\admin
@@ -99,7 +100,7 @@ class Room extends Admin
 
             $return = (new BuilderForm())
                 ->addFormItem('id', 'hidden', 'ID')
-                ->addFormItem('stream', 'text', '推流码', '自动生成请勿手写', '', 'readonly')
+                ->addFormItem('stream', 'text', '推流码', '系统自动生成', '', 'readonly')
                 ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播', $this->anchorList)
                 ->addFormItem('room_status', 'radio', '房间状态', '请选择房间状态', [1 => '直播中', 0 => '停播中'])
                 ->addFormItem('marks', 'textarea', '备注')

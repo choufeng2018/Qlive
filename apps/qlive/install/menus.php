@@ -19,6 +19,13 @@ return [
                     'is_menu' => 1,
                 ],
                 [
+                    'title' => '直播分类',
+                    'name' => 'qlive/category/index',
+                    'icon' => 'fa fa-cubes',
+                    'is_menu' => 1,
+                ],
+
+                [
                     'title' => '主播列表',
                     'name' => 'qlive/anchor/index',
                     'icon' => 'fa fa-podcast',

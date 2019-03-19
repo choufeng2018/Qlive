@@ -191,15 +191,18 @@ class QliveLogic extends BaseLogic
         return $status;
     }
 
+
     /**
-     * @param $streamKey
+     * @param $streamKey    直播流名称
+     * @param int $start_time 开始时间
+     * @param int $end_time 结束时间
      * @return string
      * 保存直播数据
      */
-    public function saveStream($streamKey)
+    public function saveStream($streamKey, $start_time = 0, $end_time = 0)
     {
         try {
-            $fname = $this->hub->stream($streamKey)->save(0, 0);
+            $fname = $this->hub->stream($streamKey)->save($start_time, $end_time);
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
@@ -208,11 +211,21 @@ class QliveLogic extends BaseLogic
 
     /**
      * @param $streamKey
-     * @param array $options =[
-     *                      'format'=>'mp4',
-     *                       'fname'=>'保存文件名',
-     *                          ........
-     *                          ]
+     * @param array $options
+     * * PARAM
+     * @fname: 保存的文件名, 不指定会随机生成.
+     * @start: Unix 时间戳, 起始时间, 0 值表示不指定, 则不限制起始时间.
+     * @end: Unix 时间戳, 结束时间, 0 值表示当前时间.
+     * @format: 保存的文件格式, 默认为m3u8.
+     * @pipeline: dora 的私有队列, 不指定则用默认队列.
+     * @notify: 保存成功后的回调地址.
+     * @expireDays: 对应ts文件的过期时间.
+     *   -1 表示不修改ts文件的expire属性.
+     *   0  表示修改ts文件生命周期为永久保存.
+     *   >0 表示修改ts文件的的生命周期为ExpireDays.
+     * RETURN
+     * @fname: 保存到bucket里的文件名.
+     * @persistentID: 异步模式时，持久化异步处理任务ID，通常用不到该字段.
      * @return string
      * 花式保存直播数据
      */
