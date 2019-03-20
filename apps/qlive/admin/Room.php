@@ -23,11 +23,17 @@ use think\Db;
  */
 class Room extends Admin
 {
+    protected $roomModel;
     /**
      * @var
-     * 主播列表
+     * 未被禁播的主播列表
      */
-    protected $anchorList;
+    protected $anchorAllList;
+    /**
+     * @var
+     * 主播(状态=2 申请中)列表
+     */
+    protected $anchorApplyList;
 
     /**
      *初始化
@@ -35,7 +41,9 @@ class Room extends Admin
     public function _initialize()
     {
         parent::_initialize();
-        $this->anchorList = Db::name('QliveAnchorList')->where('status', 'eq', 1)->column('id,name');
+        $this->roomModel = new QliveRoomList();
+        $this->anchorApplyList = Db::name('QliveAnchorList')->where('status', 'eq', 2)->column('id,name');
+        $this->anchorAllList = Db::name('QliveAnchorList')->where('status', 'neq', 0)->column('id,name');
     }
 
     /**
@@ -47,19 +55,18 @@ class Room extends Admin
         $detail = [
             'icon' => 'fa fa-eye',
             'title' => '查看',
-            'class' => 'btn btn-success btn-sm',
+            'class' => 'btn btn-success btn-xs',
             'href' => url('detail')
         ];
-        list($data_list, $total) = (new QliveRoomList())->search()->getListByPage([], true, 'create_time desc');
+        list($data_list, $total) = $this->roomModel->search()->getListByPage([], true, 'create_time desc');
         $content = (new BuilderList())
             ->addTopButton('addnew')
-            ->addTopBtn('resume')
-            ->addTopButton('forbid')
-            ->addTopButton('delete')
-            ->keyListItem('id', 'ID')
-            ->keyListItem('stream', '推流码')
-            ->keyListItem('anchor_id', '房间主播', 'array', $this->anchorList)
-            ->keyListItem('room_status', '房间状态')
+            ->addTopBtn('resume', ['model' => 'QliveRoomList'])
+            ->addTopButton('forbid', ['model' => 'QliveRoomList'])
+            ->addTopButton('delete', ['model' => 'QliveRoomList'])
+            ->keyListItem('id', '房间ID')
+            ->keyListItem('anchor_id', '房间主播', 'array', $this->anchorAllList)
+            ->keyListItem('room_status', '房间状态', 'status')
             ->setListData($data_list)
             ->setListPage($total)
             ->keyListItem('right_button', '操作', 'btn')
@@ -84,25 +91,37 @@ class Room extends Admin
         $title = $id > 0 ? '编辑' : '新增';
         $data = \input();
         if (IS_POST) {
-            if ((new QliveRoomList())->editData($data)) {
+            //如果是新增,生成一个推流码,并且在七牛新建一个流
+            if ($id == 0) {
+                $data['stream'] = \create_stream_name();
+                $createStreamRes = \logic('QliveLogic')->createStream($data['stream']);
+
+            }
+            //如果绑定了主播,修改主播列表中主播的状态以及主播列表中的房间id
+            if ($data['anchor_id']) {
+                Db::name('QliveAnchorList')
+                    ->where('id', 'eq', $data['anchor_id'])
+                    ->setField('status', 1);
+            }
+            if ($this->roomModel->editData($data)) {
                 $this->success($title . '成功', \url('index'));
             } else {
-                $this->error((new QliveRoomList())->getError());
+                $this->error($this->roomModel->getError());
             }
         } else {
             $info = ['room_status' => 0];
             if ($id > 0) {
                 $info = QliveRoomList::get($id);
                 if (empty($info)) {
-                    $this->error((new QliveRoomList())->getError());
+                    $this->error($this->roomModel->getError());
                 }
             }
 
             $return = (new BuilderForm())
                 ->addFormItem('id', 'hidden', 'ID')
-                ->addFormItem('stream', 'text', '推流码', '系统自动生成', '', 'readonly')
-                ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播', $this->anchorList)
-                ->addFormItem('room_status', 'radio', '房间状态', '请选择房间状态', [1 => '直播中', 0 => '停播中'])
+                ->addFormItem('stream', 'hidden', '推流码')
+                ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播', $this->anchorApplyList)
+                ->addFormItem('room_status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
                 ->addFormItem('marks', 'textarea', '备注')
                 ->setFormData($info)
                 ->addButton('submit')
@@ -112,5 +131,10 @@ class Room extends Admin
                 ->setMetaTitle($title . '房间')
                 ->content($return);
         }
+    }
+
+    public function test()
+    {
+
     }
 }

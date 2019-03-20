@@ -58,7 +58,7 @@ CREATE TABLE `eacoo_qlive_room_list`
   `update_time` datetime(0)                                             NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 90000
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '直播房间列表'
   ROW_FORMAT = Dynamic;
