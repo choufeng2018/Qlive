@@ -66,7 +66,7 @@ class Room extends Admin
             ->addTopButton('delete', ['model' => 'QliveRoomList'])
             ->keyListItem('id', '房间ID')
             ->keyListItem('anchor_id', '房间主播', 'array', $this->anchorAllList)
-            ->keyListItem('room_status', '房间状态', 'status')
+            ->keyListItem('status', '房间状态', 'status')
             ->setListData($data_list)
             ->setListPage($total)
             ->keyListItem('right_button', '操作', 'btn')
