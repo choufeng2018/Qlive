@@ -10,8 +10,15 @@ namespace app\qlive\model;
 
 
 use app\common\model\Base;
+use think\Db;
 
 class QliveRoomList extends Base
 {
-
+    public function getAnchorIdAttr($anchor_id)
+    {
+        $name = Db::name('QliveAnchorList')
+            ->where('id', 'eq', $anchor_id)
+            ->value('name');
+        return $name;
+    }
 }

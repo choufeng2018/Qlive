@@ -1,0 +1,18 @@
+{
+	"name":"wechat",
+	"title":"微信管理系统",
+	"description":"微信公众号平台官方模块",
+	"author":"心云间、凝听",
+	"admin_manage_into":"",
+	"version":"1.0.6",
+	"dependences":{
+		"core":"1.3.0",
+		"plugins":{
+
+		},
+		"modules":{
+
+		}
+	},
+	"database_prefix":"eacoo_"
+}

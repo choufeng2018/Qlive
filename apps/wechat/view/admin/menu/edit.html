@@ -1,0 +1,131 @@
+{extend name="$_admin_public_base_"/}
+  {block name="style"}
+
+  {/block}
+
+  {block name="main"}
+  <section class="content pt-5">
+    <div class="box box-solid eacoo-box">
+      <div class=" box-body">
+   <div class="row">
+    <form id="form_id" method="post" action="" class="form-menus form-post form-horizontal">
+    	<fieldset>
+        <input type="hidden" name="id" value="{$info.id|default='0'}">
+    		  <div class="form-group">
+                <label for="menu_pid" class="col-md-2 control-label">菜单分类：</label>
+                <div class="col-md-4">
+                	<select name="pid" id="menu_pid" class="form-control" >
+                		<option value="0">作为一级菜单</option>
+                    {volist name="menu_cats" id="row"}
+                      <option value="{$row.id}" {eq name="Request.param.pid" value="$row.id" }selected{/eq}>{$row.name}</option>
+                    {/volist}
+                	</select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-md-2 control-label">菜单名称：</label>
+                <div class="col-md-4">
+                	<input type="text" class="form-control" name="name" placeholder="" value="{$info.name|default=''}" >
+                </div>
+            </div>
+            <div class="form-group menu_type">
+                <label for="type" class="col-md-2 control-label">按钮类型：</label>
+                <div class="col-md-8">
+                	<div class="radio radio-primary fl mr-10 button_type">
+	                    <label for="button_type1" class="radio-labelbutton_type" style="padding-left: 0!important;">
+	                      <input type="radio" name="type" id="button_type1" value="click" {present name="info.type" }{eq name="info.type" value="click" }checked{/eq}{/present}><span class="circle"></span><span class="check"></span>
+	                     接口推送
+	                    </label>
+	                  </div>
+	                <div class="radio radio-primary fl mr-10 button_type">
+	                    <label for="button_type2" class="radio-labelbutton_type">
+	                      <input type="radio" name="type" id="button_type2" value="view" {present name="info.type" }{eq name="info.type" value="view" }checked{/eq}{/present}><span class="circle"></span><span class="check"></span>
+	                     地址链接
+	                    </label>
+	                </div>
+                  <div class="radio radio-primary fl mr-10 button_type">
+                      <label for="button_type3" class="radio-labelbutton_type">
+                        <input type="radio" name="type" id="button_type3" value="miniprogram" {present name="info.type" }{eq name="info.type" value="miniprogram" }checked{/eq}{/present}><span class="circle"></span><span class="check"></span>
+                       小程序菜单
+                      </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group menu_key">
+                <label for="menu_key" class="col-md-2 control-label">菜单KEY值：</label>
+                <div class="col-md-4">
+                	<input type="text" class="form-control" name="key" placeholder="" value="{$info.key|default=''}" >
+                </div>
+                <div class="col-md-5 help-block"><i class="fa fa-info-circle color-info1"></i> KEY值可以设置为自动回复中的关键字。</div>
+            </div>
+            <div class="form-group menu_url ">
+                <label for="menu_url" class="col-md-2 control-label">网页链接Url：</label>
+                <div class="col-md-4">
+                	<input type="text" class="form-control" name="url" placeholder="" value="{$info.url|default=''}" >
+                </div>
+            </div>
+            <div class="form-group menu_appid ">
+                <label for="menu_appid" class="col-md-2 control-label">小程序APPID：</label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" name="appid" placeholder="" value="{$info.appid|default=''}" >
+                </div>
+            </div>
+            <div class="form-group menu_pagepath ">
+                <label for="menu_pagepath" class="col-md-2 control-label">小程序路径：</label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" name="pagepath" placeholder="" value="{$info.pagepath|default=''}" >
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                  <div class="col-md-3"><button class="btn btn-block btn-primary submit ajax-post" type="submit" target-form="form-menus">确定</button></div>
+                  <div class="col-md-3"><button class="btn btn-block btn-default return" onclick="javascript:history.back(-1);return false;">返回</button></div>
+              </div>
+          </div>
+    	</fieldset>
+    </form>
+   </div>
+ </div>
+ </div>
+     </section>
+  {/block}
+
+  {block name="script"}
+  <script type="text/javascript">
+    $(function(){
+        var menu_type = $('input:radio[name="type"]:checked').val();
+        if (menu_type!=undefined) {
+          switch_type_item(menu_type);
+        }
+        //切换类型
+        $('input:radio[name="type"]').on('ifChecked', function(event){
+          var menu_type = $('input:radio[name="type"]:checked').val();
+          switch_type_item(menu_type);
+        });
+    });
+    //事件方法
+  function switch_type_item(type){
+      switch(type){
+        case 'click':
+            $('.menu_key').removeClass('hide');
+            $('.menu_url,.menu_appid,.menu_pagepath').addClass('hide');
+            break;
+
+        case 'view':
+            $('.menu_url').removeClass('hide');
+            $('.menu_key,.menu_appid,.menu_pagepath').addClass('hide');
+            break;
+
+        case 'miniprogram':
+            $('.menu_url,.menu_appid,.menu_pagepath').removeClass('hide');
+            $('.menu_key').addClass('hide');
+            break;
+
+        default:
+            break;
+      }
+     
+  }
+  </script>
+  {/block}

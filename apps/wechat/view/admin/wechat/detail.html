@@ -1,0 +1,29 @@
+{extend name="$_admin_public_base_"/}
+{block name="style"}
+<style type="text/css">
+	.list-group-item{border:none;}
+</style>
+{/block}
+
+{block name="main"}
+   <ul class="list-group">
+      <li class="list-group-item"><strong>公众号名称：</strong>{$weixin.name}</li>
+      <li class="list-group-item"><strong>URL(服务器地址)：</strong><span id="wechat_url">{$weixin.url}</span><button class="btn btn-success btn-xs btn-flat copyurl ml-10" data-clipboard-target="#wechat_url">复制</button></li>
+      <li class="list-group-item"><strong>Token(令牌)：</strong><span id="wechat_vail_token">{$weixin.valid_token}</span><button class="btn btn-success btn-xs btn-flat copyurl ml-10" data-clipboard-target="#wechat_vail_token">复制</button></li>
+      <li class="list-group-item"><strong>EncodingAESKey(消息加解密密钥)：</strong>{$weixin.encodingaeskey}</li>
+    </ul>
+    <div class="col-md-2">
+        <button class="btn bg-aqua btn-block return" onclick="javascript:history.back(-1);return false;"><i class="fa fa-mail-reply"></i> 返回</button>
+    </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/js/clipboard.min.js"></script>
+<script type="text/javascript">
+  /*复制*/
+  var clipboard = new Clipboard('.copyurl');
+  clipboard.on('success', function(e) {
+      alert('复制成功');
+  });
+</script>
+{/block}

@@ -1,0 +1,193 @@
+{extend name="$_admin_public_base_"/}
+  {block name="style"}
+    <!--此页面增加的style-->
+    <style type="text/css">
+      .add_parent_menu,.remove_parent_menu,.add_children_menu,.remove_children_menu{}
+      .input-group .input-group-addon{background: #f0f0f0;cursor: pointer;}
+    </style>
+  {/block}
+
+  {block name="main"}
+  <div class="content box box-solid eacoo-box">
+  <div class="box-body">
+      <div class="row mb-10">
+        <div class="col-md-9">
+            <a class="btn btn-default btn-sm top_add_parent_menu" href="{:url('add')}"><i class="fa fa-plus"></i> 添加菜单</a>
+            <a class="btn btn-info btn-sm ajax-get1 confirm" href="{:url('wechat/Menu/sycGetMenu')}" confirm-info="从微信端获取菜单会覆盖掉本地菜单，确定要这样做吗？"> 从微信获取菜单</a>
+            <a class="btn bg-aqua btn-sm ajax-get confirm" href="{:url('wechat/Menu/publishToWechat')}"> 同步到微信</a>
+        </div>
+      </div>
+    <hr>
+    <div class="builder-container">
+      <div class="col-xs-11 col-sm-11 header-tip" style="margin: 0 0 20px 0;">
+          <p class="builder_sub_title color-palette">
+            目前自定义菜单最多包括3个一级菜单，每个一级菜单最多包含5个二级菜单。<br>
+            一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以“...”代替。<br>
+            请注意，创建自定义菜单后，由于微信客户端缓存，需要24小时微信客户端才会展现出来。<br>
+            建议测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果 </p>
+      </div>
+      <div class="row">
+          <div class="builder-table col-sm-12">
+                <table class="table table-responsive table-bordered table-hover dataTable">
+                    <thead>
+                        <tr>
+                            <th width="50" class="checkbox-toggle"><input class="check-all" type="checkbox"></th>
+                            <th width="60">排序</th>
+                            <th>菜单名称</th>
+                            <th>类型</th>
+                            <th>URL</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {empty name="data_list"}
+                            <tr class="builder-data-empty">
+                                <td class="text-center empty-info" colspan="4">
+                                    <i class="fa fa-database"></i> 暂时没有数据<br>
+                                </td>
+                            </tr>
+                        {else/}
+                          {volist name="data_list" id="row"}
+                              <tr>
+                                  <td><input class="ids" type="checkbox" value="{$row.id|default=""}" name="ids[]"></td>
+                                  <td><input class="sorts form-control input-sm " style="width: 40px;" type="text" name="sorts[]" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" value="{$row.sort|default="0"}" ><input type="hidden" class="sortids" name="sortids[]" value="{$row.id}"></td>
+                                  <td>{$row.name|default=''}</td>
+                                  <td>{$row.type|default=''}</td>
+                                  <td>{$row.url|default=''}</td>
+                                  <td><a class="btn btn-sm btn-default" href="{:url('add',['pid'=>$row['id']])}"><i class="fa fa-plus"></i> 添加</a>&nbsp;<a class="btn btn-sm btn-default" href="{:url('edit',['id'=>$row['id'],'pid'=>$row['pid']])}"><i class="fa fa-edit"></i> 编辑</a>&nbsp;<a class="btn btn-sm btn-default" href="">删除</a>&nbsp;</td>
+                              </tr>
+                              {notempty name="row._child"}
+                                {volist name="row._child" id="vo"}
+                                  <tr>
+                                    <td><input class="ids" type="checkbox" value="{$vo.id|default=""}" name="ids[]"></td>
+                                    <td><input class="sorts form-control input-sm " style="width: 40px;" type="text" name="sorts[]" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" value="{$vo.sort|default="0"}" ><input type="hidden" class="sortids" name="sortids[]" value="{$vo.id}"></td>
+                                    <td>&nbsp;├&nbsp;&nbsp;{$vo.name|default=''}</td>
+                                    <td>{$vo.type|default=''}</td>
+                                    <td>{$vo.url|default=''}</td>
+                                    <td><a class="btn btn-sm btn-default" href="{:url('edit',['id'=>$vo['id'],'pid'=>$vo['pid']])}"><i class="fa fa-edit"></i> 编辑</a>&nbsp;<a class="btn btn-sm btn-default ajax-get" href="{:url('wechat/menu/setStatus',['status'=>'delete','model'=>'menus','ids'=>$vo['id']])}">删除</a>&nbsp;</td>
+                                </tr>
+                                {/volist}
+                              {/notempty}
+                          {/volist}
+                        {/empty}
+                    </tbody>
+                </table>
+                <a target-form="ids" class="btn btn-sm btn-danger ajax-post confirm" href="{:url('wechat/menu/setStatus',['status'=>'delete','model'=>'menus'])}">删除</a>&nbsp;<a target-form="ids,.sorts" class="btn btn-sm btn-primary ajax-post1" id="sort_submit" href="{:url('wechat/menu/sort')}">排序</a>&nbsp;
+                {notempty name="table_data_page"}
+                    <div class="paginations">{$table_data_page}</div>
+                {/notempty}
+
+          </div>
+     </div><!--row-->
+   </div>
+</div>
+</div>
+  {/block}
+
+  {block name="script"}
+    <script type="text/javascript">
+      $(function(){
+          $('body').on('click','#sort_submit',function () {
+            event.preventDefault();
+            var $this = $(this);
+            var is_pjax = $this.attr('data-pjax');
+            var target = $this.attr('href');
+            var query = $('.sortids,.sorts').serialize();
+            $.post(target, query).success(function (result) {
+                var is_redirect = false;//是否跳转
+                var is_remove_disabled = $this.hasClass('no-refresh');
+                if (result.code == 1) {
+                    if (result.url) {
+                        is_redirect = true;
+                        updateAlert(result.msg + ' 正在自动跳转~', 'success');
+                    } else {
+                        updateAlert(result.msg, 'success');
+                    }
+                } else {
+                    if (result.url) {
+                        is_redirect = true;
+                        updateAlert(result.msg + ' 正在自动跳转~', 'warning');
+                    } else {
+                        is_remove_disabled = true;
+                        updateAlert(result.msg, 'warning');
+                    }
+                }
+
+                if (is_redirect==true) {
+                    setTimeout(function () {
+                        redirect(result.url);
+                    }, 1000);
+                    
+                } else if (is_remove_disabled) {
+                    $this.removeClass('disabled').prop('disabled', false);
+                } else {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
+
+            });
+          })
+        });
+          /*var menu_content='{
+    "button": [
+        {
+            "name": "点击跳转",
+            "sub_button": [
+                {
+                    "type": "click",
+                    "name": "点击推事件",
+                    "key": "FANGBEI"
+                },
+                {
+                    "type": "view",
+                    "name": "跳转URL",
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzA5NzM2MTI4OA==&mid=205215861&idx=1&sn=890e36a114827cb510542315dd706c9d#rd"
+                },
+                {
+                    "type": "view",
+                    "name": "微信登录",
+                    "url": "http://aunt.sinaapp.com/demo/oauth2/index.php"
+                }
+            ]
+        },
+        {
+            "name": "扫码发图",
+            "sub_button": [
+                {
+                    "type": "scancode_waitmsg",
+                    "name": "扫码带提示",
+                    "key": "rselfmenu_0_0"
+                },
+                {
+                    "type": "scancode_push",
+                    "name": "扫码推事件",
+                    "key": "rselfmenu_0_1"
+                },
+                {
+                    "type": "pic_sysphoto",
+                    "name": "系统拍照发图",
+                    "key": "rselfmenu_1_0"
+                },
+                {
+                    "type": "pic_photo_or_album",
+                    "name": "拍照或相册发图",
+                    "key": "rselfmenu_1_1"
+                },
+                {
+                    "type": "pic_weixin",
+                    "name": "微信相册发图",
+                    "key": "rselfmenu_1_2"
+                }
+            ]
+        },
+        {
+            "name": "发送位置",
+            "type": "location_select",
+            "key": "rselfmenu_2_0"
+        }
+    ]
+}';*/
+
+    </script>
+  {/block}

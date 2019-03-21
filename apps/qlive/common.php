@@ -17,11 +17,36 @@ if (!function_exists('create_stream_name')) {
 }
 
 if (!function_exists('getAnchorNameById')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据主播ID获取主播姓名
+     */
     function getAnchorNameById($id)
     {
         $name = Db::name('QliveAnchorList')
             ->where('id', $id)
             ->value('name');
-        return $name;
+        if (!empty($name)) {
+            return $name;
+        } else {
+            return '未知主播';
+        }
+    }
+}
+
+if (!function_exists('getStreamByAnchorId')) {
+    /**
+     * @param $anchor_id
+     * @return mixed
+     * 根据主播ID获取对应的推流码
+     */
+    function getStreamByAnchorId($anchor_id)
+    {
+        $stream = Db::name('QliveRoomList qrl')
+            ->join('QliveAnchorList qal', 'qrl.anchor_id=qal.id')
+            ->where('qal.id', 'eq', $anchor_id)
+            ->value('qrl.stream');
+        return $stream;
     }
 }

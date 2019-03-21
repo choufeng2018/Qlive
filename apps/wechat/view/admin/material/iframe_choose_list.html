@@ -1,0 +1,92 @@
+{extend name="$_admin_public_layerbase_"/}
+{block name="style"}
+<style type="text/css">
+    i.fa-chevron-down{background-color: #f0f0f0;cursor: pointer;color:#888!important;padding: 5px;border-radius: 2px;}
+    i.fa-chevron-down:hover{background-color: #e0e0e0;}
+</style>
+{/block}
+{block name="main"}
+<div class="ml-20 mr-20">
+    <div class="searchmaterial-toolbar mt-10 mb-20">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="builder-tabs builder-form-tabs">
+                    <ul class="nav nav-tabs">
+                        {volist name="tab_list" id="tab"}
+                              <li class='{eq name="key" value="$Request.param.type"}active{/eq}'><a href="{$tab.href|default=''}">{$tab.title}</a></li>
+                          {/volist}
+                    </ul>
+                </div>
+            </div>
+            <!-- 搜索框 -->
+            <div class="col-xs-4">
+                <form class="form form-inline" method="get" action="">
+                    <div class="form-group">
+                        <div class="input-group search-form">
+                            <input type="text" name="keyword" class="form-control search-input pull-right" value="{present name="_GET.keyword"}{$_GET.keyword}{/present}" placeholder="请输入名称/ID">
+                            <span class="input-group-btn"><button type="submit" class="btn btn-success search-btn"><i class="fa fa-search"></i></button></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div><!--row-->
+    </div>
+
+    <div id="ajax_return"> 
+        {notempty name="data_list"}
+        <form action="" method="post" id="select_material_form">
+            <table class="table table-bordered table-responsive" >
+                <thead style="background-color: #f0f0f0;">
+                <tr> 
+                    <td class="text-left">内容</td>
+                    <td class="text-left" width="60">类型</td>      
+                    <td class="text-left" width="60">选中</td>
+                </tr>
+                </thead>
+                <tbody>             
+                    {foreach $data_list as $row}
+                        <tr> 
+                            <td class="text-left">{switch name="row.type"}
+                                {case value="image"}<img src="{$row.attachment_id|get_image=###,'small'}" width="80" height="80">{/case}
+                                {default/}{$row.title}
+                            {/switch}</td>   
+                            <td class="text-left"><label class="label label-default">{$row.type_text}</label></td>        
+                            <td class="text-left">
+                                <input type="radio" name="material_id" value="{$row.id}" />
+                            </td>
+                        </tr>
+                    {/foreach}
+                    
+                    <tr>
+                        <td class="text-right" colspan="3">
+                            {$data_list->render()}<a href="javascript:void(0)" id="select-material" class="btn btn-primary btn-sm">确定</a> 
+                        </td>
+                   </tr>     
+                </tbody>
+            </table>
+        </form>
+        {else/}
+            <p>暂无内容</p>
+        {/notempty}
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    $(function(){
+        //选择
+        $("#select-material").click(function () {
+            var $this = $(this);
+            var mid=$('input:radio[name="material_id"]:checked').val();
+            if(mid==null){
+               alert('请选择素材');
+               return false;
+           }
+           javascript:window.parent.set_material_val('{$inputnode|default=''}',mid);
+      })
+    })
+
+</script>
+{/block}
