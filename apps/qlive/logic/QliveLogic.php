@@ -166,13 +166,10 @@ class QliveLogic extends BaseLogic
     public function disableStream($streamKey, $disableTime)
     {
         try {
-            $stream = $this->hub->stream($streamKey)->disable(\time() + $disableTime);
-            $status = $stream->liveStatus();
-
+            $this->hub->stream($streamKey)->disable(\time() + $disableTime);
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
-        return $status;
     }
 
     /**
@@ -183,12 +180,10 @@ class QliveLogic extends BaseLogic
     public function enableStream($streamKey)
     {
         try {
-            $stream = $this->hub->stream($streamKey)->enable();
-            $status = $stream->liveStatus();
+            $this->hub->stream($streamKey)->enable();
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
-        return $status;
     }
 
 
