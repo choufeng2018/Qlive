@@ -78,7 +78,6 @@ class Room extends Admin
             ->setMetaTitle('房间列表')
             ->search([
                 ['name' => 'status', 'type' => 'select', 'title' => '房间状态', 'options' => [0 => '禁用', 1 => '启用']],
-
             ])
             ->content($content);
 

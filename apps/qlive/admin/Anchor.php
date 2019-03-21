@@ -39,7 +39,10 @@ class Anchor extends Admin
      */
     public function index()
     {
-        list($data_list, $total) = $this->anchorModel->search()->getListByPage([], true, 'create_time desc');
+        list($data_list, $total) = $this->anchorModel->search([
+                'keyword_condition' => 'uid|name|nickname',
+            ]
+        )->getListByPage([], true, 'create_time desc');
         $content = (new BuilderList())
             ->addTopButton('addnew')
             ->keyListItem('id', 'ID')
@@ -56,6 +59,10 @@ class Anchor extends Admin
             ->fetch();
         return (new Iframe())
             ->setMetaTitle('主播列表')
+            ->search([
+                ['name' => 'status', 'type' => 'select', 'title' => '直播状态', 'options' => [3 => '禁播', 4 => '正常']],
+                ['name' => 'keyword', 'type' => 'text', 'extra_attr' => 'placeholder="请输入关键字"'],
+            ])
             ->content($content);
     }
 
