@@ -182,9 +182,4 @@ class Anchor extends Admin
                 ->content($return);
         }
     }
-
-    public function test()
-    {
-
-    }
 }
