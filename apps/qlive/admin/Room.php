@@ -97,13 +97,17 @@ class Room extends Admin
                 $createStreamRes = \logic('QliveLogic')->createStream($data['stream']);
 
             }
-            //如果绑定了主播,修改主播列表中主播的状态以及添加主播列表中的房间id
-            if ($data['anchor_id']) {
-                Db::name('QliveAnchorList')
-                    ->where('id', 'eq', $data['anchor_id'])
-                    ->setField('status', 1);
-            }
+
             if ($this->roomModel->editData($data)) {
+                //新增房间的id号
+                $room_id = $this->roomModel->id;
+                //如果绑定了主播,修改主播列表中主播的状态以及添加主播列表中的房间id
+                if ($data['anchor_id']) {
+                    Db::name('QliveAnchorList')
+                        ->where('id', 'eq', $data['anchor_id'])
+                        ->setField(['status' => 1, 'room_id' => $room_id]);
+                }
+
                 $this->success($title . '成功', \url('index'));
             } else {
                 $this->error($this->roomModel->getError());
@@ -114,21 +118,35 @@ class Room extends Admin
             ];
             if ($id > 0) {
                 $info = QliveRoomList::get($id);
+                $info['anchor_id'] = \getAnchorNameById($info['anchor_id']);
                 if (empty($info)) {
                     $this->error($this->roomModel->getError());
                 }
+                //一旦绑定主播就不可以更改,因为推流码无法收回只能禁用
+                $return = (new BuilderForm())
+                    ->addFormItem('id', 'hidden', 'ID')
+                    ->addFormItem('stream', 'hidden', '推流码')
+                    ->addFormItem('anchor_id', 'text', '绑定主播', '该项不允许修改', '', 'readonly')
+                    ->addFormItem('status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
+                    ->addFormItem('marks', 'textarea', '备注')
+                    ->setFormData($info)
+                    ->addButton('submit')
+                    ->addButton('back')
+                    ->fetch();
+            } else {
+                $return = (new BuilderForm())
+                    ->addFormItem('id', 'hidden', 'ID')
+                    ->addFormItem('stream', 'hidden', '推流码')
+                    ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播', $this->anchorApplyList)
+                    ->addFormItem('status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
+                    ->addFormItem('marks', 'textarea', '备注')
+                    ->setFormData($info)
+                    ->addButton('submit')
+                    ->addButton('back')
+                    ->fetch();
             }
 
-            $return = (new BuilderForm())
-                ->addFormItem('id', 'hidden', 'ID')
-                ->addFormItem('stream', 'hidden', '推流码')
-                ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播', $this->anchorAllList)
-                ->addFormItem('status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
-                ->addFormItem('marks', 'textarea', '备注')
-                ->setFormData($info)
-                ->addButton('submit')
-                ->addButton('back')
-                ->fetch();
+
             return (new Iframe())
                 ->setMetaTitle($title . '房间')
                 ->content($return);
