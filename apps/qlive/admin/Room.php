@@ -70,7 +70,7 @@ class Room extends Admin
             ->setListData($data_list)
             ->setListPage($total)
             ->keyListItem('right_button', '操作', 'btn')
-            ->addRightButton('self', $detail)
+//            ->addRightButton('self', $detail)
             ->addRightButton('edit')
             ->addRightButton('delete', ['model' => 'QliveRoomList'])
             ->fetch();
@@ -97,7 +97,7 @@ class Room extends Admin
                 $createStreamRes = \logic('QliveLogic')->createStream($data['stream']);
 
             }
-            //如果绑定了主播,修改主播列表中主播的状态以及主播列表中的房间id
+            //如果绑定了主播,修改主播列表中主播的状态以及添加主播列表中的房间id
             if ($data['anchor_id']) {
                 Db::name('QliveAnchorList')
                     ->where('id', 'eq', $data['anchor_id'])
@@ -109,7 +109,9 @@ class Room extends Admin
                 $this->error($this->roomModel->getError());
             }
         } else {
-            $info = ['room_status' => 0];
+            $info = [
+                'status' => 0
+            ];
             if ($id > 0) {
                 $info = QliveRoomList::get($id);
                 if (empty($info)) {
@@ -120,8 +122,8 @@ class Room extends Admin
             $return = (new BuilderForm())
                 ->addFormItem('id', 'hidden', 'ID')
                 ->addFormItem('stream', 'hidden', '推流码')
-                ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播', $this->anchorApplyList)
-                ->addFormItem('room_status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
+                ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播', $this->anchorAllList)
+                ->addFormItem('status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
                 ->addFormItem('marks', 'textarea', '备注')
                 ->setFormData($info)
                 ->addButton('submit')
