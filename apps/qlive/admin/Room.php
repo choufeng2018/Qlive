@@ -76,6 +76,10 @@ class Room extends Admin
             ->fetch();
         return (new Iframe())
             ->setMetaTitle('房间列表')
+            ->search([
+                ['name' => 'status', 'type' => 'select', 'title' => '房间状态', 'options' => [0 => '禁用', 1 => '启用']],
+
+            ])
             ->content($content);
 
     }
@@ -108,7 +112,7 @@ class Room extends Admin
                 if ($data['anchor_id']) {
                     Db::name('QliveAnchorList')
                         ->where('id', 'eq', $data['anchor_id'])
-                        ->setField(['status' => 1, 'room_id' => $room_id]);
+                        ->setField(['status' => 4, 'room_id' => $room_id]);
                 }
 
                 $this->success($title . '成功', \url('index'));
