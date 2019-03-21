@@ -38,24 +38,18 @@ return [
                     'is_menu' => 1,
                 ],
                 [
-                    'title' => '申请列表',
-                    'name' => 'qlive/anchor_apply/index',
-                    'icon' => 'fa fa-file-text-o',
+                    'title' => '直播预告',
+                    'name' => 'qlive/apprise/index',
+                    'icon' => 'fa fa-volume-up',
                     'is_menu' => 1,
                 ],
-
                 [
                     'title' => '文章管理',
                     'name' => 'qlive/posts/index',
                     'icon' => 'fa fa-file-picture-o',
                     'is_menu' => 1,
                 ],
-                [
-                    'title' => '直播预告',
-                    'name' => 'qlive/apprise/index',
-                    'icon' => 'fa fa-volume-up',
-                    'is_menu' => 1,
-                ],
+
                 [
                     'title' => '视频分类',
                     'name' => 'qlive/video_category/index',
