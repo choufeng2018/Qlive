@@ -40,6 +40,9 @@ class Index extends Base
                 ->where('stream', 'eq', $v)
                 ->field('stream,create_time,update_time', true)
                 ->find();
+            $allLiveRoomInfo[$k]['room_info']['PlayUrl']['rtmp'] = \logic('QliveLogic')->getRtmpPlayUrl($v);
+            $allLiveRoomInfo[$k]['room_info']['PlayUrl']['hls'] = \logic('QliveLogic')->getHlsPlayUrl($v);
+            $allLiveRoomInfo[$k]['room_info']['PlayUrl']['hdl'] = \logic('QliveLogic')->getHdlPlayUrl($v);
         }
         \halt($allLiveRoomInfo);
         return $this->fetch();
