@@ -9,9 +9,9 @@
 namespace app\qlive\controller;
 
 
-use app\home\controller\Home;
+use app\common\controller\Base;
 
-class Anchor extends Home
+class Anchor extends Base
 {
     public function index()
     {
