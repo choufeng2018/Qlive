@@ -87,7 +87,6 @@ class Room extends QliveBase
             if ($id == 0) {
                 $data['stream'] = \create_stream_name();
                 $createStreamRes = \logic('QliveLogic')->createStream($data['stream']);
-
             }
 
             if ($this->roomModel->editData($data)) {
