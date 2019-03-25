@@ -162,6 +162,7 @@ class Room extends Admin
                     ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播,一旦绑定不可修改!', $this->anchorApplyList, 'required')
                     ->addFormItem('status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
                     ->addFormItem('marks', 'textarea', '备注')
+                    ->addFormItem('content', 'wangeditor', '内容')
                     ->setFormData($info)
                     ->addButton('submit')
                     ->addButton('back')
@@ -171,10 +172,5 @@ class Room extends Admin
                 ->setMetaTitle($title . '房间')
                 ->content($return);
         }
-    }
-
-    public function test()
-    {
-
     }
 }
