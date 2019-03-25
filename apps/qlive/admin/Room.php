@@ -58,7 +58,7 @@ class Room extends Admin
             'class' => 'btn btn-success btn-xs',
             'href' => url('detail')
         ];
-        list($data_list, $total) = $this->roomModel->search()->getListByPage([], true, 'create_time desc');
+        list($data_list, $total) = $this->roomModel->search()->getListByPage([], true, 'id');
         $content = (new BuilderList())
             ->addTopButton('addnew')
             ->addTopBtn('resume', ['model' => 'QliveRoomList'])
@@ -72,7 +72,6 @@ class Room extends Admin
             ->keyListItem('right_button', '操作', 'btn')
 //            ->addRightButton('self', $detail)
             ->addRightButton('edit')
-//            ->addRightButton('delete', ['model' => 'QliveRoomList'])
             ->fetch();
         return (new Iframe())
             ->setMetaTitle('房间列表')
