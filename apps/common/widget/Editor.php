@@ -29,7 +29,7 @@ class Editor extends Base
         $width = $attributes['width'];
         $height = $attributes['height'];
         $zIndex  = isset($attributes['zIndex'])||!empty($attributes['zIndex']) ? $attributes['zIndex'] : '977';
-        
+
         //$config.=(empty($menus) ? '' : ',').'zIndex:'.$zIndex;
         is_bool(strpos($width,'%')) && $menus.=',initialFrameWidth:'.str_replace('px','',$width);
         is_bool(strpos($height,'%')) && $menus.=',initialFrameHeight:'.str_replace('px','',$height);
@@ -62,6 +62,8 @@ class Editor extends Base
         if (!isset($attributes['height'])) $attributes['height']= '200px';//编辑器高度
         if (!isset($attributes['menus'])) {
             $attributes['menus']="'head', // 标题
+                    'fontSize',  // 大小字体
+                    'fontName',  // 字体
                     'bold',  // 粗体
                     'italic',  // 斜体
                     'underline',  // 下划线
