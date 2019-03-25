@@ -50,7 +50,6 @@ class Room extends QliveBase
             ->addTopButton('addnew')
             ->addTopBtn('resume', ['model' => 'QliveRoomList'])
             ->addTopButton('forbid', ['model' => 'QliveRoomList'])
-//            ->addTopButton('delete', ['model' => 'QliveRoomList'])
             ->keyListItem('id', '房间ID')
             ->keyListItem('anchor_id', '房间主播')
             ->keyListItem('status', '房间状态', 'status')
