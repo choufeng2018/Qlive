@@ -9,7 +9,6 @@
 namespace app\qlive\admin;
 
 
-use app\admin\controller\Admin;
 use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
@@ -21,19 +20,9 @@ use think\Db;
  * @package app\qlive\admin
  * 房间控制器
  */
-class Room extends Admin
+class Room extends QliveBase
 {
     protected $roomModel;
-    /**
-     * @var
-     * 未被禁播的主播列表
-     */
-    protected $anchorAllList;
-    /**
-     * @var
-     * 主播(状态=2 申请中)列表
-     */
-    protected $anchorApplyList;
 
     /**
      *初始化
@@ -42,8 +31,6 @@ class Room extends Admin
     {
         parent::_initialize();
         $this->roomModel = new QliveRoomList();
-        $this->anchorApplyList = Db::name('QliveAnchorList')->where('status', 'eq', 2)->column('id,name');
-        $this->anchorAllList = Db::name('QliveAnchorList')->where('status', 'neq', 0)->column('id,name');
     }
 
     /**
@@ -124,12 +111,13 @@ class Room extends Admin
                     $this->error($this->roomModel->getError());
                 }
                 if (!empty($info['anchor_id'])) {
-                    //一旦绑定主播就不可以更改,因为推流码无法收回只能禁用
+                    //一旦绑定主播就不可更改,因为推流码无法收回只能禁用
                     $return = (new BuilderForm())
                         ->addFormItem('id', 'hidden', 'ID')
                         ->addFormItem('stream', 'hidden', '推流码')
                         ->addFormItem('anchor_id', 'text', '绑定主播', '该项不允许修改', '', 'readonly')
                         ->addFormItem('status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
+                        ->addFormItem('order', 'number', '排序', '用于设置前台页面的显示顺序')
                         ->addFormItem('marks', 'textarea', '备注')
                         ->setFormData($info)
                         ->addButton('submit')
@@ -140,8 +128,9 @@ class Room extends Admin
                     $return = (new BuilderForm())
                         ->addFormItem('id', 'hidden', 'ID')
                         ->addFormItem('stream', 'hidden', '推流码')
-                        ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播,一旦绑定不可修改!', $this->anchorApplyList, 'required')
+                        ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播,一旦绑定不可修改!', $this->status2AnchorList, 'required')
                         ->addFormItem('status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
+                        ->addFormItem('order', 'number', '排序', '用于设置前台页面的显示顺序')
                         ->addFormItem('marks', 'textarea', '备注')
                         ->setFormData($info)
                         ->addButton('submit')
@@ -153,15 +142,16 @@ class Room extends Admin
                     ->content($return);
             } else {
                 $info = [
-                    'status' => 0
+                    'status' => 0,
+                    'order' => 50
                 ];
                 $return = (new BuilderForm())
                     ->addFormItem('id', 'hidden', 'ID')
                     ->addFormItem('stream', 'hidden', '推流码')
-                    ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播,一旦绑定不可修改!', $this->anchorApplyList, 'required')
+                    ->addFormItem('anchor_id', 'select', '绑定主播', '请选择该房间主播,一旦绑定不可修改!', $this->status2AnchorList, 'required')
                     ->addFormItem('status', 'radio', '房间状态', '请选择房间状态', [1 => '启用', 0 => '禁用'])
+                    ->addFormItem('order', 'number', '排序', '用于设置前台页面的显示顺序')
                     ->addFormItem('marks', 'textarea', '备注')
-                    ->addFormItem('content', 'wangeditor', '内容')
                     ->setFormData($info)
                     ->addButton('submit')
                     ->addButton('back')

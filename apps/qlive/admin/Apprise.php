@@ -10,7 +10,6 @@
 namespace app\qlive\admin;
 
 
-use app\admin\controller\Admin;
 use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
@@ -21,11 +20,11 @@ use app\qlive\model\QliveAppriseList;
  * @package app\qlive\admin
  * 直播预告控制器
  */
-class Apprise extends Admin
+class Apprise extends QliveBase
 {
     /**
      * @var
-     * 该模型
+     * 直播预告模型
      */
     protected $appriseModel;
 
@@ -52,7 +51,7 @@ class Apprise extends Admin
             ->keyListItem('id', 'ID')
             ->keyListItem('title', '标题')
             ->keyListItem('image', '封面', 'picture')
-            ->keyListItem('lecturer', '讲者')
+            ->keyListItem('lecturer', '讲者', 'array', $this->allAnchorList)
             ->keyListItem('short_content', '预告简介')
             ->keyListItem('start_time', '开始时间')
             ->keyListItem('right_button', '操作')
@@ -126,7 +125,7 @@ class Apprise extends Admin
                 ->addFormItem('id', 'hidden', 'ID')
                 ->addFormItem('title', 'text', '标题')
                 ->addFormItem('image', 'picture', '封面')
-                ->addFormItem('lecturer', 'text', '主讲人')
+                ->addFormItem('lecturer', 'select', '主讲人', '', $this->status4AnchorList)
                 ->addFormItem('start_time', 'datetime', '直播时间')
                 ->addFormItem('short_content', 'textarea', '直播简介')
                 ->setFormData($info)
