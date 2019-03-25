@@ -9,10 +9,12 @@
 // | Author:  yyyvy <76836785@qq.com>
 // +----------------------------------------------------------------------
 namespace app\user\controller;
+
 use app\home\controller\Home;
 
-class Upload extends Home{
-  function _initialize()
+class Upload extends Home
+{
+    function _initialize()
     {
         parent::_initialize();
         //必须登录状态才能上传
@@ -20,16 +22,18 @@ class Upload extends Home{
             $this->redirect(url('home/login/index'));
         }
     }
-  /**
-   * 上传头像
-   * @author yyyvy <76836785@qq.com>
-   * @Time 2018-1-1 00:33:49
-   */
-  public function uploadAvatar(){
 
-    $uid = input('param.uid',0,'intval');
-    $return = logic('common/Upload')->uploadAvatar($uid);
+    /**
+     * 上传头像
+     * @author yyyvy <76836785@qq.com>
+     * @Time 2018-1-1 00:33:49
+     */
+    public function uploadAvatar()
+    {
 
-    return json($return);
-  }
+        $uid = input('param.uid', 0, 'intval');
+        $return = logic('common/Upload')->uploadAvatar($uid);
+
+        return json($return);
+    }
 }

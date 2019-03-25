@@ -121,10 +121,14 @@ class Anchor extends Admin
                     'actived' => 1,
                     'nickname' => $data['nickname'],
                     'username' => $data['name'],
+                    'usergroup' => 2,
                     'password' => \encrypt(88888888),
                 ];
                 $userModel = new User();
-                $userModel->allowField(true)->isUpdate(false)->data($reg_data)->save();
+                $userModel->allowField(true)
+                    ->isUpdate(false)
+                    ->data($reg_data)
+                    ->save();
                 $uid = $userModel->uid;
                 $data['uid'] = $uid;
             }

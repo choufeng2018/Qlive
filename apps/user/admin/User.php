@@ -13,15 +13,20 @@ namespace app\user\admin;
 use app\admin\controller\Admin;
 use app\common\layout\Iframe;
 use app\common\model\User as UserModel;
+use think\Db;
 
 class User extends Admin
 {
+    protected $userGroup;
 
     function _initialize()
     {
         parent::_initialize();
 
         $this->userModel = model('common/User');
+        $this->userGroup = Db::name('UsersGroup')
+            ->where('status', 'eq', 1)
+            ->column('id,title');
     }
 
     /**
@@ -81,6 +86,7 @@ class User extends Admin
             ->keyListItem('nickname', '昵称')
             ->keyListItem('sex_text', '性别')
             ->keyListItem('username', '用户名')
+            ->keyListItem('usergroup', '角色组','array',$this->userGroup)
             ->keyListItem('email', '邮箱')
             ->keyListItem('mobile', '手机号')
             ->keyListItem('reg_time', '注册时间')
@@ -162,6 +168,7 @@ class User extends Admin
             ->addFormItem('uid', 'hidden', 'UID', '')
             ->addFormItem('nickname', 'text', '昵称', '填写一个有个性的昵称吧', '', 'require')
             ->addFormItem('username', 'text', '用户名', '登录账户所用名称', '', 'require')
+            ->addFormItem('usergroup', 'select', '角色组', '默认为普通用户',$this->userGroup)
             ->addFormItem('password', 'password', '密码', '新增默认密码123456', '', 'placeholder="留空则不修改密码"')
             ->addFormItem('email', 'email', '邮箱', '', '', 'data-rule="email" data-tip="请填写一个邮箱地址"')
             ->addFormItem('mobile', 'left_icon_number', '手机号', '', ['icon' => '<i class="fa fa-phone"></i>'], 'placeholder="填写手机号"')

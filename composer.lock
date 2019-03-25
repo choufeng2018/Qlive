@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65b389ccdc4647dd4c8d7e832c83bd00",
+    "content-hash": "b2e57668df75e3c4192f888e050a9093",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -2397,6 +2397,50 @@
                 "event-loop"
             ],
             "time": "2019-01-19T02:36:12+00:00"
+        },
+        {
+            "name": "xaboy/form-builder",
+            "version": "1.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xaboy/form-builder.git",
+                "reference": "43d5c0a8f1f1f0fc1f6430b827fbe2b7b0d5b5cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xaboy/form-builder/zipball/43d5c0a8f1f1f0fc1f6430b827fbe2b7b0d5b5cf",
+                "reference": "43d5c0a8f1f1f0fc1f6430b827fbe2b7b0d5b5cf",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FormBuilder\\": "./src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "xaboy",
+                    "email": "xaboy2005@qq.com"
+                }
+            ],
+            "description": "PHP表单生成器，快速生成现代化的form表单。包含复选框、单选框、输入框、下拉选择框等元素以及,省市区三级联动,时间选择,日期选择,颜色选择,文件/图片上传等功能。",
+            "homepage": "https://github.com/xaboy/form-builder",
+            "time": "2018-12-12T12:20:38+00:00"
         }
     ],
     "packages-dev": [],
