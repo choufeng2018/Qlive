@@ -50,3 +50,17 @@ if (!function_exists('getStreamByAnchorId')) {
         return $stream;
     }
 }
+if (!function_exists('getAdminNameById')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据管理员id获取管理员名称
+     */
+    function getAdminNameById($id)
+    {
+        $name = Db::name('Admin')
+            ->where('uid', 'eq', $id)
+            ->value('username');
+        return $name;
+    }
+}
