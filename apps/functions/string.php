@@ -184,8 +184,9 @@ function cut_str($str, $len = 100, $start = 0, $suffix = 1)
     $str = strip_tags(trim(strip_tags($str)));
     $str = str_replace(array("\n", "\t"), "", $str);
     $strlen = mb_strlen($str);
+    $array = [];
     while ($strlen) {
-        $array[] = mb_substr($str, 0, 1, "utf8");
+        $array = mb_substr($str, 0, 1, "utf8");
         $str = mb_substr($str, 1, $strlen, "utf8");
         $strlen = mb_strlen($str);
     }

@@ -1,6 +1,6 @@
 {extend name="$_admin_public_base_"/}
 {block name="style"}
-    <link type="text/css" rel="stylesheet" href="__CSS__/admin_wechat.css"/>
+    <link type="text/css" rel="stylesheet" href="__MODULE_CSS__/admin_wechat.css"/>
 {/block}
 
 {block name="main"}
@@ -8,11 +8,11 @@
     <ul class="nav nav-tabs hide">
       {volist name="tab_list" id="tab"}
           <li class='{eq name="key" value="news"}active{/eq}'><a href="{$tab.href|default=''}">{$tab.title}</a></li>
-      {/volist}         
+      {/volist}
     </ul>
 </div>
 <div class="row news-wrap">
-    
+
     <div class="col-md-3">
         <div class="panel panel-default">
         <div class="panel-heading">图文列表</div>
@@ -41,11 +41,11 @@
                 <div class="item-news-border">
                     <span class="news-add-btn">添加</span>
                 </div>
-                
+
              </div>
          </div>
         </div><!--box-->
-        
+
     </div>
     <form id="news_form" method="post" action="{:url('news_edit',['id'=>$id])}" class="form-post form">
         <div class="col-md-9 ">
@@ -63,9 +63,9 @@
                       <div class="col-sm-12">
                         <input class="form-control" id="news_title" name="title" value="{$news.title|default=''}" type="text" placeholder="请输入标题">
                       </div>
-                      
+
                     </div>
-                 
+
                     <!--编辑器-->
                     <div class="form-group col-sm-12">
                     {php}
@@ -106,7 +106,7 @@
             <button class="btn btn-primary ajax-post" id="login" align="center" type="submit" name="status" value="1" target-form="form-post">更新</button>
         {else/}
             <button class="btn btn-primary ajax-post" id="login" align="center" type="submit" name="status" value="1" target-form="form-post">发布</button>
-           
+
             <button class="btn btn-default ajax-post" id="save" name="status" value="0" align="center" type="submit" target-form="form-post">保存草稿</button>
         {/notempty}
             <button onclick="javascript:history.back(-1);return false;" class="btn btn-default return">返回</button>
