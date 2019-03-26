@@ -1,18 +1,17 @@
 {
-    "name":"qlive",
-    "title":"小Q直播",
-    "description":"基于七牛云直播开发的直播",
-    "author":"xpwsgg",
-    "admin_manage_into":"",
-    "version":"1.0.0",
-    "dependences":{
-        "core":"1.2.4",
-        "plugins":{
-
-        },
-        "modules":{
-
-        }
+  "name": "qlive",
+  "title": "小Q直播",
+  "description": "基于七牛云直播开发的直播",
+  "author": "xpwsgg",
+  "icon": "fa fa-video-camera",
+  "admin_manage_into": "",
+  "version": "1.0.0",
+  "dependences": {
+    "core": "1.2.4",
+    "plugins": {
     },
-    "database_prefix":"eacoo_"
+    "modules": {
+    }
+  },
+  "database_prefix": "eacoo_"
 }

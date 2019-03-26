@@ -20,7 +20,7 @@ return [
                     'no_pjax' => 1,
                 ],
                 [
-                    'title' => '直播分类',
+                    'title' => '分类管理',
                     'name' => 'qlive/category/index',
                     'icon' => 'fa fa-cubes',
                     'is_menu' => 1,
@@ -50,12 +50,6 @@ return [
                     'is_menu' => 1,
                 ],
 
-                [
-                    'title' => '视频分类',
-                    'name' => 'qlive/video_category/index',
-                    'icon' => 'fa fa-yelp',
-                    'is_menu' => 1,
-                ],
                 [
                     'title' => '视频列表',
                     'name' => 'qlive/video/index',
