@@ -34,6 +34,21 @@ if (!function_exists('getAnchorNameById')) {
         }
     }
 }
+if (!function_exists('getAnchorIdByName')) {
+    /**
+     * @param $name
+     * @return mixed
+     * 根据主播名称获取主播ID
+     */
+    function getAnchorIdByName($name)
+    {
+        $name = trim($name);
+        $id = Db::name('QliveAnchorList')
+            ->where('name', 'eq', $name)
+            ->value('id');
+        return $id;
+    }
+}
 
 if (!function_exists('getStreamByAnchorId')) {
     /**
