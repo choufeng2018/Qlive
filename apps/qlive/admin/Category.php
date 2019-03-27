@@ -10,13 +10,10 @@
 namespace app\qlive\admin;
 
 
-use app\admin\controller\Admin;
 use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
 use app\qlive\model\QliveCategoryList;
-use eacoo\Tree;
-use think\Db;
 
 /**
  * Class Category
