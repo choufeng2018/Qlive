@@ -14,6 +14,7 @@ use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
 use app\qlive\model\QliveLiveHistory;
+use think\Db;
 
 /**
  * Class History
@@ -153,5 +154,25 @@ class History extends QliveBase
                 ->setMetaTitle($title . '房间设置')
                 ->content($content);
         }
+    }
+
+    /**
+     * @return \think\response\Json
+     * 返回主播的id=>title的开播记录
+     * 用于上传视频时作为对应开播记录
+     */
+    public function getLiveHistoryByAnchorId()
+    {
+        $id = \input('anchor_id');
+        $anchorName = \getAnchorNameById($id);
+        $list = Db::name('QliveListHistory')
+            ->where('anchor', 'eq', $anchorName)
+            ->column('id,title');
+        $return = [
+            'code' => 1,
+            'msg' => 'Ok',
+            'data' => $list,
+        ];
+        return \json($return);
     }
 }
