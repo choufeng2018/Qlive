@@ -55,7 +55,7 @@ class Video extends QliveBase
             ->keyListItem('title', '标题')
             ->keyListItem('anchor', '所属主播')
             ->keyListItem('live_time', '直播时间')
-            ->keyListItem('url', '视频地址', 'url')
+            ->keyListItem('url', '视频地址', 'url', '', 'target="_blank"')
             ->keyListItem('status', '状态', 'status')
             ->keyListItem('order', '排序')
             ->keyListItem('marks', '备注')
@@ -64,7 +64,6 @@ class Video extends QliveBase
             ->setListPage($total)
             ->addRightButton('edit')
             ->addRightButton('delete')
-            ->setRightButton('3')
             ->fetch();
         return (new Iframe())
             ->setMetaTitle('视频列表')
@@ -85,7 +84,7 @@ class Video extends QliveBase
         $timegap = \input('live_time_range');
         $extend_condition = [];
         if ($timegap) {
-            $gap = \explode('-', $timegap);
+            $gap = explode('—', $timegap);
             $live_begin = $gap[0];
             $live_end = $gap[1];
 
@@ -101,6 +100,7 @@ class Video extends QliveBase
         ];
         return $search_setting;
     }
+
 
     /**
      * @param int $id
@@ -130,11 +130,11 @@ class Video extends QliveBase
         }
         $content = (new BuilderForm())
             ->addFormItem('id', 'hidden', 'ID')
-            ->addFormItem('title', 'text', '视频标题')
-            ->addFormItem('anchor_id', 'select', '所属主播', '', $this->allAnchorList)
-            ->addFormItem('live_time', 'datetime', '直播时间')
+            ->addFormItem('title', 'text', '视频标题','请输入视频标题')
+            ->addFormItem('anchor_id', 'select', '所属主播', '选择该视频的所有者', $this->allAnchorList)
+            ->addFormItem('live_time', 'select', '直播时间', '选择与该视频对应的历史直播', [1 => 'a', 2 => 'b'])
             ->addFormItem('url', 'file', '上传视频')
-            ->addFormItem('status', 'radio', '视频状态', '', [1 => '正常', 0 => '隐藏'])
+            ->addFormItem('status', 'radio', '视频状态', '是否在前台显示', [1 => '正常', 0 => '隐藏'])
             ->addFormItem('order', 'text', '排序')
             ->addFormItem('marks', 'textarea', '备注')
             ->setFormData($info)

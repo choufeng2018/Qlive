@@ -11,6 +11,7 @@ namespace app\qlive\admin;
 
 
 use app\admin\controller\Admin;
+use eacoo\Tree;
 use think\Db;
 
 /**
@@ -37,6 +38,13 @@ class QliveBase extends Admin
     protected $status4AnchorList;
 
     /**
+     * @var
+     * 生成树状分类
+     */
+    protected $categoryList;
+    protected $allCategory;
+
+    /**
      *初始化
      */
     public function _initialize()
@@ -53,5 +61,15 @@ class QliveBase extends Admin
             ->where('status', 'eq', 4)
             ->column('id,name');
 
+        $categoryList = \model('QliveCategoryList')->getList(['status' => 1], true, 'id asc,order asc');
+        $categoryList = \collection($categoryList)->toArray();
+        $tree_obj = new Tree();
+        $categoryList = $tree_obj->toFormatTree($categoryList, 'name');
+        if ($categoryList) {
+            $this->categoryList = \array_merge([0 => ['id' => 0, 'title_show' => '顶级分类']], $categoryList);
+        }
+
+        $this->allCategory = Db::name('QliveCategoryList')->column('id,name');
+        $this->allCategory = \array_merge([0 => '顶级分类'], $this->allCategory);
     }
 }

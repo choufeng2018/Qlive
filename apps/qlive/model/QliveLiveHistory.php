@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * Editor: xpwsg
- * Date: 2019/3/26
- * Time: 14:22
+ * Date: 2019/3/27
+ * Time: 14:08
  * Dedicated to my wife and daughter
  */
 
@@ -12,10 +12,7 @@ namespace app\qlive\model;
 
 use app\common\model\Base;
 
-class QliveVideoList extends Base
+class QliveLiveHistory extends Base
 {
-    public function setMoreHtml()
-    {
 
-    }
 }

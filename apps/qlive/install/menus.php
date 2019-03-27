@@ -38,6 +38,18 @@ return [
                     'is_menu' => 1,
                 ],
                 [
+                    'title' => '开播申请',
+                    'name' => 'qlive/Apply/index',
+                    'icon' => 'fa fa-book',
+                    'is_menu' => 1,
+                ],
+                [
+                    'title' => '历史记录',
+                    'name' => 'qlive/History/index',
+                    'icon' => 'fa fa-history',
+                    'is_menu' => 1,
+                ],
+                [
                     'title' => '直播预告',
                     'name' => 'qlive/apprise/index',
                     'icon' => 'fa fa-volume-up',
@@ -53,7 +65,7 @@ return [
                 [
                     'title' => '视频列表',
                     'name' => 'qlive/video/index',
-                    'icon' => 'fa fa-youtube-play',
+                    'icon' => 'fa fa-film',
                     'is_menu' => 1,
                 ],
                 ['title' => '评论列表',

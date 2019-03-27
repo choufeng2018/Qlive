@@ -23,7 +23,7 @@ use think\Db;
  * @package app\qlive\admin
  * 直播分类
  */
-class Category extends Admin
+class Category extends QliveBase
 {
     /**
      * @var
@@ -46,8 +46,6 @@ class Category extends Admin
      */
     public function index()
     {
-        $menus = Db::name('QliveCategoryList')->column('id,name');
-        $menus = \array_merge([0 => '顶级菜单'], $menus);
         list($data_list, $total) = $this->cateModel->search()->getListByPage([], true, 'id,create_time desc');
         $content = (new BuilderList())
             ->addTopButton('addnew')
@@ -56,7 +54,7 @@ class Category extends Admin
             ->addTopButton('delete', ['model' => 'QliveCategoryList'])
             ->keyListItem('id', 'ID')
             ->keyListItem('name', '分类名称')
-            ->keyListItem('pid', '上级分类', 'array', $menus)
+            ->keyListItem('pid', '上级分类', 'array', $this->allCategory)
             ->keyListItem('order', '排序')
             ->keyListItem('status', '状态', 'status')
             ->setListData($data_list)
@@ -78,15 +76,6 @@ class Category extends Admin
      */
     public function edit($id = 0)
     {
-        $map['status'] = 1;
-        $menus = \model('QliveCategoryList')->getList($map, true, 'id asc,order asc');
-        $menus = \collection($menus)->toArray();
-        $tree_obj = new Tree();
-        $menus = $tree_obj->toFormatTree($menus, 'name');
-        if ($menus) {
-            $menus = array_merge([0 => ['id' => 0, 'title_show' => '顶级菜单']], $menus);
-        }
-
         $title = $id > 0 ? '编辑' : '新增';
         if (IS_POST) {
             $data = \input();
@@ -109,7 +98,7 @@ class Category extends Admin
             }
             $content = (new BuilderForm())
                 ->addFormItem('id', 'hidden', 'ID')
-                ->addFormItem('pid', 'multilayer_select', '上级菜单', '上级菜单', $menus)
+                ->addFormItem('pid', 'multilayer_select', '上级菜单', '上级菜单', $this->categoryList)
                 ->addFormItem('name', 'text', '分类名称')
                 ->addFormItem('order', 'number', '排序')
                 ->addFormItem('status', 'radio', '状态', '', [1 => '启用', 0 => '禁用'])
