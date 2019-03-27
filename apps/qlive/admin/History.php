@@ -156,10 +156,13 @@ class History extends QliveBase
         }
     }
 
+
     /**
      * @return \think\response\Json
-     * 返回主播的id=>title的开播记录
-     * 用于上传视频时作为对应开播记录
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 返回主播的开播记录
      */
     public function getLiveHistoryByAnchorId()
     {
@@ -167,7 +170,7 @@ class History extends QliveBase
         $anchorName = \getAnchorNameById($id);
         $list = Db::name('QliveListHistory')
             ->where('anchor', 'eq', $anchorName)
-            ->column('id,title');
+            ->select();
         $return = [
             'code' => 1,
             'msg' => 'Ok',
