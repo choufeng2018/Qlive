@@ -2,26 +2,19 @@
 /**
  * Created by PhpStorm.
  * Editor: xpwsg
- * Date: 2019/3/27
- * Time: 14:38
+ * Date: 2019/3/28
+ * Time: 10:45
  * Dedicated to my wife and daughter
  */
 
 namespace app\qlive\admin;
 
-
 use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
 use app\qlive\model\QliveLiveHistory;
-use think\Db;
 
-/**
- * Class History
- * @package app\qlive\admin
- * 开播记录
- */
-class History extends QliveBase
+class Apply extends QliveBase
 {
     /**
      * @var
@@ -45,12 +38,11 @@ class History extends QliveBase
     public function index()
     {
         $search_setting = $this->buildModelSearchSetting();
-        //开播时间小于现在时间的都是历史记录
-        $map = [
-            'open_time' => ['<', \date('Y-m-d H:i:s', \time())],
-        ];
-        list($data_list, $total) = $this->historyModel->search($search_setting)->getListByPage($map, true, 'create_time');
+        list($data_list, $total) = $this->historyModel->search($search_setting)->getListByPage([], true, 'open_time,status desc');
         $content = (new BuilderList())
+            ->addTopButton('resume', ['title' => '通过', 'icon' => 'fa fa-check', 'model' => 'QliveLiveHistory'])
+            ->addTopButton('forbid', ['title' => '拒绝', 'icon' => 'fa fa-exclamation', 'model' => 'QliveLiveHistory'])
+            ->addTopButton('delete', ['model' => 'QliveListHistory'])
             ->keyListItem('id', 'ID')
             ->keyListItem('anchor', '主播')
             ->keyListItem('room_id', '房间号')
@@ -64,6 +56,9 @@ class History extends QliveBase
             ->keyListItem('can_ask', '是否可提问', 'array', [1 => '可以', 0 => '不可以'])
 //            ->keyListItem('file', '附件', 'url')
             ->keyListItem('open_time', '开播时间')
+            ->keyListItem('status', '状态', 'array', [0 => '未通过', 1 => '已通过', 2 => '待处理'])
+            ->keyListItem('right_button', '操作')
+            ->addRightButton('edit')
             ->setListData($data_list)
             ->setListPage($total)
             ->fetch();
@@ -71,6 +66,7 @@ class History extends QliveBase
             ->setMetaTitle('开播记录')
             ->search([
                 ['name' => 'open_time_range', 'type' => 'daterange', 'extra_attr' => 'placeholder="开播时间"'],
+                ['name' => 'status', 'type' => 'select', 'title' => '按状态', 'options' => [0 => '待处理', 1 => '已通过', 2 => '已拒绝']],
                 ['name' => 'keyword', 'type' => 'text', 'extra_attr' => 'placeholder="请输入查询关键字"'],
             ])
             ->content($content);
@@ -133,17 +129,18 @@ class History extends QliveBase
             }
             $content = (new BuilderForm())
                 ->addFormItem('id', 'hidden', 'ID')
-                ->addFormItem('anchor', 'text', '主播', '', '', 'readonly')
-                ->addFormItem('room_id', 'text', '房间号', '', '', 'readonly')
+                ->addFormItem('anchor', 'text', '主播', '该项不可修改', '', 'readonly')
+                ->addFormItem('room_id', 'text', '房间号', '该项不可修改', '', 'readonly')
                 ->addFormItem('title', 'text', '标题')
                 ->addFormItem('category', 'multilayer_select', '分类', '', $this->categoryList)
                 ->addFormItem('logo', 'picture', '封面')
                 ->addFormItem('description', 'textarea', '描述')
-                ->addFormItem('price', 'number', '价格')
+                ->addFormItem('price', 'number', '价格', '不填写则为免费')
 //                ->addFormItem('password', 'text', '房间密码')
                 ->addFormItem('open_time', 'datetime', '开播时间')
+                ->addFormItem('status', 'radio', '开播申请', '是否通过该申请,不选择则不处理', [0 => '拒绝', 1 => '通过'])
                 ->addFormItem('commentable', 'radio', '是否可评论', '', [0 => '否', 1 => '是'])
-                ->addFormItem('can_ask', 'radio', '是否可评论', '', [0 => '否', 1 => '是'])
+                ->addFormItem('can_ask', 'radio', '是否可提问', '', [0 => '否', 1 => '是'])
 //                ->addFormItem('file', 'file', '附件')
                 ->setFormData($info)
                 ->addButton('submit')
@@ -153,28 +150,5 @@ class History extends QliveBase
                 ->setMetaTitle($title . '房间设置')
                 ->content($content);
         }
-    }
-
-
-    /**
-     * @return \think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     * 返回主播的开播记录
-     */
-    public function getLiveHistoryByAnchorId()
-    {
-        $id = \input('anchor_id');
-        $anchorName = \getAnchorNameById($id);
-        $list = Db::name('QliveListHistory')
-            ->where('anchor', 'eq', $anchorName)
-            ->select();
-        $return = [
-            'code' => 1,
-            'msg' => 'Ok',
-            'data' => $list,
-        ];
-        return \json($return);
     }
 }

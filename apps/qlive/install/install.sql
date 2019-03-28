@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 26/03/2019 11:30:50
+ Date: 28/03/2019 10:37:25
 */
 
 SET NAMES utf8mb4;
@@ -112,6 +112,62 @@ INSERT INTO `eacoo_qlive_category_list`
 VALUES (6, 0, '其他', 50, 1, '2019-03-19 16:06:56', '2019-03-19 16:06:56');
 
 -- ----------------------------
+-- Table structure for eacoo_qlive_comment_list
+-- ----------------------------
+DROP TABLE IF EXISTS `eacoo_qlive_comment_list`;
+CREATE TABLE `eacoo_qlive_comment_list`
+(
+  `id`          int(11) UNSIGNED                                              NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `live_id`     int(11)                                                       NOT NULL COMMENT '直播记录ID',
+  `anchor`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主播',
+  `username`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户',
+  `content`     varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci       NOT NULL COMMENT '评论内容',
+  `status`      tinyint(1)                                                    NOT NULL DEFAULT 1 COMMENT '1=显示,0=不显示',
+  `create_time` datetime(0)                                                   NOT NULL,
+  `update_time` datetime(0)                                                   NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '评论列表'
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for eacoo_qlive_live_history
+-- ----------------------------
+DROP TABLE IF EXISTS `eacoo_qlive_live_history`;
+CREATE TABLE `eacoo_qlive_live_history`
+(
+  `id`          int(11) UNSIGNED                                        NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `anchor`      varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主播名称',
+  `room_id`     int(11)                                                 NOT NULL COMMENT '房间ID',
+  `title`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '房间标题',
+  `logo`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '房间封面',
+  `category`    int(11)                                                 NULL DEFAULT NULL COMMENT '直播分类',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '房间介绍',
+  `price`       decimal(10, 2)                                          NULL DEFAULT NULL COMMENT '价格',
+  `password`    varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '房间密码',
+  `commentable` tinyint(1)                                              NULL DEFAULT NULL COMMENT '1=可评论,0=不可评论',
+  `can_ask`     tinyint(1)                                              NULL DEFAULT NULL COMMENT '1=可提问,0=不可评论',
+  `file`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件下载',
+  `open_time`   datetime(0)                                             NULL DEFAULT NULL COMMENT '开播时间',
+  `status`      tinyint(1)                                              NULL DEFAULT 2 COMMENT '0=拒绝,1=通过,2=未处理,',
+  `create_time` datetime(0)                                             NULL DEFAULT NULL,
+  `update_time` datetime(0)                                             NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci COMMENT = '开播申请表,开播历史记录表'
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of eacoo_qlive_live_history
+-- ----------------------------
+INSERT INTO `eacoo_qlive_live_history`
+VALUES (1, '卡尔', 1, '开播测试', NULL, 1, '测试一下', 10.00, '888888', 1, 1, NULL, '2019-03-27 16:02:04', 1, NULL, NULL);
+
+-- ----------------------------
 -- Table structure for eacoo_qlive_post_list
 -- ----------------------------
 DROP TABLE IF EXISTS `eacoo_qlive_post_list`;
@@ -145,6 +201,28 @@ VALUES (1, '文章测试', 24, 1, '测试', '<p></p><p>测试一下</p>', 'admin
         '2019-03-26 10:01:45');
 
 -- ----------------------------
+-- Table structure for eacoo_qlive_question_list
+-- ----------------------------
+DROP TABLE IF EXISTS `eacoo_qlive_question_list`;
+CREATE TABLE `eacoo_qlive_question_list`
+(
+  `id`          int(11) UNSIGNED                                        NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `live_id`     int(11)                                                 NOT NULL COMMENT '对应直播',
+  `anchor`      varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主播名称',
+  `username`    varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
+  `question`    varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '提问内容',
+  `answer`      varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL COMMENT '回答内容',
+  `status`      tinyint(1)                                              NOT NULL DEFAULT 0 COMMENT '默认不显示,0=不显示,1=显示',
+  `create_time` datetime(0)                                             NULL     DEFAULT NULL,
+  `update_time` datetime(0)                                             NULL     DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for eacoo_qlive_room_list
 -- ----------------------------
 DROP TABLE IF EXISTS `eacoo_qlive_room_list`;
@@ -153,7 +231,7 @@ CREATE TABLE `eacoo_qlive_room_list`
   `id`          int(11) UNSIGNED                                        NOT NULL AUTO_INCREMENT COMMENT 'room_id',
   `stream`      varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '推流地址',
   `anchor_id`   int(11)                                                 NULL     DEFAULT NULL COMMENT '主播id',
-  `status`      tinyint(1)                                              NOT NULL DEFAULT 1 COMMENT '1=启用,0=禁用',
+  `status`      tinyint(1)                                              NOT NULL DEFAULT 0 COMMENT '1=启用,0=禁用,只有通过开播申请后才会开启',
   `order`       int(50)                                                 NOT NULL DEFAULT 50 COMMENT '排序',
   `marks`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL     DEFAULT NULL COMMENT '备注',
   `create_time` datetime(0)                                             NULL     DEFAULT NULL,
@@ -175,5 +253,35 @@ INSERT INTO `eacoo_qlive_room_list`
 VALUES (2, 'ae0ed89266349bc98c8fbbb1a2df3f8a9433cea6', 2, 1, 50, '虎牙霸天虎', '2019-03-21 09:51:23', '2019-03-21 15:13:04');
 INSERT INTO `eacoo_qlive_room_list`
 VALUES (3, '7e2be548f2c21e7db0fd0631eb892faa0e9317cd', 0, 1, 50, '啊', '2019-03-21 14:46:38', '2019-03-21 14:46:38');
+
+-- ----------------------------
+-- Table structure for eacoo_qlive_video_list
+-- ----------------------------
+DROP TABLE IF EXISTS `eacoo_qlive_video_list`;
+CREATE TABLE `eacoo_qlive_video_list`
+(
+  `id`          int(11) UNSIGNED                                        NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `title`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '视频标题',
+  `anchor`      varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属主播',
+  `live_time`   datetime(0)                                             NULL DEFAULT NULL COMMENT '直播时间',
+  `url`         varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '视频地址',
+  `status`      tinyint(1)                                              NULL DEFAULT 1 COMMENT '1=开启,0=隐藏',
+  `order`       int(11)                                                 NULL DEFAULT 50 COMMENT '排序',
+  `marks`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_time` datetime(0)                                             NULL DEFAULT NULL,
+  `update_time` datetime(0)                                             NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of eacoo_qlive_video_list
+-- ----------------------------
+INSERT INTO `eacoo_qlive_video_list`
+VALUES (1, '一个测试', '李文轩', '0000-00-00 00:00:00', '/uploads/attachment/2019-03-26/5c99d0d1d955d.pdf', 1, 50, '啦啦啦',
+        '2019-03-26 15:08:12', '2019-03-28 09:27:00');
 
 SET FOREIGN_KEY_CHECKS = 1;
