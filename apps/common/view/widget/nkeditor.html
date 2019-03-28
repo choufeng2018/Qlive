@@ -1,0 +1,49 @@
+{php} if(\Think\Hook::get('adminEditor') && MODULE_NAME == 'admin'){{/php}
+<label class="textarea">
+    <textarea name="{$name}" id="{$id}">{$value|default=''}</textarea>
+    {:hook('adminEditor', array('id'=>$id,'value'=>$value))}
+</label>
+
+{php}}elseif(\think\Hook::get('editor')){{/php}
+<label class="textarea">
+    <textarea name="{$name}" id="{$id}">{$value|default=''}</textarea>
+    {:hook('editor', array('id'=>$id,'value'=>$value))}
+</label>
+{php}}else{
+
+{/php}
+{if condition="$is_load_script"}
+<script type="text/javascript" src="__LIBS__/nkeditor/NKeditor-all-min.js"></script>
+<script type="text/javascript" src="__LIBS__/nkeditor/jquery.min.js"></script>
+<script type="text/javascript" src="__LIBS__/nkeditor/NJDialog.min.js"></script>
+{/if}
+<textarea id="{$id}_editor" name="{$name}"
+          style="display: none;width:{$width|default='100%'};height:{$height|default='300px'};">
+    {notempty name="value"}<p>{$value|default=''}</p>{/notempty}
+</textarea>
+
+<script>
+    KindEditor.ready(function (K) {
+
+        K.create('textarea[name="{$name}"]', {
+            uploadJson: "{$upload.upload_img_server}",
+            dialogOffset: 0, //对话框距离页面顶部的位置，默认为0居中，
+            allowFileManager: false,
+            allowImageUpload : true,
+            allowMediaUpload : true,
+            afterChange: function () {
+                this.sync();
+            },
+            themeType: "black", //主题
+            //错误处理 handler
+            errorMsgHandler: function (message, type) {
+                try {
+                    JDialog.msg({type: type, content: message, timer: 2000});
+                } catch (Error) {
+                    alert(message);
+                }
+            }
+        });
+    });
+</script>
+{php}}{/php}

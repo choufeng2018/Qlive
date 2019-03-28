@@ -33,5 +33,11 @@ return [
         'type' => 'text',
         'value' => '',
         'description' => '请在直播空间的域名管理中获取'
+    ],
+    'BucketName' => [
+        'title' => '储存空间名称:',
+        'type' => 'text',
+        'value' => '',
+        'description' => '输入用于储存视频的bucket名称,请通过<a href="https://www.qiniu.com/" target="_blank">七牛云</a>获取',
     ]
 ];
