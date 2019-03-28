@@ -44,7 +44,8 @@ class Posts extends Admin
      */
     public function index()
     {
-        list($data_list, $total) = $this->postModel->search()->getListByPage([], true, 'id');
+        $search_setting = $this->buildModelSearchSetting();
+        list($data_list, $total) = $this->postModel->search($search_setting)->getListByPage([], true, 'id');
         $content = (new BuilderList())
             ->addTopButton('addnew')
             ->addTopButton('resume', ['model' => 'QlivePostList'])
@@ -68,7 +69,38 @@ class Posts extends Admin
             ->fetch();
         return (new Iframe())
             ->setMetaTitle('文章列表')
+            ->search([
+                ['name' => 'create_time_range', 'type' => 'daterange', 'extra_attr' => 'placeholder="发布时间"'],
+                ['name' => 'status', 'type' => 'select', 'title' => '状态', 'options' => [1 => '正常', 0 => '隐藏']],
+                ['name' => 'keyword', 'type' => 'text', 'extra_attr' => 'placeholder="请输入查询关键字"'],
+            ])
             ->content($content);
+    }
+
+    /**
+     * @return array
+     * 自定义搜索
+     */
+    private function buildModelSearchSetting()
+    {
+        $timegap = \input('create_time_range');
+        $extend_condition = [];
+        if ($timegap) {
+            $gap = explode('—', $timegap);
+            $_begin = $gap[0];
+            $_end = $gap[1];
+
+            $extend_condition = [
+                'live_time' => ['between', [$_begin . '00:00:00', $_end . '23:59:59']]
+            ];
+        }
+
+        $search_setting = [
+            'keyword_condition' => 'title|publisher',
+            'ignore_keys' => ['create_time_range'],
+            'extend_condition' => $extend_condition,
+        ];
+        return $search_setting;
     }
 
     /**
