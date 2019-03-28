@@ -1,7 +1,7 @@
 <?php
 // 配置行为
 // +----------------------------------------------------------------------
-// | Copyright (c) 2017-2018 https://www.eacoophp.com, All rights reserved.         
+// | Copyright (c) 2017-2018 https://www.eacoophp.com, All rights reserved.
 // +----------------------------------------------------------------------
 // | [EacooPHP] 并不是自由软件,可免费使用,未经许可不能去掉EacooPHP相关版权。
 // | 禁止在EacooPHP整体或任何部分基础上发展任何派生、修改或第三方版本用于重新分发
@@ -27,15 +27,15 @@ class Config {
      */
     public function run(&$params) {
         defined('MODULE_NAME') or define('MODULE_NAME',$params['module'][0] ? $params['module'][0]:config('default_module'));
-        
+
         //验证是否安装
         if ((!is_file(APP_PATH . 'install.lock') || !is_file(APP_PATH . 'database.php')) && MODULE_NAME!='install') {
             if (!IS_CLI) {
                 header("location: http://".$_SERVER['HTTP_HOST'].'/install/index/index');exit;
             }
-            
+
         }
-        
+
         //关于请求
         $request = Request::instance();
         defined('IS_MOBILE') or define('IS_MOBILE', $request->isMobile());
@@ -52,7 +52,7 @@ class Config {
                 $ec_config['template'] = thinkConfig::get('template');
                 $ec_config['template']['view_path']   = APP_PATH.MODULE_NAME.'/view/admin/';
             }
-            
+
         } elseif (MODULE_MARK=='front' && is_file(APP_PATH . 'install.lock')){
             //主题区分pc和移动端
             $pc_theme = Db::name('themes')->where('current',1)->cache('pc_theme',3600)->value('name');
@@ -62,7 +62,7 @@ class Config {
             } else{
                 $current_theme = !empty($pc_theme) ? $pc_theme : ($mobile_theme ? $mobile_theme : '');
             }
-            
+
             //定义当前主题
             defined('CURRENT_THEME') or define('CURRENT_THEME', $current_theme);
 
@@ -85,12 +85,12 @@ class Config {
             $current_theme_module_path = $current_theme_path.MODULE_NAME.'/'; //当前主题模块文件夹路径
 
             if(is_dir($current_theme_module_path)){
-                
+
                 $ec_config['template'] = thinkConfig::get('template');
                 $ec_config['template']['view_path'] = $current_theme_module_path;
-                
+
             }
-            
+
             //插件主题化
             $action_url = $params['module'][0].'/'.$params['module'][1].'/'.$params['module'][2];
             //判断来源是否是插件执行入口
@@ -98,13 +98,13 @@ class Config {
                 $plugin_name = input('param._plugin');
                 $theme_plugin_path = $current_theme_path.'plugins/'.$plugin_name.'/'; //当前主题插件文件夹路径
                 $ec_config['template'] = thinkConfig::get('template');
-                if (is_dir($theme_plugin_path)) {   
+                if (is_dir($theme_plugin_path)) {
                     $ec_config['template']['view_path'] = $theme_plugin_path;
-                    
+
                 } else{
                     $ec_config['template']['view_path'] = ROOT_PATH.'plugins/'.$plugin_name.'/view/';
                 }
-                
+
             }
             //插件静态资源路径
             $ec_config['view_replace_str']['__PLUGIN_STATIC__'] = $ec_config['view_replace_str']['__STATIC__'].'/plugins';
@@ -121,7 +121,7 @@ class Config {
         thinkConfig::set($ec_config);// 添加配置
         // 读取数据库中的配置
        $system_config = Cache::get('DB_CONFIG_DATA',false);//数据库里的配置
-       
+
         if (!$system_config && is_file(APP_PATH . 'install.lock')) {
             // 获取所有系统配置
             $system_config = ConfigLogic::lists();
@@ -135,9 +135,9 @@ class Config {
                 if ($system_config['session']['type']==$field) {
                     $system_config['session']=array_merge($system_config['session'],$system_config[$field]);
                 }
-                
+
             }
-            
+
             // SESSION与COOKIE与前缀设置避免冲突
             //$system_config['SESSION_PREFIX'] = ENV_PRE.MODULE_MARK.'_';  // Session前缀
             //$system_config['COOKIE_PREFIX']  = ENV_PRE.MODULE_MARK.'_';  // Cookie前缀
@@ -148,7 +148,7 @@ class Config {
                 $module_config[strtolower($val['name'].'_config')] = json_decode($val['config'], true);
                 $module_config[strtolower($val['name'].'_config')]['module_name'] = $val['name'];
             }
-            
+
             if (!empty($module_config) && is_array($module_config)) {
                 // 合并模块配置
                 $system_config = array_merge($system_config, $module_config);
@@ -171,7 +171,7 @@ class Config {
                 }
             }
             Cache::set('DB_CONFIG_DATA', $system_config, 3600);  // 缓存配置
-            
+
         }
 
         $system_config['captcha'] = $this->setCaptcha();
@@ -179,16 +179,16 @@ class Config {
         if (IS_MOBILE==true) {
             $system_config['app_trace'] = false;
         }
-        
+
         //头信息
         $header_info = $request->header();
 
         if (!empty($header_info['apiversion']) && !empty($header_info['clientfrom']) && !empty($header_info['sign'])) {
             $system_config['url_controller_layer']='api';
         }
-        
+
         thinkConfig::set($system_config);  // 添加配置
-        
+
     }
 
     /**
@@ -211,7 +211,7 @@ class Config {
                 $return['codeSet'] = '0123456789';
                 break;
             default://英文+数字
-                $return['codeSet'] = '0123456789';
+                $return['codeSet'] = 'abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY0123456789';
                 break;
         }
         return $return;
