@@ -43,6 +43,7 @@ class User extends Admin
             ->search([
                 ['name' => 'reg_time_range', 'type' => 'daterange', 'extra_attr' => 'placeholder="注册时间"'],
                 ['name' => 'status', 'type' => 'select', 'title' => '状态', 'options' => [1 => '正常', 0 => '禁用']],
+                ['name' => 'usergroup', 'type' => 'select', 'title' => '用户组', 'options' => $this->userGroup],
                 ['name' => 'sex', 'type' => 'select', 'title' => '性别', 'options' => [0 => '未知', 1 => '男', 2 => '女']],
                 ['name' => 'is_lock', 'type' => 'select', 'title' => '是否锁定', 'options' => [0 => '否', 1 => '是']],
                 ['name' => 'actived', 'type' => 'select', 'title' => '激活', 'options' => [0 => '否', 1 => '是']],
@@ -86,7 +87,7 @@ class User extends Admin
             ->keyListItem('nickname', '昵称')
             ->keyListItem('sex_text', '性别')
             ->keyListItem('username', '用户名')
-            ->keyListItem('usergroup', '角色组','array',$this->userGroup)
+            ->keyListItem('usergroup', '角色组', 'array', $this->userGroup)
             ->keyListItem('email', '邮箱')
             ->keyListItem('mobile', '手机号')
             ->keyListItem('reg_time', '注册时间')
@@ -168,7 +169,7 @@ class User extends Admin
             ->addFormItem('uid', 'hidden', 'UID', '')
             ->addFormItem('nickname', 'text', '昵称', '填写一个有个性的昵称吧', '', 'require')
             ->addFormItem('username', 'text', '用户名', '登录账户所用名称', '', 'require')
-            ->addFormItem('usergroup', 'select', '角色组', '默认为普通用户',$this->userGroup)
+            ->addFormItem('usergroup', 'select', '角色组', '默认为普通用户', $this->userGroup)
             ->addFormItem('password', 'password', '密码', '新增默认密码123456', '', 'placeholder="留空则不修改密码"')
             ->addFormItem('email', 'email', '邮箱', '', '', 'data-rule="email" data-tip="请填写一个邮箱地址"')
             ->addFormItem('mobile', 'left_icon_number', '手机号', '', ['icon' => '<i class="fa fa-phone"></i>'], 'placeholder="填写手机号"')
