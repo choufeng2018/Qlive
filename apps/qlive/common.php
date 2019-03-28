@@ -79,3 +79,31 @@ if (!function_exists('getAdminNameById')) {
         return $name;
     }
 }
+if (!function_exists('getLiveTitleById')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据直播记录的id获取直播名称
+     */
+    function getLiveTitleById($id)
+    {
+        $title = Db::name('QliveLiveHistory')
+            ->where('id', 'eq', $id)
+            ->value('title');
+        return $title;
+    }
+}
+if (!function_exists('getUserNameById')) {
+    /**
+     * @param $uid
+     * @return mixed
+     * 根据uid获取username
+     */
+    function getUserNameById($uid)
+    {
+        $username = Db::name('Users')
+            ->where('uid', 'eq', $uid)
+            ->value('username');
+        return $username;
+    }
+}
