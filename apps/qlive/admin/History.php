@@ -64,6 +64,7 @@ class History extends QliveBase
             ->keyListItem('can_ask', '是否可提问', 'array', [1 => '可以', 0 => '不可以'])
 //            ->keyListItem('file', '附件', 'url')
             ->keyListItem('open_time', '开播时间')
+            ->keyListItem('status', '状态', 'array', [0 => '未通过', 1 => '已通过', 2 => '待处理'])
             ->setListData($data_list)
             ->setListPage($total)
             ->fetch();
