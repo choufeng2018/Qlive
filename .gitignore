@@ -4,3 +4,4 @@ thinkphp
 vendor
 runtime
 public/runtime
+public/uploads
