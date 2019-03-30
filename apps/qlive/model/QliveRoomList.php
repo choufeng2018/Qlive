@@ -12,13 +12,22 @@ namespace app\qlive\model;
 use app\common\model\Base;
 use think\Db;
 
+/**
+ * Class QliveRoomList
+ * @package app\qlive\model
+ */
 class QliveRoomList extends Base
 {
-    public function getAnchorIdAttr($anchor_id)
+    /**
+     * @param $value
+     * @param $data
+     * @return mixed
+     * 显示主播姓名
+     */
+    public function getAnchorTextAttr($value, $data)
     {
-        $name = Db::name('QliveAnchorList')
-            ->where('id', 'eq', $anchor_id)
-            ->value('name');
-        return $name;
+        $list = Db::name('QliveAnchorList')
+            ->column('id,name');
+        return $list[$data['anchor_id']];
     }
 }
