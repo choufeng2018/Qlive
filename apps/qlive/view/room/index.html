@@ -33,11 +33,11 @@
             // 当有消息时根据消息类型显示不同信息
             ws.onmessage = onmessage;
             ws.onclose = function () {
-                console.log("连接关闭，定时重连");
+                // console.log("连接关闭，定时重连");
                 connect();
             };
             ws.onerror = function () {
-                console.log("出现错误");
+                // console.log("出现错误");
             };
         }
 
@@ -48,13 +48,13 @@
             }*/
             // 登录
             var login_data = '{"type":"login","client_name":"{$current_user.nickname}","room_id":"{$room_id}"}';
-            console.log("websocket握手成功，发送登录数据:" + login_data);
+            // console.log("websocket握手成功，发送登录数据:" + login_data);
             ws.send(login_data);
         }
 
         // 服务端发来消息时
         function onmessage(e) {
-            console.log(e.data);
+            // console.log(e.data);
             var data = JSON.parse(e.data);
             switch (data['type']) {
                 // 服务端ping客户端
@@ -70,7 +70,7 @@
                         client_list[data['client_id']] = data['client_name'];
                     }
                     flush_client_list();
-                    console.log(data['client_name'] + "登录成功");
+                    // console.log(data['client_name'] + "登录成功");
                     break;
                 // 发言
                 case 'say':
