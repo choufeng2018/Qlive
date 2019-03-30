@@ -25,7 +25,7 @@
     <% for (var i = 0; i < data.length; i ++) { %>
     <% var vo = data[i]; %>
     <% var child = data[i]._child; %>
-    <li class="<% if(child){ %>treeview active<% }else{ %>no_tree<% } %>">
+    <li class="<% if(child){ %>treeview<% }else{ %>no_tree<% } %>">
         <a href="<% if(child){ %>#<% }else{ %> <%=vo.url %> <% } %>" <% if(!child){ %> class="opentab"
         tab-name="navtab-collapse-<%=vo.id %>" <% } %> >
         <i class="fa <% if(vo.icon){ %> {{vo.icon}} <% }else{ %>fa-circle-o <% } %>"></i>
