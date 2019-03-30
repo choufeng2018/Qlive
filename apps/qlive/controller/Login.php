@@ -11,7 +11,6 @@ namespace app\qlive\controller;
 
 
 use app\common\model\User;
-use app\home\controller\Home;
 use app\user\logic\UserLogic;
 
 /**
@@ -19,7 +18,7 @@ use app\user\logic\UserLogic;
  * @package app\qlive\controller
  * 登录登出控制器
  */
-class Login extends Home
+class Login extends Base
 {
     /**
      * @var

@@ -10,14 +10,12 @@
 namespace app\qlive\controller;
 
 
-use app\home\controller\Home;
-
 /**
  * Class Room
  * @package app\qlive\controller
  * 直播间详情
  */
-class Room extends Home
+class Room extends Base
 {
     /**
      *初始化

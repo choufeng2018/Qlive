@@ -9,24 +9,37 @@
 // | Author:  心云间、凝听 <981248356@qq.com>
 // +----------------------------------------------------------------------
 namespace app\common\behavior;
+
 use think\Config as thinkConfig;
-use think\Hook;
+use think\Db;
+use think\Route;
 
-class InitApp {
+/**
+ * Class InitApp
+ * @package app\common\behavior
+ * app运行之前的初始化
+ */
+class InitApp
+{
 
-	public function run(&$params) {
-        define('EACOOPHP_V','1.3.1');
-        define('BUILD_VERSION','20190318');//编译版本
+    /**
+     * @param $params
+     * 执行方法
+     */
+    public function run(&$params)
+    {
+        define('EACOOPHP_V', '1.3.1');
+        define('BUILD_VERSION', '20190318');//编译版本
 
         $this->initConst();
 
         //加载模块全局函数
         if (is_file(APP_PATH . 'install.lock') && is_file(APP_PATH . 'database.php')) {
-            $module_names = db('modules')->where(['status' =>1])->column('name');
+            $module_names = db('modules')->where(['status' => 1])->column('name');
             if (!empty($module_names)) {
                 $module_functions_list = [];
                 foreach ($module_names as $key => $module_name) {
-                    $module_funcitons_file = APP_PATH.$module_name.'/functions.php';
+                    $module_funcitons_file = APP_PATH . $module_name . '/functions.php';
                     if (is_file($module_funcitons_file)) {
                         $module_functions_list[] = $module_funcitons_file;
                     }
@@ -41,28 +54,28 @@ class InitApp {
         if (!IS_CLI) {
             //定义模版变量
             $ec_config = [
-                'view_replace_str'=>[
-                                    '__ROOT__'      => BASE_PATH,
-                                    '__STATIC__'    => BASE_PATH.'/static',
-                                    '__PUBLIC__'    => BASE_PATH.'/static/assets',
-                                    '__LIBS__'      => BASE_PATH.'/static/libs',
-                                    '__ADMIN_CSS__' => BASE_PATH.'/static/admin/css',
-                                    '__ADMIN_JS__'  => BASE_PATH.'/static/admin/js',
-                                    '__ADMIN_IMG__' => BASE_PATH.'/static/admin/img',
-                                ],
+                'view_replace_str' => [
+                    '__ROOT__' => BASE_PATH,
+                    '__STATIC__' => BASE_PATH . '/static',
+                    '__PUBLIC__' => BASE_PATH . '/static/assets',
+                    '__LIBS__' => BASE_PATH . '/static/libs',
+                    '__ADMIN_CSS__' => BASE_PATH . '/static/admin/css',
+                    '__ADMIN_JS__' => BASE_PATH . '/static/admin/js',
+                    '__ADMIN_IMG__' => BASE_PATH . '/static/admin/img',
+                ],
                 //404页面
-                'http_exception_template'    =>  [
+                'http_exception_template' => [
                     // 定义404错误的重定向页面地址
-                    404 =>  THEME_PATH.'404.html',
+                    404 => THEME_PATH . '404.html',
                     // 还可以定义其它的HTTP status
-                    401 =>  THEME_PATH.'401.html',
+                    401 => THEME_PATH . '401.html',
                 ],
             ];
             //定义接口地址
-            $ec_config['eacoo_api_url']='https://www.eacoophp.com';
+            $ec_config['eacoo_api_url'] = 'https://www.eacoophp.com';
             thinkConfig::set($ec_config);// 添加配置
         }
-	}
+    }
 
     /**
      * 初始化常量
@@ -80,7 +93,6 @@ class InitApp {
 
         $this->initDbInfo();
 
-
     }
 
     /**
@@ -94,12 +106,12 @@ class InitApp {
 
         if (!IS_CLI) {
             //定义环境类型
-            if (strpos($_SERVER["SERVER_SOFTWARE"],'nginx')!==false) {
-                define('SERVER_SOFTWARE_TYPE','nginx');
-            } elseif(strpos($_SERVER["SERVER_SOFTWARE"],'apache')!==false){
-                define('SERVER_SOFTWARE_TYPE','apache');
-            } else{
-                define('SERVER_SOFTWARE_TYPE','no');
+            if (strpos($_SERVER["SERVER_SOFTWARE"], 'nginx') !== false) {
+                define('SERVER_SOFTWARE_TYPE', 'nginx');
+            } elseif (strpos($_SERVER["SERVER_SOFTWARE"], 'apache') !== false) {
+                define('SERVER_SOFTWARE_TYPE', 'apache');
+            } else {
+                define('SERVER_SOFTWARE_TYPE', 'no');
             }
         }
 
@@ -129,12 +141,12 @@ class InitApp {
     private function initResultConst()
     {
 
-        define('RESULT_SUCCESS' , 'success');
-        define('RESULT_ERROR'   , 'error');
+        define('RESULT_SUCCESS', 'success');
+        define('RESULT_ERROR', 'error');
         define('RESULT_REDIRECT', 'redirect');
-        define('RESULT_MESSAGE' , 'message');
-        define('RESULT_URL'     , 'url');
-        define('RESULT_DATA'    , 'data');
+        define('RESULT_MESSAGE', 'message');
+        define('RESULT_URL', 'url');
+        define('RESULT_DATA', 'data');
 
     }
 
@@ -145,12 +157,12 @@ class InitApp {
     private function initDataStatusConst()
     {
 
-        define('DATA_COMMON_STATUS' ,  'status');
-        define('DATA_NORMAL'        ,  1);
-        define('DATA_DISABLE'       ,  0);
-        define('DATA_DELETE'        , -1);
-        define('DATA_SUCCESS'       , 1);
-        define('DATA_ERROR'         , 0);
+        define('DATA_COMMON_STATUS', 'status');
+        define('DATA_NORMAL', 1);
+        define('DATA_DISABLE', 0);
+        define('DATA_DELETE', -1);
+        define('DATA_SUCCESS', 1);
+        define('DATA_ERROR', 0);
 
     }
 
@@ -160,12 +172,8 @@ class InitApp {
      */
     private function initTimeConst()
     {
-
-        define('TIME_CT_NAME' ,  'create_time');
-        define('TIME_UT_NAME' ,  'update_time');
-        define('TIME_NOW'     ,   time());
-
+        define('TIME_CT_NAME', 'create_time');
+        define('TIME_UT_NAME', 'update_time');
+        define('TIME_NOW', time());
     }
-
-
 }

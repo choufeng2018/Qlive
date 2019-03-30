@@ -10,8 +10,6 @@
 namespace app\qlive\controller;
 
 
-use app\common\controller\Base;
-use app\home\controller\Home;
 use think\Db;
 
 /**
@@ -19,7 +17,7 @@ use think\Db;
  * @package app\qlive\controller
  * 直播模块首页
  */
-class Index extends Home
+class Index extends Base
 {
     /**
      *初始化

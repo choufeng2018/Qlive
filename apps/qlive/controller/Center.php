@@ -10,7 +10,6 @@
 namespace app\qlive\controller;
 
 
-use app\home\controller\Home;
 use app\qlive\model\QliveLiveHistory;
 
 /**
@@ -18,7 +17,7 @@ use app\qlive\model\QliveLiveHistory;
  * @package app\qlive\controller
  * 个人中心
  */
-class Center extends Home
+class Center extends Base
 {
     /**
      *初始化
