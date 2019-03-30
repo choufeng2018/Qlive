@@ -22,6 +22,10 @@ use think\Db;
  */
 class Room extends QliveBase
 {
+    /**
+     * @var
+     * 房间模型
+     */
     protected $roomModel;
 
     /**
@@ -32,6 +36,7 @@ class Room extends QliveBase
         parent::_initialize();
         $this->roomModel = new QliveRoomList();
     }
+
 
     /**
      * @return \app\common\layout\Content
