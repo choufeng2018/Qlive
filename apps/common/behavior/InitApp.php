@@ -11,8 +11,6 @@
 namespace app\common\behavior;
 
 use think\Config as thinkConfig;
-use think\Db;
-use think\Route;
 
 /**
  * Class InitApp

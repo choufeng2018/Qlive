@@ -11,6 +11,7 @@ namespace app\qlive\controller;
 
 
 use think\Db;
+use think\Route;
 
 /**
  * Class Index
@@ -49,6 +50,6 @@ class Index extends Base
 
     public function test()
     {
-
+        \halt(Route::rules());
     }
 }

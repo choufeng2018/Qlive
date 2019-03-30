@@ -20,6 +20,6 @@ if (MODULE_MARK !== 'admin') {
     //前台上传入口
     Route::rule('upload', 'home/Upload/upload');
 
-    //直播间路由示例
+    //直播室路由示例
     Route::get('bage', 'qlive/room/index?room_id=2');
 }
