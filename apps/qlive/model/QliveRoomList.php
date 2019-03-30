@@ -28,6 +28,7 @@ class QliveRoomList extends Base
     {
         $list = Db::name('QliveAnchorList')
             ->column('id,name');
+        $list[0] = '--';
         return $list[$data['anchor_id']];
     }
 }
