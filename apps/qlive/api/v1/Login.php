@@ -12,6 +12,7 @@ namespace app\qlive\api\v1;
 
 use app\rest\controller\RestBase;
 use app\common\logic\User as UserLogic;
+use think\Db;
 
 /**
  * Class Login
@@ -36,12 +37,49 @@ class Login extends RestBase
             }
             $result = UserLogic::login($data['username'], $data['password'], false);
             if ($result['code'] == 1) {
-                $this->success('登录成功');
+                //登录成功,更新token
+                $uid = Db::name('Users')
+                    ->where('username', 'eq', $data['username'])
+                    ->where('password', 'eq', $data['password'])
+                    ->value('uid');
+                $userToken = Db::name('UserToken')
+                    ->where('user_id', $uid)
+                    ->where('device_type', $data['clientfrom'])
+                    ->find();
+                $currentTime = time();
+                $expireTime = $currentTime + 24 * 3600 * 180;
+                $token = md5(uniqid()) . md5(uniqid());
+                if (empty($userToken)) {
+                    $result = Db::name("user_token")->insert([
+                        'token' => $token,
+                        'user_id' => $uid,
+                        'expire_time' => $expireTime,
+                        'create_time' => $currentTime,
+                        'device_type' => $data['device_type']
+                    ]);
+                } else {
+                    $result = Db::name("user_token")
+                        ->where('user_id', $uid)
+                        ->where('device_type', $data['device_type'])
+                        ->update([
+                            'token' => $token,
+                            'expire_time' => $expireTime,
+                            'create_time' => $currentTime
+                        ]);
+                }
+                if (!empty($result)) {
+                    $this->success('登录成功');
+                }
             } else {
                 $this->error($result['msg']);
             }
         } else {
             $this->error('提交方式不正确');
         }
+    }
+
+    public function logout()
+    {
+
     }
 }
