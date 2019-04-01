@@ -11,24 +11,15 @@ namespace app\qlive\controller;
 
 
 use app\qlive\model\QliveLiveHistory;
+use app\rest\controller\RestUserBase;
 
 /**
  * Class Center
  * @package app\qlive\controller
  * 个人中心
  */
-class Center extends Base
+class Center extends RestUserBase
 {
-    /**
-     *初始化
-     */
-    public function _initialize()
-    {
-        parent::_initialize();
-        if (!\is_login()) {
-            $this->error('请登录', \url('qlive/login/login'));
-        }
-    }
 
     public function index()
     {
