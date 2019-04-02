@@ -121,3 +121,31 @@ if (!function_exists('getUidByToken')) {
         return $uid;
     }
 }
+if (!function_exists('getImagePathById')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据图片ID获取图片路径
+     */
+    function getImagePathById($id)
+    {
+        $path = Db::name('Attachment')
+            ->where('id', 'eq', $id)
+            ->value('path');
+        return $path;
+    }
+}
+if (!function_exists('getCategoryNameById')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据直播分类id获取名称
+     */
+    function getCategoryNameById($id)
+    {
+        $name = Db::name('QliveCategoryList')
+            ->where('id', 'eq', $id)
+            ->value('name');
+        return $name;
+    }
+}
