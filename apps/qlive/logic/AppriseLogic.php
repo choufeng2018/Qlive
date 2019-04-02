@@ -13,8 +13,21 @@ namespace app\qlive\logic;
 use app\common\logic\Base as BaseLogic;
 use think\Db;
 
+/**
+ * Class AppriseLogic
+ * @package app\qlive\logic
+ * 直播预告逻辑层
+ */
 class AppriseLogic extends BaseLogic
 {
+    /**
+     * @param string $flag
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 获取直播预告列表
+     */
     public function getAppriseList($flag = '')
     {
         $list = Db::name('QliveAppriseList')

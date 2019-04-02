@@ -19,6 +19,9 @@ use app\rest\controller\RestBase;
  */
 class Index extends RestBase
 {
+    /**
+     *首页接口
+     */
     public function index()
     {
         //顶部的预告
