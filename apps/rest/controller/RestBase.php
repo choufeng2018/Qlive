@@ -141,10 +141,6 @@ class RestBase
      */
     protected function result($code = 0, $msg = '', $data = '', array $header = [])
     {
-        if (is_array($msg)) {
-            $code = $msg['code'];
-            $msg = $msg['msg'];
-        }
         $result = [
             'code' => $code,
             'msg' => $msg,
@@ -172,16 +168,14 @@ class RestBase
     /**
      * @return bool
      * 检查sign签名
-     * 规则很简单,毕竟不存在也没问题
+     * 规则很简单,毕竟不存在也没大问题
      */
     protected function checkSign()
     {
         $sign = $this->request->header('sign');
         $sign_key = \config('sign_key');
         $server_sign = \md5(\md5($sign_key) . \md5($sign_key));
-        if ($sign === $server_sign) {
-            return true;
-        } else {
+        if ($sign !== $server_sign) {
             $this->error('sign验证失败');
         }
     }
