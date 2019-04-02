@@ -42,7 +42,6 @@ class Register extends RestBase
             $this->checkPassword($data['password'], $data['password_confirm']);
 
             //其他信息
-            $data['activation_auth_sign'] = \data_auth_sign(0);
             $data['register_ip'] = $data['last_login_ip'] = $this->request->ip();
             $data['last_login_time'] = \time();
             $data['reg_from'] = 1;
