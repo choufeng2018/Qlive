@@ -43,6 +43,7 @@ class QliveBase extends Admin
      */
     protected $categoryList;
     protected $allCategory;
+    protected $appriseFlag;
 
     /**
      *初始化
@@ -71,5 +72,6 @@ class QliveBase extends Admin
 
         $this->allCategory = Db::name('QliveCategoryList')->column('id,name');
         $this->allCategory = \array_merge([0 => '顶级分类'], $this->allCategory);
+        $this->appriseFlag = \config('apprise_flag');
     }
 }
