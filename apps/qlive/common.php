@@ -107,3 +107,17 @@ if (!function_exists('getUserNameById')) {
         return $username;
     }
 }
+if (!function_exists('getUidByToken')) {
+    /**
+     * @param $token
+     * @return mixed
+     * 根据token获取用户ID
+     */
+    function getUidByToken($token)
+    {
+        $uid = Db::name('UserToken')
+            ->where('token', 'eq', $token)
+            ->value('user_id');
+        return $uid;
+    }
+}
