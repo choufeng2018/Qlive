@@ -19,7 +19,4 @@ if (MODULE_MARK !== 'admin') {
     Route::rule('plugin_execute', 'home/plugin/execute');
     //前台上传入口
     Route::rule('upload', 'home/Upload/upload');
-
-    //直播室路由示例
-    Route::get('bage', 'qlive/room/index?room_id=2');
 }
