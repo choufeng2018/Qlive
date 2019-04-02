@@ -28,41 +28,36 @@ class Login extends RestBase
     {
         if (\request()->isPost()) {
             $data = \request()->param();
-            $result = \validate($data, [
-                ['username', 'require|min:1', '登录名不能为空|登录名格式不正确'],
-                ['password', 'require|length:6,32', '请填写密码|密码格式不正确']
-            ]);
-            if (true !== $result) {
-                $this->error($result);
+            if (empty($data['username']) || empty($data['password'])) {
+                $this->error('数据不完整');
             }
             $result = UserLogic::login($data['username'], $data['password'], false);
             if ($result['code'] == 1) {
                 //登录成功,更新token
                 $this->userId = Db::name('Users')
                     ->where('username', 'eq', $data['username'])
-                    ->where('password', 'eq', $data['password'])
                     ->value('uid');
                 $findUserToken = Db::name('UserToken')
                     ->where('user_id', $this->userId)
-                    ->where('device_type', $data['clientfrom'])
+                    ->where('device_type', $this->deviceType)
                     ->find();
                 $currentTime = time();
                 $expireTime = $currentTime + \config('token_expire');
                 $token = md5(uniqid()) . md5(uniqid());
                 if (empty($findUserToken)) {
-                    //如果token不存在则新增
+                    //如果token不存在则新增,不同设备不同token
                     $result = Db::name("user_token")->insert([
                         'token' => $token,
                         'user_id' => $this->userId,
                         'expire_time' => $expireTime,
                         'create_time' => $currentTime,
-                        'device_type' => $data['clientfrom']
+                        'device_type' => $this->deviceType,
                     ]);
                 } else {
                     //如果已存在token则更新
                     $result = Db::name("user_token")
                         ->where('user_id', $this->userId)
-                        ->where('device_type', $data['device_type'])
+                        ->where('device_type', $this->deviceType)
                         ->update([
                             'token' => $token,
                             'expire_time' => $expireTime,

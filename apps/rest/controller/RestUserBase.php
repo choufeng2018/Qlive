@@ -31,6 +31,12 @@ class RestUserBase extends RestBase
         if (empty($token)) {
             $this->error(['code' => 0, 'msg' => 'token缺失']);
         }
+
+        //检测token是否正确
+
+
+
+        //todo
         $this->token = $token;
 
         $user = Db::name('UserToken')

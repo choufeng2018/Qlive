@@ -26,7 +26,10 @@ class RestBase
      */
     protected $token = '';
 
-
+    /**
+     * @var string
+     */
+    protected $sign = '';
     /**
      * @var string
      * 设备类型
@@ -62,7 +65,16 @@ class RestBase
      * @var array
      * 允许使用的设备类型
      */
-    protected $allowedDeviceTypes = ['mobile', 'android', 'iphone', 'ipad', 'web', 'pc', 'mac', 'wxapp'];
+    protected $allowedDeviceTypes = [
+        'mobile',
+        'android',
+        'iphone',
+        'ipad',
+        'web',
+        'pc',
+        'mac',
+        'wxapp'
+    ];
 
     /**
      * @var \think\Request Request实例
@@ -86,14 +98,8 @@ class RestBase
      */
     protected function init()
     {
-        $deviceType = $this->request->header('clientfrom');
-        if (empty($deviceType)) {
-            return;
-        }
-        if (!\in_array($deviceType, $this->allowedDeviceTypes)) {
-            return;
-        }
-        $this->deviceType = $deviceType;
+        $this->checkDeviceType();
+        $this->checkSign();
     }
 
     /**
@@ -112,18 +118,7 @@ class RestBase
      */
     protected function success($msg = '', $data = '', array $header = [])
     {
-        $code = 1;
-        $result = [
-            'code' => $code,
-            'msg' => $msg,
-            'data' => $data,
-        ];
-        $type = $this->getResponseType();
-        $header['Access-Control-Allow-Origin'] = '*';
-        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,clientfrom,token';
-        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
-        $response = Response::create($result, $type)->header($header);
-        throw new HttpResponseException($response);
+        $this->result(1, $msg, $data, $header);
     }
 
     /**
@@ -134,7 +129,18 @@ class RestBase
      */
     protected function error($msg = '', $data = '', array $header = [])
     {
-        $code = 0;
+        $this->result(0, $msg, $data, $header);
+    }
+
+    /**
+     * 返回封装后的 API 数据到客户端
+     * @param int $code
+     * @param string $msg
+     * @param string $data
+     * @param array $header
+     */
+    protected function result($code = 0, $msg = '', $data = '', array $header = [])
+    {
         if (is_array($msg)) {
             $code = $msg['code'];
             $msg = $msg['msg'];
@@ -143,10 +149,11 @@ class RestBase
             'code' => $code,
             'msg' => $msg,
             'data' => $data,
+            'time' => $this->request->server('REQUEST_TIME'),
         ];
         $type = $this->getResponseType();
         $header['Access-Control-Allow-Origin'] = '*';
-        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,clientfrom,XX-Token';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,clientfrom,token';
         $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
         $response = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
@@ -160,5 +167,38 @@ class RestBase
     protected function getResponseType()
     {
         return 'json';
+    }
+
+    /**
+     * @return bool
+     * 检查sign签名
+     * 规则很简单,毕竟不存在也没问题
+     */
+    protected function checkSign()
+    {
+        $sign = $this->request->header('sign');
+        $sign_key = \config('sign_key');
+        $server_sign = \md5(\md5($sign_key) . \md5($sign_key));
+        if ($sign === $server_sign) {
+            return true;
+        } else {
+            $this->error('sign验证失败');
+        }
+    }
+
+    /**
+     * @return bool
+     * 检查登录设备
+     */
+    protected function checkDeviceType()
+    {
+        $deviceType = $this->request->header('clientfrom');
+        if (empty($deviceType)) {
+            $this->error('clientfrom为空');
+        } elseif (!\in_array($deviceType, $this->allowedDeviceTypes)) {
+            $this->error('不允许的设备');
+        } else {
+            $this->deviceType = $deviceType;
+        }
     }
 }
