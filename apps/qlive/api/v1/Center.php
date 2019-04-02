@@ -25,7 +25,14 @@ class Center extends RestUserBase
      */
     public function index()
     {
-
+        if (!$this->request->isPost()) {
+            $this->error('提交方式不正确');
+        } else {
+            $info = Db::name('Users')
+                ->where('uid', 'eq', $this->userId)
+                ->find();
+            $this->success('获取成功', $info);
+        }
     }
 
     /**
@@ -35,11 +42,9 @@ class Center extends RestUserBase
      */
     public function logout()
     {
-        $uid = \input('user_id');
         Db::name('UserToken')
             ->where([
                 'token' => $this->token,
-                'user_id' => $uid,
                 'device_type' => $this->deviceType,
             ])
             ->update(['token' => '']);
