@@ -27,31 +27,36 @@ class RestUserBase extends RestBase
      */
     public function initUser()
     {
+        $this->checkToken();
+    }
+
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 检查token是否存在或者过期
+     */
+    public function checkToken()
+    {
         $token = $this->request->header('token');
         if (empty($token)) {
             $this->error(['code' => 0, 'msg' => 'token缺失']);
         }
 
-        //检测token是否正确
-
-
-
-        //todo
-        $this->token = $token;
-
         $user = Db::name('UserToken')
             ->alias('a')
             ->field('b.*')
             ->where(['token' => $token, 'device_type' => $this->deviceType])
+            ->whereTime('expire_time', '>', \time())
             ->join('__USERS__ b', 'a.user_id=b.uid')
             ->find();
-
         if (!empty($user)) {
             $this->user = $user;
-            $this->userId = $user['id'];
+            $this->userId = $user['uid'];
             $this->userType = $user['usergroup'];
+            $this->token = $token;
         } else {
-            $this->error(['code' => 10001, 'msg' => '登录已失效!']);
+            $this->error(['code' => 10001, 'msg' => '请重新登录']);
         }
     }
 }
