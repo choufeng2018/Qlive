@@ -16,6 +16,7 @@ class Index extends RestBase
 {
     public function index()
     {
-        $this->success("Hello API");
+        $key = \config('sign_key');
+        $this->success("Hello API",$key);
     }
 }
