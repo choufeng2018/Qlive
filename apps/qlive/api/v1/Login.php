@@ -22,7 +22,7 @@ use think\Db;
 class Login extends RestBase
 {
     /**
-     *
+     *登录并更新token
      */
     public function index()
     {
@@ -38,28 +38,30 @@ class Login extends RestBase
             $result = UserLogic::login($data['username'], $data['password'], false);
             if ($result['code'] == 1) {
                 //登录成功,更新token
-                $uid = Db::name('Users')
+                $this->userId = Db::name('Users')
                     ->where('username', 'eq', $data['username'])
                     ->where('password', 'eq', $data['password'])
                     ->value('uid');
-                $userToken = Db::name('UserToken')
-                    ->where('user_id', $uid)
+                $findUserToken = Db::name('UserToken')
+                    ->where('user_id', $this->userId)
                     ->where('device_type', $data['clientfrom'])
                     ->find();
                 $currentTime = time();
-                $expireTime = $currentTime + 24 * 3600 * 180;
+                $expireTime = $currentTime + \config('token_expire');
                 $token = md5(uniqid()) . md5(uniqid());
-                if (empty($userToken)) {
+                if (empty($findUserToken)) {
+                    //如果token不存在则新增
                     $result = Db::name("user_token")->insert([
                         'token' => $token,
-                        'user_id' => $uid,
+                        'user_id' => $this->userId,
                         'expire_time' => $expireTime,
                         'create_time' => $currentTime,
-                        'device_type' => $data['device_type']
+                        'device_type' => $data['clientfrom']
                     ]);
                 } else {
+                    //如果已存在token则更新
                     $result = Db::name("user_token")
-                        ->where('user_id', $uid)
+                        ->where('user_id', $this->userId)
                         ->where('device_type', $data['device_type'])
                         ->update([
                             'token' => $token,
@@ -68,7 +70,8 @@ class Login extends RestBase
                         ]);
                 }
                 if (!empty($result)) {
-                    $this->success('登录成功');
+                    //登录成功将token返回给客户端
+                    $this->success('登录成功', $token);
                 }
             } else {
                 $this->error($result['msg']);
@@ -76,10 +79,5 @@ class Login extends RestBase
         } else {
             $this->error('提交方式不正确');
         }
-    }
-
-    public function logout()
-    {
-
     }
 }
