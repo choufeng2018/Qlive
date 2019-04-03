@@ -65,8 +65,10 @@ class Login extends RestBase
                         ]);
                 }
                 if (!empty($result)) {
+                    $userInfo = \get_user_info($this->userId);
+                    $userInfo['token'] = $token;
                     //登录成功将token返回给客户端
-                    $this->success('登录成功', $token);
+                    $this->success('登录成功', $userInfo);
                 }
             } else {
                 $this->error($result['msg']);
