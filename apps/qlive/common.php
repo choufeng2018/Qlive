@@ -149,3 +149,17 @@ if (!function_exists('getCategoryNameById')) {
         return $name;
     }
 }
+if (!function_exists('getRoomIdByAnchorId')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据主播ID获取所在直播间ID
+     */
+    function getRoomIdByAnchorId($id)
+    {
+        $room_id = Db::name('QliveRoomList')
+            ->where('anchor_id', 'eq', $id)
+            ->value('id');
+        return $room_id;
+    }
+}

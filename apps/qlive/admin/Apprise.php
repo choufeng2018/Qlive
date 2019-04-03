@@ -14,6 +14,7 @@ use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
 use app\qlive\model\QliveAppriseList;
+use app\qlive\model\QliveLiveHistory;
 
 /**
  * Class Apprise
@@ -54,6 +55,8 @@ class Apprise extends QliveBase
             ->keyListItem('lecturer', '讲者', 'array', $this->allAnchorList)
             ->keyListItem('short_content', '预告简介')
             ->keyListItem('start_time', '开始时间')
+            ->keyListItem('category', '直播分类')
+            ->keyListItem('live_type', '直播类型')
             ->keyListItem('flag', '标记', 'array', $this->appriseFlag)
             ->keyListItem('status', '状态', 'status')
             ->keyListItem('right_button', '操作')
@@ -114,12 +117,41 @@ class Apprise extends QliveBase
         if (IS_POST) {
             $param = \input();
             if ($this->appriseModel->editData($param)) {
+                $apprise_id = $this->appriseModel->id;
+                //直播预告的数据还需插入到开播申请中(并设置状态为已通过)
+                $log_data = [
+                    'anchor' => \getAnchorNameById($param['lecturer']),
+                    'room_id' => \getRoomIdByAnchorId($param['lecturer']),
+                    'title' => $param['title'],
+                    'logo' => $param['image'],
+                    'category' => $param['category'],
+                    'live_type' => $param['live_type'],
+                    'open_time' => $param['start_time'],
+                    'status' => 1,
+                    'apprise_id' => $apprise_id,
+                ];
+
+                $historyModel = new QliveLiveHistory();
+                //查找开播历时表中是否有对应记录,有则更新无则新增
+                $log_info = $historyModel
+                    ->where('apprise_id', 'eq', $apprise_id)
+                    ->find();
+                if (empty($log_info)) {
+                    $historyModel->editData($log_data);
+                } else {
+                    $historyModel
+                        ->isUpdate(true)
+                        ->save($log_data, ['apprise_id' => $apprise_id]);
+                }
+
                 $this->success($title . '成功', \url('index'));
             } else {
                 $this->error($this->appriseModel->getError());
             }
         } else {
-            $info = [];
+            $info = [
+                'status' => 1,
+            ];
             if ($id > 0) {
                 $info = QliveAppriseList::get($id);
             }
@@ -130,6 +162,8 @@ class Apprise extends QliveBase
                 ->addFormItem('lecturer', 'select', '主讲人', '', $this->status4AnchorList)
                 ->addFormItem('start_time', 'datetime', '直播时间')
                 ->addFormItem('short_content', 'textarea', '直播简介')
+                ->addFormItem('category', 'multilayer_select', '直播分类', '', $this->categoryList)
+                ->addFormItem('live_type', 'select', '直播类型', '', $this->liveType)
                 ->addFormItem('status', 'radio', '状态', '', [0 => '禁用', 1 => '启用'])
                 ->addFormItem('flag', 'select', '标记', '', $this->appriseFlag)
                 ->setFormData($info)

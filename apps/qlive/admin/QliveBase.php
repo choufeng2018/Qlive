@@ -39,10 +39,22 @@ class QliveBase extends Admin
 
     /**
      * @var
-     * 生成树状分类
+     * 树状分类
      */
     protected $categoryList;
+    /**
+     * @var
+     * 所有直播分类
+     */
     protected $allCategory;
+    /**
+     * @var直播类型
+     */
+    protected $liveType;
+    /**
+     * @var
+     * 直播标记
+     */
     protected $appriseFlag;
 
     /**
@@ -73,5 +85,6 @@ class QliveBase extends Admin
         $this->allCategory = Db::name('QliveCategoryList')->column('id,name');
         $this->allCategory = \array_merge([0 => '顶级分类'], $this->allCategory);
         $this->appriseFlag = \config('apprise_flag');
+        $this->liveType = \config('live_type');
     }
 }

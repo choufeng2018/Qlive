@@ -38,10 +38,9 @@ class Apply extends QliveBase
     public function index()
     {
         $search_setting = $this->buildModelSearchSetting();
-        //只显示,开播时间大于现在时间,并且状态是未处理的
+        //只显示,开播时间大于现在时间
         $map = [
             'open_time' => ['>', \date('Y-m-d H:i:s')],
-            'status' => ['neq', 2]
         ];
         list($data_list, $total) = $this->historyModel->search($search_setting)->getListByPage($map, true, 'open_time,status desc');
         $content = (new BuilderList())
