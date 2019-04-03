@@ -34,13 +34,14 @@ class detail extends RestBase
             ->where('id', 'eq', $id)
             ->field('create_time,update_time,apprise_id', true)
             ->find();
-        $live_info['logo'] = \getImagePathById($live_info['logo']);
-        $live_info['category'] = \getCategoryNameById($live_info['category']);
-        $live_info['live_type'] = \getLiveTypeNameById($live_info['live_type']);
-        //这个房间的播放地址
-        $live_info['playerUrls'] = \getPlayUrlByRoomId($live_info['room_id']);
         if (empty($live_info)) {
             $this->error('该直播信息不存在');
+        } else {
+            $live_info['logo'] = \getImagePathById($live_info['logo']);
+            $live_info['category'] = \getCategoryNameById($live_info['category']);
+            $live_info['live_type'] = \getLiveTypeNameById($live_info['live_type']);
+            //这个房间的播放地址
+            $live_info['playerUrls'] = \getPlayUrlByRoomId($live_info['room_id']);
         }
         $this->success('OK', $live_info);
     }
