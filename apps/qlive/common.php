@@ -65,6 +65,20 @@ if (!function_exists('getStreamByAnchorId')) {
         return $stream;
     }
 }
+if (!function_exists('getStreamNameByRoomId')) {
+    /**
+     * @param $room_id
+     * @return mixed
+     * 根据直播间ID获取推流码
+     */
+    function getStreamNameByRoomId($room_id)
+    {
+        $stream = Db::name('QliveRoomList')
+            ->where('id', 'eq', $room_id)
+            ->value('stream');
+        return $stream;
+    }
+}
 if (!function_exists('getAdminNameById')) {
     /**
      * @param $id
@@ -161,5 +175,36 @@ if (!function_exists('getRoomIdByAnchorId')) {
             ->where('anchor_id', 'eq', $id)
             ->value('id');
         return $room_id;
+    }
+}
+if (!function_exists('getLiveTypeNameById')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据直播类型id获取名称
+     */
+    function getLiveTypeNameById($id)
+    {
+        $type_list = config('live_type');
+        $name = $type_list[$id];
+        return $name;
+    }
+}
+if (!function_exists('getPlayUrlByRoomId')) {
+
+    /**
+     * @param $room_id
+     * @return array
+     * 根据直播间id获取播放地址
+     */
+    function getPlayUrlByRoomId($room_id)
+    {
+        $stream = getStreamNameByRoomId($room_id);
+        $playUrls = [
+            logic('QliveLogic')->getRtmpPlayUrl($stream),
+            logic('QliveLogic')->getHlsPlayUrl($stream),
+            logic('QliveLogic')->getHdlPlayUrl($stream),
+        ];
+        return $playUrls;
     }
 }
