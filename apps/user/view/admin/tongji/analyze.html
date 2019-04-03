@@ -10,8 +10,8 @@
         <div class="row">
 
           <div class="col-md-10 mt-10">
-            <form action="" method="post">                
-              <div class="col-xs-5">         
+            <form action="" method="post">
+              <div class="col-xs-5">
                   <div class="input-group">
                     <div class="input-group-addon">
                         选择时间  <i class="fa fa-calendar"></i>
@@ -133,10 +133,10 @@
               timePicker12Hour: true,
               ranges: {
                  '今天': [moment(), moment()],
-                 '昨天': [moment().subtract('days', 1), moment().subtract('days', 1)],
-                 '最近7天': [moment().subtract('days', 6), moment()],
-                 '最近30天': [moment().subtract('days', 29), moment()],
-                 '上一个月': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                 '昨天': [moment().subtract(1,'days'), moment().subtract(1,'days')],
+                 '最近7天': [moment().subtract(6,'days'), moment()],
+                 '最近30天': [moment().subtract(29,'days'), moment()],
+                 '上一个月': [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')]
               },
               opens: 'right',
             locale : {
