@@ -28,9 +28,7 @@ class Center extends RestUserBase
         if (!$this->request->isPost()) {
             $this->error('提交方式不正确');
         } else {
-            $info = Db::name('Users')
-                ->where('uid', 'eq', $this->userId)
-                ->find();
+            $info = \get_user_info($this->userId);
             $this->success('获取成功', $info);
         }
     }
