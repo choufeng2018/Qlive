@@ -208,3 +208,39 @@ if (!function_exists('getPlayUrlByRoomId')) {
         return $playUrls;
     }
 }
+if (!function_exists('getAnchorNameByLiveId')) {
+    /**
+     * @param $live_id
+     * @return mixed
+     * 根据直播记录ID获取当时主播名称
+     */
+    function getAnchorNameByLiveId($live_id)
+    {
+        $name = Db::name('QliveLiveHistory')
+            ->where('id', 'eq', $live_id)
+            ->value('anchor');
+        return $name;
+    }
+}
+if (!function_exists('getUserInfoByToken')) {
+    /**
+     * @param $token
+     * @return array|bool|false|PDOStatement|string|\think\Model
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 根据token获取用户信息
+     */
+    function getUserInfoByToken($token)
+    {
+        $info = Db::name('Users a')
+            ->join('UserToken b', 'a.uid=b.user_id')
+            ->where('b.token', 'eq', $token)
+            ->field('a.*')
+            ->find();
+        if (empty($info)) {
+            return false;
+        }
+        return $info;
+    }
+}

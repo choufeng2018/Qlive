@@ -19,13 +19,14 @@ use think\Db;
  * (开播记录)直播/历史直播详情
  *
  */
-class detail extends RestBase
+class Detail extends RestBase
 {
     /**
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * 直播记录的详情
+     * 如果还未开播就是直播间详情,如果已经结束那就是录播详情
      */
     public function index()
     {
@@ -45,4 +46,26 @@ class detail extends RestBase
         }
         $this->success('OK', $live_info);
     }
+
+    /**
+     * @throws \think\Exception
+     * 添加点击数
+     */
+    public function hits()
+    {
+        if ($this->request->isPost()) {
+            $id = \input('id');
+            $res = Db::name('QliveLiveHistory')
+                ->where('id', 'eq', $id)
+                ->setInc('hits');
+            if ($res) {
+                $this->success('ok');
+            } else {
+                $this->error('fail');
+            }
+        } else {
+            $this->error('提交方式不正确');
+        }
+    }
 }
+
