@@ -48,7 +48,7 @@ class Comment extends QliveBase
             ->addTopButton('forbid', ['model' => 'QliveCommentList', 'title' => '隐藏'])
             ->addTopButton('delete', ['model' => 'QliveCommentList'])
             ->keyListItem('id', 'ID')
-            ->keyListItem('live_id', '对应直播')
+            ->keyListItem('live_id', '直播ID')
             ->keyListItem('anchor', '主播')
             ->keyListItem('username', '发布者')
             ->keyListItem('content', '内容')

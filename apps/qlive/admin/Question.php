@@ -48,7 +48,7 @@ class Question extends QliveBase
             ->addTopButton('forbid', ['title' => '隐藏', 'model' => 'QliveQuestionList'])
             ->addTopButton('delete', ['model' => 'QliveQuestionList'])
             ->keyListItem('id', 'ID')
-            ->keyListItem('live_id', '对应直播')
+            ->keyListItem('live_id', '直播ID')
             ->keyListItem('anchor', '主播')
             ->keyListItem('username', '提问者')
             ->keyListItem('question', '提问内容')
