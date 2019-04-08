@@ -28,6 +28,7 @@ class RestUserBase extends RestBase
     public function initUser()
     {
         $this->checkToken();
+        $this->checkAnchor();
     }
 
     /**
@@ -58,5 +59,10 @@ class RestUserBase extends RestBase
         } else {
             $this->error(['code' => 10001, 'msg' => '请重新登录']);
         }
+    }
+
+    public function checkAnchor()
+    {
+
     }
 }
