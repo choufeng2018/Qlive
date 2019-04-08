@@ -37,6 +37,7 @@ class AppriseLogic extends BaseLogic
             ->field('create_time,update_time,status', true)
             ->select();
         foreach ($list as $k => $value) {
+            $list[$k]['image'] = \getImagePathById($value['image']);
             $list[$k]['lecturer'] = \getAnchorNameById($value['lecturer']);
         }
         return $list;
