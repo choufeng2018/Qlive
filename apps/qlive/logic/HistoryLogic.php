@@ -42,4 +42,28 @@ class HistoryLogic extends BaseLogic
         }
         return $list;
     }
+
+    /**
+     * @param $map
+     * @param $page
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 搜索开播记录
+     */
+    public function searchLiveHistory($map, $page)
+    {
+        $list = Db::name('QliveLiveHistory')
+            ->where($map)
+            ->field('create_time,update_time', true)
+            ->order('hits desc')
+            ->page($page, 10)
+            ->select();
+        foreach ($list as $k => $value) {
+            $list[$k]['logo'] = \getImagePathById($value['logo']);
+            $list[$k]['category'] = \getCategoryNameById($value['category']);
+        }
+        return $list;
+    }
 }

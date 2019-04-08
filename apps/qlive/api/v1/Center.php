@@ -10,7 +10,6 @@
 namespace app\qlive\api\v1;
 
 
-use app\Qlive\logic\QuestionLogic;
 use app\rest\controller\RestUserBase;
 use think\Db;
 
