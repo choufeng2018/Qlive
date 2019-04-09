@@ -124,7 +124,7 @@ class Anchor extends Admin
                     'nickname' => $data['nickname'],
                     'username' => $data['username'],
                     'usergroup' => 2,
-                    'password' => \encrypt(88888888),
+                    'password' => \encrypt(\config('default_password')),
                 ];
                 $userModel = new User();
                 $userModel->allowField(true)
@@ -154,8 +154,8 @@ class Anchor extends Admin
                 $return = (new BuilderForm())
                     ->addFormItem('id', 'hidden', 'ID')
                     ->addFormItem('uid', 'hidden', 'UID')
-                    ->addFormItem('username', 'text', '用户名', '登录用的用户名,','','readonly')
-                    ->addFormItem('nickname', 'text', '主播昵称', '直播室显示的名称','','readonly')
+                    ->addFormItem('username', 'text', '用户名', '登录用的用户名,', '', 'readonly')
+                    ->addFormItem('nickname', 'text', '主播昵称', '直播室显示的名称', '', 'readonly')
                     ->addFormItem('sex', 'radio', '性别', '', [1 => '男', 2 => '女', 0 => '保密'])
                     ->addFormItem('email', 'email', '邮箱', '请输入邮箱')
                     ->addFormItem('mobile', 'text', '手机号', '请输入手机号')
