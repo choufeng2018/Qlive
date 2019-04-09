@@ -25,6 +25,10 @@ class LiveList extends RestBase
     public function index()
     {
         $list = \logic('HistoryLogic')->getLivingRoomList();
-        $this->success('OK', $list);
+        if ($list) {
+            $this->success('OK', $list);
+        } else {
+            $this->error('暂无数据');
+        }
     }
 }
