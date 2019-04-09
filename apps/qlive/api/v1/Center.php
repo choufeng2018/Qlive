@@ -112,4 +112,32 @@ class Center extends RestUserBase
             $this->error('提交方式不正确');
         }
     }
+
+    /**
+     *评价(打分)直播
+     */
+    public function rate()
+    {
+        if ($this->request->isPost()) {
+            $header = $this->request->header();
+            if (empty($header['token'])) {
+                $this->error('身份验证失败,请重新登录');
+            } else {
+                $param = [
+                    'live_id' => \input('live_id'),
+                    'rate' => \input('rate'),
+                ];
+                $res = Db::name('QliveLiveHistory')
+                    ->where('id', 'eq', $param['live_id'])
+                    ->setField('rate', $param['rate']);
+                if ($res) {
+                    $this->success('评价成功');
+                } else {
+                    $this->error('评价失败');
+                }
+            }
+        } else {
+            $this->error('提交方式不正确');
+        }
+    }
 }
