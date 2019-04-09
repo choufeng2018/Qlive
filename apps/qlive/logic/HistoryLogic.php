@@ -66,4 +66,37 @@ class HistoryLogic extends BaseLogic
         }
         return $list;
     }
+
+
+    /**
+     * @return array|bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 从七牛获取正在直播的流并获取直播间信息
+     */
+    public function getLivingRoomList()
+    {
+        //从七牛获取到正在直播的stream
+        $livingStream = \logic('QliveLogic')->listLiveStream();
+        $livingStream = $livingStream['keys'];
+        //获取正在直播的房间id
+        if (!empty($livingStream)) {
+            $room_list = [];
+            foreach ($livingStream as $k => $value) {
+                $room_list[$k]['live_room_info'] = Db::name('QliveLiveHistory')
+                    ->alias('a')
+                    ->join('QliveRoomList b', 'a.room_id=b.id')
+                    ->where('b.stream', 'eq', $value)
+                    ->where('b.status', 'eq', 1)
+                    ->whereTime('a.open_time', 'd')
+                    ->field('a.id,a.title,a.anchor,a.open_time,a.logo,a.description')
+                    ->find();
+            }
+            return $room_list;
+        } else {
+            return false;
+        }
+
+    }
 }
