@@ -14,6 +14,7 @@ use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
 use app\qlive\model\QliveVideoList;
+use think\Db;
 
 /**
  * Class Video
@@ -130,7 +131,7 @@ class Video extends QliveBase
         }
         $content = (new BuilderForm())
             ->addFormItem('id', 'hidden', 'ID')
-            ->addFormItem('title', 'text', '视频标题','请输入视频标题')
+            ->addFormItem('title', 'text', '视频标题', '请输入视频标题')
             ->addFormItem('anchor_id', 'select', '所属主播', '选择该视频的所有者', $this->allAnchorList)
             ->addFormItem('live_time', 'select', '直播时间', '选择与该视频对应的历史直播', [1 => 'a', 2 => 'b'])
             ->addFormItem('url', 'file', '上传视频')
@@ -144,5 +145,21 @@ class Video extends QliveBase
         return (new Iframe())
             ->setMetaTitle($title . '视频')
             ->content($content);
+    }
+
+    /**
+     * @return \think\response\Json
+     * 返回根据主播ID查找到的直播记录
+     * 这里用于添加视频时的对应直播
+     */
+    public function get_live_history()
+    {
+        $anchor_id = \input('anchor_id');
+        $list = Db::name('QliveLiveHistory')
+            ->alias('a')
+            ->join('Users b', 'a.anchor=b.nickname')
+            ->where('b.uid', 'eq', $anchor_id)
+            ->column('a.id,a.title');
+        return \json($list);
     }
 }
