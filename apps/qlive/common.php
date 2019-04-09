@@ -26,7 +26,7 @@ if (!function_exists('getAnchorNameById')) {
     {
         $name = Db::name('QliveAnchorList')
             ->where('id', $id)
-            ->value('name');
+            ->value('nickname');
         if (!empty($name)) {
             return $name;
         } else {
@@ -44,7 +44,7 @@ if (!function_exists('getAnchorIdByName')) {
     {
         $name = trim($name);
         $id = Db::name('QliveAnchorList')
-            ->where('name', 'eq', $name)
+            ->where('nickname', 'eq', $name)
             ->value('id');
         return $id;
     }

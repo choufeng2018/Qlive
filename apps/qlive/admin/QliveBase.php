@@ -64,15 +64,15 @@ class QliveBase extends Admin
     {
         parent::_initialize();
         $this->allAnchorList = Db::name('QliveAnchorList')
-            ->column('id,name');
+            ->column('id,nickname');
 
         $this->status2AnchorList = Db::name('QliveAnchorList')
             ->where('status', 'eq', 2)
-            ->column('id,name');
+            ->column('id,nickname');
 
         $this->status4AnchorList = Db::name('QliveAnchorList')
             ->where('status', 'eq', 4)
-            ->column('id,name');
+            ->column('id,nickname');
 
         $categoryList = \model('QliveCategoryList')->getList(['status' => 1], true, 'id asc,order asc');
         $categoryList = \collection($categoryList)->toArray();
