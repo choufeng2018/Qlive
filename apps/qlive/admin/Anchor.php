@@ -170,8 +170,8 @@ class Anchor extends Admin
             } else {
                 $return = (new BuilderForm())
                     ->addFormItem('id', 'hidden', 'ID')
-                    ->addFormItem('username', 'text', '用户名', '登录用的用户名')
-                    ->addFormItem('nickname', 'text', '主播昵称', '直播室显示的名称')
+                    ->addFormItem('username', 'text', '用户名', '登录用的用户名,一旦确定不可修改')
+                    ->addFormItem('nickname', 'text', '主播昵称', '直播室显示的名称,一旦确定不可修改')
                     ->addFormItem('sex', 'radio', '性别', '', [1 => '男', 2 => '女', 0 => '保密'])
                     ->addFormItem('email', 'email', '邮箱', '请输入邮箱')
                     ->addFormItem('mobile', 'text', '手机号', '请输入手机号')
