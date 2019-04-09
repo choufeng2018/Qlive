@@ -97,6 +97,67 @@ class HistoryLogic extends BaseLogic
         } else {
             return false;
         }
+    }
 
+    /**
+     * @param $map
+     * @param $page
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 根据条件筛选视频
+     */
+    public function getLivedList($map, $page)
+    {
+        $where = [];
+        //直播分类
+        if (!empty($map['category'])) {
+            $where['category'] = $map['category'];
+        }
+        //直播类型
+        if (!empty($map['type'])) {
+            $where['live_type'] = $map['type'];
+        }
+        //是否付费
+        $mark = $map['price'] >= 0 ? '>=' : '=';
+
+        //排序
+
+
+
+
+
+        if (empty($map['range'])) {
+            $data = Db::name('QliveLiveHistory')
+                ->where($where)
+                ->where('price', $mark, 0)
+                ->field('id,logo,title,open_time,anchor,price,hits')
+                ->page($page, 6)
+                ->select();
+        } else {
+            switch ($map['range']) {
+                case 1;
+                    $map['range'] = 'w';
+                    break;
+                case 2:
+                    $map['range'] = 'm';
+                    break;
+                case 3:
+                    $map['range'] = '-3 month';
+                    break;
+                case 4:
+                    $map['range'] = 'year';
+                    break;
+            }
+            $data = Db::name('QliveLiveHistory')
+                ->where($where)
+                ->where('price', $mark, 0)
+                ->whereTime('open_time', $map['range'])
+                ->field('id,logo,title,open_time,anchor,price,hits')
+                ->page($page, 6)
+                ->select();
+        }
+        return $data;
     }
 }
