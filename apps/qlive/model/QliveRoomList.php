@@ -27,7 +27,7 @@ class QliveRoomList extends Base
     public function getAnchorTextAttr($value, $data)
     {
         $list = Db::name('QliveAnchorList')
-            ->column('id,name');
+            ->column('id,nickname');
         $list[0] = '--';
         return $list[$data['anchor_id']];
     }
