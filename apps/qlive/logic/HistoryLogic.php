@@ -20,6 +20,7 @@ use think\Db;
  */
 class HistoryLogic extends BaseLogic
 {
+
     /**
      * @param $flag
      * @return false|\PDOStatement|string|\think\Collection
@@ -99,9 +100,11 @@ class HistoryLogic extends BaseLogic
         }
     }
 
+
     /**
-     * @param $map
-     * @param $page
+     * @param $map  筛选条件
+     * @param $order    排序
+     * @param $page     页码
      * @return false|\PDOStatement|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException

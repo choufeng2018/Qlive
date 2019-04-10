@@ -12,8 +12,16 @@ namespace app\qlive\api\v1;
 
 use app\rest\controller\RestBase;
 
+/**
+ * Class Video
+ * @package app\qlive\api\v1
+ * 视频列表
+ */
 class Video extends RestBase
 {
+    /**
+     *
+     */
     public function index()
     {
         $map = [
