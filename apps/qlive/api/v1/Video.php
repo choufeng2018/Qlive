@@ -20,7 +20,9 @@ use app\rest\controller\RestBase;
 class Video extends RestBase
 {
     /**
-     *
+     *视频列表
+     * 筛选
+     * 排序
      */
     public function index()
     {
