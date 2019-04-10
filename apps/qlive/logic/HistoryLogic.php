@@ -109,7 +109,7 @@ class HistoryLogic extends BaseLogic
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
-     * 根据条件筛选视频
+     * 根据条件筛选往期视频
      */
     public function getLivedList($map, $order, $page)
     {
