@@ -64,7 +64,7 @@ class Center extends RestUserBase
                 $param = [
                     'live_id' => \input('live_id'),
                     'anchor' => \getAnchorNameByLiveId(\input('live_id')),
-                    'username' => $userInfo['username'],
+                    'username' => $userInfo['nickname'],
                     'question' => \input('question'),
                     'status' => 0
                 ];
@@ -97,7 +97,7 @@ class Center extends RestUserBase
                 $param = [
                     'live_id' => \input('live_id'),
                     'anchor' => \getAnchorNameByLiveId(\input('live_id')),
-                    'username' => $userInfo['username'],
+                    'username' => $userInfo['nickname'],
                     'content' => \input('content'),
                     'status' => 0
                 ];
