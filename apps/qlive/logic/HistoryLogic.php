@@ -108,7 +108,7 @@ class HistoryLogic extends BaseLogic
      * @throws \think\exception\DbException
      * 根据条件筛选视频
      */
-    public function getLivedList($map, $page)
+    public function getLivedList($map, $order, $page)
     {
         $where = [];
         //直播分类
@@ -122,18 +122,42 @@ class HistoryLogic extends BaseLogic
         //是否付费
         $mark = $map['price'] >= 0 ? '>=' : '=';
 
-        //排序
-
-
-
-
+        //排序,目前只支持按照价格,销量,点击数分别排序
+        //默认排序
+        $default_order = 'update_time desc';
+        if (!empty($order)) {
+            switch ($order) {
+                case 1:
+                    $default_order = 'price asc';
+                    break;
+                case 2:
+                    $default_order = 'price desc';
+                    break;
+                case 3:
+                    $default_order = 'sales asc';
+                    break;
+                case 4:
+                    $default_order = 'sales desc';
+                    break;
+                case 5:
+                    $default_order = 'hits asc';
+                    break;
+                case 6:
+                    $default_order = 'hits desc';
+                    break;
+                default:
+                    $default_order = 'update_time desc';
+                    break;
+            }
+        }
 
         if (empty($map['range'])) {
             $data = Db::name('QliveLiveHistory')
                 ->where($where)
                 ->where('price', $mark, 0)
-                ->field('id,logo,title,open_time,anchor,price,hits')
+                ->field('id,logo,title,open_time,anchor,price,sales,hits')
                 ->page($page, 6)
+                ->order($default_order)
                 ->select();
         } else {
             switch ($map['range']) {
@@ -155,6 +179,7 @@ class HistoryLogic extends BaseLogic
                 ->where('price', $mark, 0)
                 ->whereTime('open_time', $map['range'])
                 ->field('id,logo,title,open_time,anchor,price,hits')
+                ->order($default_order)
                 ->page($page, 6)
                 ->select();
         }

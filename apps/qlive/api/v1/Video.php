@@ -22,9 +22,7 @@ class Video extends RestBase
             'range' => \input('range', ''),
             'price' => \input('price', 0),
         ];
-        $order = [
-
-        ];
+        $order = \input('order', '');
         $page = \input('page', 1);
         $data['list'] = \logic('HistoryLogic')->getLivedList($map, $order, $page);
         $this->success('OK', $data);
