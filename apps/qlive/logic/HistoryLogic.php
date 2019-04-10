@@ -181,7 +181,7 @@ class HistoryLogic extends BaseLogic
                 ->where($where)
                 ->where('price', $mark, 0)
                 ->whereTime('open_time', $map['range'])
-                ->field('id,logo,title,open_time,anchor,price,hits')
+                ->field('id,logo,title,open_time,anchor,price,sales,hits')
                 ->order($default_order)
                 ->page($page, 6)
                 ->select();
