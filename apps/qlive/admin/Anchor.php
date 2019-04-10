@@ -49,7 +49,7 @@ class Anchor extends Admin
             ->keyListItem('username', '用户名')
             ->keyListItem('nickname', '主播昵称')
             ->keyListItem('room_id', '房间号')
-            ->keyListItem('status', '直播状态', 'array', ['2' => '待分配房间', 3 => '被禁播', 4 => '正常'])
+            ->keyListItem('status', '状态', 'array', ['2' => '待分配房间', 3 => '被禁播', 4 => '正常'])
             ->keyListItem('uid', '前台用户ID')
             ->setListData($data_list)
             ->setListPage($total)
