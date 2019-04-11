@@ -43,7 +43,7 @@ class Detail extends RestBase
             $live_info['live_type'] = \getLiveTypeNameById($live_info['live_type']);
             //这个房间的播放地址
             $live_info['playerUrls'] = \getPlayUrlByRoomId($live_info['room_id']);
-            //评分,向上取整
+            //评分,四舍五入取整
             $live_info['rate'] = \round(\logic('RateLogic')->getLiveRate($id), 0);
         }
         $this->success('OK', $live_info);
