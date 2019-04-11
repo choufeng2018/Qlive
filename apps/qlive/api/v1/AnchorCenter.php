@@ -28,14 +28,10 @@ class AnchorCenter extends Center
     public function checkAnchor()
     {
         //检查这个用户是不是主播
-        $header = $this->request->header();
-        $user_info = \getUserInfoByToken($header['token']);
-        if ($user_info['usergroup'] != 2) {
+        if ($this->userType != 2) {
             $this->error('非法操作');
         }
-
     }
-
 
     /**
      * @throws \think\db\exception\DataNotFoundException
@@ -46,12 +42,8 @@ class AnchorCenter extends Center
     public function answerAdd()
     {
         if ($this->request->isPost()) {
-            $header = $this->request->header();
-            if (empty($header['token'])) {
-                $this->error('请重新登录');
-            }
+            $anchor_info = $this->user;
             $id = \input('question_id');
-            $anchor_info = \getUserInfoByToken($header['token']);
             $quesdtion_info = Db::name('QliveQuestionList')
                 ->where('id', 'eq', $id)
                 ->find();
