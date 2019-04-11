@@ -10,6 +10,7 @@
 namespace app\qlive\api\v1;
 
 
+use app\common\model\User;
 use app\qlive\model\QliveRate;
 use app\rest\controller\RestUserBase;
 use think\Db;
@@ -22,6 +23,8 @@ use think\Request;
  */
 class Center extends RestUserBase
 {
+    use CommonTrait;
+
     /**
      *个人中心首页
      */
@@ -147,12 +150,37 @@ class Center extends RestUserBase
         }
     }
 
+    /**
+     * @param Request $request
+     * @throws \think\Exception
+     * 更新用户基本信息
+     */
     public function updateProfile(Request $request)
     {
         if ($request->isPost()) {
             $userInfo = $this->user;
             $param = \input();
+            //检测各项是否更改或者可以更改
+            if ($param['username'] != $userInfo['username']) {
+                $this->checkUserName($param['username']);
+            }
+            if ($param['nickname'] != $userInfo['nickname']) {
+                $this->checkNickName($param['nickname']);
+            }
+            if ($param['mobile'] != $userInfo['mobile']) {
+                $this->checkMobile($param['mobile']);
+            }
+            if ($param['email'] != $userInfo['email']) {
+                $this->checkEmail($param['email']);
+            }
 
+            $userModel = new User();
+            $res = $userModel->save($param, ['uid' => $this->userId]);
+            if ($res) {
+                $this->success('OK');
+            } else {
+                $this->error('信息未更新');
+            }
         } else {
             $this->error('提交方式不正确');
         }
