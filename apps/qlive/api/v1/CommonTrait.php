@@ -26,17 +26,25 @@ trait CommonTrait
      */
     public function checkUserName($username)
     {
-        //检测用户名是否被禁止注册
-        $check_username = UserLogic::checkDenyUser($username);
-        if ($check_username) {
-            $this->error('该用户名不可用');
-        }
-        //检查是否唯一
-        $userNameCount = Db::name('Users')
-            ->where('username', 'eq', $username)
-            ->count();
-        if ($userNameCount > 0) {
-            $this->error('该用户名已被占用');
+        if (!empty($username)) {
+            //检测用户名是否被禁止注册
+            $check_username = UserLogic::checkDenyUser($username);
+            if ($check_username) {
+                $this->error('该用户名不可用');
+            }
+            //检查是否唯一
+            $userNameCount = Db::name('Users')
+                ->where('username', 'eq', $username)
+                ->count();
+            if ($userNameCount > 0) {
+                $this->error('该用户名已被占用');
+            }
+            //只可以使用字母,数字,破折号
+            if (!preg_match('/^[a-z0-9 .\-]+$/i', $username)) {
+                $this->error('用户名只允许:字母,数字,破折号');
+            }
+        } else {
+            $this->error('用户名不可为空');
         }
     }
 
@@ -75,6 +83,9 @@ trait CommonTrait
         if ($emailCount > 0) {
             $this->error('该邮箱已被占用');
         }
+        if (!\filter_var($email, \FILTER_VALIDATE_EMAIL)) {
+            $this->error('邮箱格式不正确');
+        }
     }
 
     /**
@@ -91,6 +102,10 @@ trait CommonTrait
         if ($emailCount > 0) {
             $this->error('该手机号已被占用');
         }
+        //正则检测手机号
+        if (!\preg_match("/^1[345789]\d{9}$/", $mobile)) {
+            $this->error('手机号格式有误');
+        }
     }
 
     /**
@@ -100,6 +115,9 @@ trait CommonTrait
      */
     public function checkPassword($password, $repassword)
     {
+        if (\strlen($password) < 6 || \strlen($password) > 20) {
+            $this->error('密码长度必须在6~20之间');
+        }
         if ($password !== $repassword) {
             $this->error('两次密码不一致');
         }
