@@ -10,8 +10,10 @@
 namespace app\qlive\api\v1;
 
 
+use app\qlive\model\QliveRate;
 use app\rest\controller\RestUserBase;
 use think\Db;
+use think\Request;
 
 /**
  * Class Center
@@ -56,24 +58,19 @@ class Center extends RestUserBase
     public function questionAdd()
     {
         if ($this->request->isPost()) {
-            $header = $this->request->header();
-            if (empty($header['token'])) {
-                $this->error('身份验证失败,请重新登录');
+            $userInfo = $this->user;
+            $param = [
+                'live_id' => \input('live_id'),
+                'anchor' => \getAnchorNameByLiveId(\input('live_id')),
+                'username' => $userInfo['nickname'],
+                'question' => \input('question'),
+                'status' => 0
+            ];
+            $res = \logic('QuestionLogic')->addQuestion($param);
+            if ($res) {
+                $this->success('提问成功');
             } else {
-                $userInfo = \getUserInfoByToken($header['token']);
-                $param = [
-                    'live_id' => \input('live_id'),
-                    'anchor' => \getAnchorNameByLiveId(\input('live_id')),
-                    'username' => $userInfo['nickname'],
-                    'question' => \input('question'),
-                    'status' => 0
-                ];
-                $res = \logic('QuestionLogic')->addQuestion($param);
-                if ($res) {
-                    $this->success('提问成功');
-                } else {
-                    $this->error('提问失败');
-                }
+                $this->error('提问失败');
             }
         } else {
             $this->error('提交方式不正确');
@@ -89,24 +86,20 @@ class Center extends RestUserBase
     public function commentAdd()
     {
         if ($this->request->isPost()) {
-            $header = $this->request->header();
-            if (empty($header['token'])) {
-                $this->error('身份验证失败,请重新登录');
+
+            $userInfo = $this->user;
+            $param = [
+                'live_id' => \input('live_id'),
+                'anchor' => \getAnchorNameByLiveId(\input('live_id')),
+                'username' => $userInfo['nickname'],
+                'content' => \input('content'),
+                'status' => 0
+            ];
+            $res = \logic('CommentLogic')->addComment($param);
+            if ($res) {
+                $this->success('评论成功');
             } else {
-                $userInfo = \getUserInfoByToken($header['token']);
-                $param = [
-                    'live_id' => \input('live_id'),
-                    'anchor' => \getAnchorNameByLiveId(\input('live_id')),
-                    'username' => $userInfo['nickname'],
-                    'content' => \input('content'),
-                    'status' => 0
-                ];
-                $res = \logic('CommentLogic')->addComment($param);
-                if ($res) {
-                    $this->success('评论成功');
-                } else {
-                    $this->error('评论失败');
-                }
+                $this->error('评论失败');
             }
         } else {
             $this->error('提交方式不正确');
@@ -119,23 +112,47 @@ class Center extends RestUserBase
     public function rate()
     {
         if ($this->request->isPost()) {
-            $header = $this->request->header();
-            if (empty($header['token'])) {
-                $this->error('身份验证失败,请重新登录');
-            } else {
-                $param = [
-                    'live_id' => \input('live_id'),
-                    'rate' => \input('rate'),
-                ];
-                $res = Db::name('QliveLiveHistory')
-                    ->where('id', 'eq', $param['live_id'])
-                    ->setField('rate', $param['rate']);
-                if ($res) {
-                    $this->success('评价成功');
-                } else {
-                    $this->error('评价失败');
-                }
+            $param = [
+                'live_id' => \input('live_id'),
+                'uid' => $this->userId,
+                'rate' => \input('rate'),
+            ];
+            $rateModel = new QliveRate();
+            $count = $rateModel->where(['live_id' => $param['live_id'], 'uid' => $param['uid']])->count();
+            if ($count > 0) {
+                $this->error('不可重复评分');
             }
+            $res = $rateModel->save($param);
+            if ($res) {
+                $this->success('评价成功');
+            } else {
+                $this->error('评价失败');
+            }
+        } else {
+            $this->error('提交方式不正确');
+        }
+    }
+
+    /**
+     *上传头像
+     */
+    public function uploadAvatar()
+    {
+        if ($this->request->isPost()) {
+            $uid = \getUidByToken($this->token);
+            $return = logic('common/Upload')->uploadAvatar($uid);
+            $this->success('OK', $return);
+        } else {
+            $this->error('提交方式不正确');
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        if ($request->isPost()) {
+            $userInfo = $this->user;
+            $param = \input();
+
         } else {
             $this->error('提交方式不正确');
         }
