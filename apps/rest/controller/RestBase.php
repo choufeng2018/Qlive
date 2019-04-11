@@ -190,7 +190,7 @@ class RestBase
         if (empty($deviceType)) {
             $this->error('clientfrom为空');
         } elseif (!\in_array($deviceType, $this->allowedDeviceTypes)) {
-            $this->error('不允许的设备');
+            $this->error('不允许登录的设备');
         } else {
             $this->deviceType = $deviceType;
         }
