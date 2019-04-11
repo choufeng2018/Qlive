@@ -30,12 +30,7 @@ class Center extends RestUserBase
      */
     public function index()
     {
-        if (!$this->request->isPost()) {
-            $this->error('提交方式不正确');
-        } else {
-            $info = \get_user_info($this->userId);
-            $this->success('获取成功', $info);
-        }
+        $this->success('获取成功', $this->user);
     }
 
     /**
@@ -160,6 +155,9 @@ class Center extends RestUserBase
         if ($request->isPost()) {
             $userInfo = $this->user;
             $param = \input();
+            if (empty($param['mobile']) && empty($param['email'])) {
+                $this->error('手机号或邮箱至少输入一项');
+            }
             //检测各项是否更改或者可以更改
             if ($param['username'] != $userInfo['username']) {
                 $this->checkUserName($param['username']);
@@ -175,7 +173,7 @@ class Center extends RestUserBase
             }
 
             $userModel = new User();
-            $res = $userModel->save($param, ['uid' => $this->userId]);
+            $res = $userModel->allowField(true)->save($param, ['uid' => $this->userId]);
             if ($res) {
                 $this->success('OK');
             } else {
