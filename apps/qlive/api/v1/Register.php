@@ -33,15 +33,15 @@ class Register extends RestBase
         if (\request()->isPost()) {
             $data = \input();
             //检查数据是否完整
-            if (empty($data['username']) || empty($data['nickname']) || empty($data['email']) || empty($data['password']) || empty($data['password_confirm'])) {
+            if (empty($data['mobile']) || empty($data['password']) || empty($data['password_confirm'])) {
                 $this->error('提交数据不完整');
             }
-            $this->checkUserName($data['username']);
-            $this->checkNickName($data['nickname']);
-            $this->checkEmail($data['email']);
+            $this->checkUserName($data['mobile']);
+            $this->checkMobile($data['mobile']);
             $this->checkPassword($data['password'], $data['password_confirm']);
 
-            //其他信息
+            //组装入库数据
+            $data['username'] = $data['nickname'] = \trim($data['mobile']);
             $data['register_ip'] = $data['last_login_ip'] = $this->request->ip();
             $data['last_login_time'] = \time();
             $data['reg_from'] = 1;

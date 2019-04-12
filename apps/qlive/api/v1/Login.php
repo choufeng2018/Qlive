@@ -28,14 +28,14 @@ class Login extends RestBase
     {
         if (\request()->isPost()) {
             $data = \request()->param();
-            if (empty($data['username']) || empty($data['password'])) {
+            if (empty($data['mobile']) || empty($data['password'])) {
                 $this->error('数据不完整');
             }
-            $result = UserLogic::login($data['username'], $data['password'], false);
+            $result = UserLogic::login($data['mobile'], $data['password'], false);
             if ($result['code'] == 1) {
                 //登录成功,更新token
                 $this->userId = Db::name('Users')
-                    ->where('username', 'eq', $data['username'])
+                    ->where('mobile', 'eq', $data['mobile'])
                     ->value('uid');
                 $findUserToken = Db::name('UserToken')
                     ->where('user_id', $this->userId)
@@ -65,10 +65,8 @@ class Login extends RestBase
                         ]);
                 }
                 if (!empty($result)) {
-                    $userInfo = \get_user_info($this->userId);
-                    $userInfo['token'] = $token;
                     //登录成功将token返回给客户端
-                    $this->success('登录成功', $userInfo);
+                    $this->success('登录成功', $token);
                 }
             } else {
                 $this->error($result['msg']);
