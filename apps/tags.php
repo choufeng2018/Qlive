@@ -31,14 +31,12 @@ $return = [
     'log_write' => [],
     // 应用结束
     'app_end' => [
-        $behavior_path . 'Header',
     ],
 ];
 if (MODULE_MARK != 'install') {
     $return['app_begin'] = [
         $behavior_path . 'Config',
         $behavior_path . 'InitHook',
-        $behavior_path . 'Header',
     ];
 }
 return $return;

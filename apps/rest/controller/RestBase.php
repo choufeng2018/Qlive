@@ -149,7 +149,7 @@ class RestBase
         ];
         $type = $this->getResponseType();
         $header['Access-Control-Allow-Origin'] = '*';
-        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,clientfrom,token';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,clientfrom,token,apiversion,sign';
         $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
         $response = Response::create($result, $type)->header($header);
         throw new HttpResponseException($response);
