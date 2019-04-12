@@ -75,6 +75,7 @@ class HistoryLogic extends BaseLogic
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * 从七牛获取正在直播的流并获取直播间信息
+     * 如果live_room_info=null,检查open_time是否是今天
      */
     public function getLivingRoomList()
     {
@@ -93,6 +94,7 @@ class HistoryLogic extends BaseLogic
                     ->whereTime('a.open_time', 'd')
                     ->field('a.id,a.title,a.anchor,a.open_time,a.logo,a.description')
                     ->find();
+                $room_list[$k]['live_room_info']['logo'] = \getImagePathById($room_list[$k]['live_room_info']['logo']);
             }
             return $room_list;
         } else {
