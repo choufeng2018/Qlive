@@ -143,10 +143,11 @@ if (!function_exists('getImagePathById')) {
      */
     function getImagePathById($id)
     {
+        $prefix = \request()->domain();
         $path = Db::name('Attachment')
             ->where('id', 'eq', $id)
             ->value('path');
-        return $path;
+        return $prefix . $path;
     }
 }
 if (!function_exists('getCategoryNameById')) {
