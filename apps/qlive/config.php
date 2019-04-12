@@ -29,4 +29,11 @@ return [
     'token_expire' => 24 * 3600 * 180,
     //用于生成sign签名的key
     'sign_key' => 'GYUGJHBNKJoijgjewgkljweojgjw',
+    //阿里云通信的模板配置
+    'alisms_config' => [
+        //过期秒数
+        'expire' => '180',
+        //注册用模板
+        'register' => 'SMS_73000100',
+    ],
 ];
