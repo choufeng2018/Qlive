@@ -41,7 +41,7 @@ class Register extends RestBase
             $this->checkPassword($data['password'], $data['password_confirm']);
 
             //组装入库数据
-            $data['username'] = $data['nickname'] = \trim($data['mobile']);
+            $data['username'] = $data['nickname'] = $data['mobile'] = \trim($data['mobile']);
             $data['register_ip'] = $data['last_login_ip'] = $this->request->ip();
             $data['last_login_time'] = \time();
             $data['reg_from'] = 1;
