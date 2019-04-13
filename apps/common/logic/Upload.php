@@ -16,13 +16,33 @@ use app\common\logic\Attachment as AttachmentLogic;
 use think\Request;
 use think\Hook;
 
+/**
+ * Class Upload
+ * @package app\common\logic
+ * 上传逻辑层
+ */
 class Upload
 {
 
+    /**
+     * @var Request
+     */
     protected $request;
-    protected $path_type;//路径类型
-    protected $isAdmin = 0;//是否后台操作
-    protected $doUid = 0;//操作用户ID
+    /**
+     * @var
+     * 路径类型
+     */
+    protected $path_type;
+    /**
+     * @var int
+     * 是否后台操作
+     */
+    protected $isAdmin = 0;
+    /**
+     * @var int
+     * 操作用户ID
+     */
+    protected $doUid = 0;
 
     /**
      * 构造函数
@@ -118,9 +138,16 @@ class Upload
 
     }
 
+
     /**
+     * @param string $post_field
+     * @param string $upload_type
+     * @param string $path_type
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      * 上传base64文件
-     * @return [type] [description]
      */
     public function uploadBase64($post_field = 'data', $upload_type = 'picture', $path_type = 'picture')
     {
@@ -390,6 +417,9 @@ class Upload
         echo $data->output();
     }
 
+    /**
+     *
+     */
     public function delete()
     {
         $data = [
@@ -399,10 +429,14 @@ class Upload
         exit();
     }
 
+
     /**
+     * @param $config
+     * @param $from_file_name
+     * @param $file
+     * @return array|bool|mixed
+     * @throws \think\Exception
      * 保存上传的信息到数据库
-     * @var view
-     * @access public
      */
     public function save($config, $from_file_name, $file)
     {
