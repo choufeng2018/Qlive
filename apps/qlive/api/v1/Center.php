@@ -137,8 +137,7 @@ class Center extends RestUserBase
     public function uploadAvatar()
     {
         if ($this->request->isPost()) {
-            $uid = \getUidByToken($this->token);
-            $return = logic('common/Upload')->uploadAvatar($uid);
+            $return = logic('common/Upload')->uploadAvatar($this->userId);
             $this->success('OK', $return);
         } else {
             $this->error('提交方式不正确');
