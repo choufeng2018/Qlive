@@ -115,7 +115,7 @@ class Upload
      */
     public function multipleUpload()
     {
-        return $return;
+
     }
 
     /**

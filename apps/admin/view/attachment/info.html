@@ -46,7 +46,7 @@
             <div class="col-xs-9">
               <input type="text" class="form-control input-sm" name="alt" id="alt" id="file-alt" value="{$info.alt|default='url'}" placeholder="alt文本">
             </div>
-          </div>  
+          </div>
         <div class="form-group">
             <label for="file-category" class="col-xs-3 control-label">分类:</label>
             <div class="col-xs-9 ">
@@ -57,20 +57,20 @@
 	              {/volist}
              </select>
             </div>
-          </div>                   
-      </div>  
-          
+          </div>
+      </div>
+
  </div>
 {/block}
 
 {block name="script"}
 <script type="text/javascript" src="__PUBLIC__/js/clipboard.min.js"></script>
 <script type="text/javascript">
-	$(function () { 
+	$(function () {
 		/*复制URL*/
         var clipboard = new Clipboard('.copyurl');
         clipboard.on('success', function(e) {
-            alert('复制成功');
+            layer.alert('复制成功');
         });
 	});
 </script>
