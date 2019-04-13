@@ -126,12 +126,12 @@ class Plugins extends Model
         return $plugins;
     }
 
+
     /**
+     * @param string $name
+     * @return bool
+     * @throws \think\Exception
      * 检测是否安装了某个插件
-     * @param string $name [description]
-     * @return [type] [description]
-     * @date   2017-09-17
-     * @author 心云间、凝听 <981248356@qq.com>
      */
     public static function checkInstall($name = '')
     {
