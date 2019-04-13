@@ -64,10 +64,8 @@ class Attachment extends Admin
             }
             //筛选start
             if ($term_id > 0) {
-                //$media_ids = TermRelationships::where(['term_id'=>$term_id,'table'=>'attachment'])->select();
                 $media_ids = TermRelationshipsModel::where(['term_id' => $term_id, 'table' => 'attachment'])->column('object_id');
                 if (count($media_ids)) {
-                    //$media_ids = array_column($media_ids,'object_id');
                     $extend_conditions['id'] = ['in', $media_ids];
                 } else {
                     $extend_conditions['id'] = 0;
@@ -127,8 +125,6 @@ class Attachment extends Admin
             return json($return);
         } else {
             $this->assign(['meta_title' => '附件管理', 'show_box_header' => 1]);
-            //$this->assign('attachment_list_data',$file_list);//附件列表数据
-            //$this->assign('table_data_page',$file_list->render());
             $this->assign('path_type', $path_type);
 
             //获取分类数据

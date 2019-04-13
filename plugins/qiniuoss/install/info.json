@@ -1,0 +1,17 @@
+{
+	"name":"qiniuoss",
+	"title":"七牛云储存",
+	"description":"实现七牛云存储，管理附件",
+	"author":"yyyvy",
+	"admin_manage_into":"",
+	"version":"1.0.0",
+	"dependences":{
+		"plugins":{
+
+		},
+		"modules":{
+
+		}
+	},
+	"database_prefix":"eacoo_"
+}
