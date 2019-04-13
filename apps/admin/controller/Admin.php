@@ -282,7 +282,8 @@ class Admin extends Base
         //'and'则表示需满足所有规则才能通过验证
         $relation = 'and';
 
-        if (!$auth->check($name, $uid, 1, $mode, $relation) && $name != 'admin/dashboard/index') {//允许进入仪表盘
+        if (!$auth->check($name, $uid, 1, $mode, $relation) && $name != 'admin/dashboard/index') {
+            //允许进入仪表盘
             $this->error('无权限访问', Cookie::get('__prevUrl__'));
             return false;
         }
