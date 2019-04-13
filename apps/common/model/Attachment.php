@@ -1,17 +1,13 @@
 <?php
-// 附件模型 
-// +----------------------------------------------------------------------
-// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.         
-// +----------------------------------------------------------------------
-// | [EacooPHP] 并不是自由软件,可免费使用,未经许可不能去掉EacooPHP相关版权。
-// | 禁止在EacooPHP整体或任何部分基础上发展任何派生、修改或第三方版本用于重新分发
-// +----------------------------------------------------------------------
-// | Author:  心云间、凝听 <981248356@qq.com>
-// +----------------------------------------------------------------------
+// 附件模型
+
 namespace app\common\model;
 
+use think\Db;
 use think\File;
-class Attachment extends Base {
+
+class Attachment extends Base
+{
 
     // protected $auto  = ['update_time'];
     protected $insert = ['status' => 1];
@@ -27,24 +23,56 @@ class Attachment extends Base {
     }
 
     //获取缩略图地址
-    protected function getThumbSrcAttr($value,$data)
+    protected function getThumbSrcAttr($value, $data)
     {
-        if ($data['location']=='link' || $data['ext']=='gif') {
+        if ($data['location'] == 'link' || $data['ext'] == 'gif') {
             $thumb_src = $data['path'];
         } else {
             $style = 'medium';
-            if ($data['path_type']=='brand') {
+            if ($data['path_type'] == 'brand') {
                 $style = '';
             }
-            if (in_array($data['ext'],['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'wps', 'txt', 'zip', 'rar', 'gz', 'bz2', '7z','wav','mp3','mp4','wmv'])) {
-                $thumb_src = getImgSrcByExt($data['ext'],$data['path'],true);
-            } else{
-                $thumb_src = get_thumb_image($data['path'],$style);
+            if (in_array($data['ext'], ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'wps', 'txt', 'zip', 'rar', 'gz', 'bz2', '7z', 'wav', 'mp3', 'mp4', 'wmv'])) {
+                $thumb_src = getImgSrcByExt($data['ext'], $data['path'], true);
+            } else {
+                $thumb_src = get_thumb_image($data['path'], $style);
             }
-            
+
         }
 
         return $thumb_src;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 下载文件
+     */
+    public function download($id)
+    {
+        $file_info = Db::name('Attachment')
+            ->find($id);
+        $file_name = $file_info['name'] . '.' . $file_info['ext'];
+        //判断是不是网络上的文件
+        if (\filter_var($file_info['path'], \FILTER_VALIDATE_URL)) {
+            //如果是远程文件直接返回地址,由客户端处理(比如加download属性)
+            return $file_info['url'];
+        } else {
+            $file_path = \ROOT_PATH . 'public' . $file_info['path'];
+            $file_size = \filesize($file_path);
+        }
+        $file1 = \fopen($file_path, 'r');
+
+        Header("Content-Type: application/octet-stream");
+        Header("Accept-Ranges: bytes");
+        Header("Accept-Length:" . $file_size);
+        Header("Content-Disposition: attachment; filename=" . $file_name);
+        \ob_clean();
+        \flush();
+        echo \fread($file1, \filesize($file_path));
+        \fclose($file1);
+    }
 }
