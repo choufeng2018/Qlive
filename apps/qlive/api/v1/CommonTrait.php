@@ -95,13 +95,10 @@ trait CommonTrait
      */
     public function checkMobile($mobile)
     {
-        //检查是否唯一
-        $emailCount = Db::name('Users')
-            ->where('mobile', 'eq', $mobile)
-            ->count();
-        if ($emailCount > 0) {
-            $this->error('该手机号已被占用');
+        if (empty($mobile)) {
+            $this->error('手机号不能为空');
         }
+
         //正则检测手机号
         if (!\preg_match("/^1[345789]\d{9}$/", $mobile)) {
             $this->error('手机号格式有误');

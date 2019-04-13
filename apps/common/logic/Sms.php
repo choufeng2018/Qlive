@@ -15,6 +15,7 @@ use think\Db;
 /**
  * Class Sms
  * @package app\common\logic
+ * 1=注册;2=重置密码
  */
 class Sms extends Base
 {
@@ -41,11 +42,16 @@ class Sms extends Base
      * @throws \think\Exception
      * 检查发送频率和总条数
      */
-    public function checkFrequency($mobile)
+    public function checkFrequency($mobile, $type)
     {
-        //一天最多十五条验证码
+        //一天最多十五条相同类型的验证码
+        $map = [
+            'mobile' => $mobile,
+            'type' => $type,
+        ];
         $count = Db::name('Sms')
-            ->where('mobile', 'eq', $mobile)
+            ->where($map)
+            ->whereTime('create_time', 'today')
             ->count();
         //每次间隔不超过60s
         $code_info = $this->getLastCodeInfoByMobile($mobile);
