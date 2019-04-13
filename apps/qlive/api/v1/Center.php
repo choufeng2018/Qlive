@@ -182,4 +182,27 @@ class Center extends RestUserBase
             $this->error('提交方式不正确');
         }
     }
+
+    /**
+     *重置密码
+     */
+    public function updatePassword()
+    {
+        if ($this->request->isPost()) {
+            $new_password = \input('new_password');
+            $re_password = \input('re_password');
+            $this->checkPassword($new_password, $re_password);
+            $password = \encrypt($new_password);
+            $res = Db::name('Users')
+                ->where('uid', 'eq', $this->userId)
+                ->setField('password', $password);
+            if ($res) {
+                $this->success('密码重置成功');
+            } else {
+                $this->error('密码重置失败');
+            }
+        } else {
+            $this->error('提交方式不正确');
+        }
+    }
 }
