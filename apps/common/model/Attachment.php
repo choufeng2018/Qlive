@@ -50,21 +50,22 @@ class Attachment extends Base
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * 下载文件
+     * 远程文件返回URL;
+     * 本地文件直接下载
      */
     public function download($id)
     {
         $file_info = Db::name('Attachment')
             ->find($id);
         $file_name = $file_info['name'] . '.' . $file_info['ext'];
-        //判断是不是网络上的文件
+        //判断是不是网络上的文件,则返回文件路径
         if (\filter_var($file_info['path'], \FILTER_VALIDATE_URL)) {
-            //如果是远程文件直接返回地址,由客户端处理(比如加download属性)
-            return $file_info['url'];
+            return $file_info['path'];
         } else {
             $file_path = \ROOT_PATH . 'public' . $file_info['path'];
             $file_size = \filesize($file_path);
         }
-        $file1 = \fopen($file_path, 'r');
+        $file = \fopen($file_path, 'r');
 
         Header("Content-Type: application/octet-stream");
         Header("Accept-Ranges: bytes");
@@ -72,7 +73,7 @@ class Attachment extends Base
         Header("Content-Disposition: attachment; filename=" . $file_name);
         \ob_clean();
         \flush();
-        echo \fread($file1, \filesize($file_path));
-        \fclose($file1);
+        echo \fread($file, \filesize($file_path));
+        \fclose($file);
     }
 }
