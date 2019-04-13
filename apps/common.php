@@ -33,12 +33,12 @@ function Iframe()
     return $builder;
 }
 
+
 /**
+ * @param string $type
+ * @return mixed
+ * @throws Exception
  * 获取构建器实例
- * @param string $type 类型（list|form）
- * @return [type] [description]
- * @date   2018-02-02
- * @author 心云间、凝听 <981248356@qq.com>
  */
 function builder($type = '')
 {
@@ -70,24 +70,23 @@ function service($name = '')
     return model($name, 'service');
 }
 
+
 /**
+ * @param string $name
+ * @return bool
  * 检测是否安装某个模块
- * @param string $name 模块标识
- * @return [type] [description]
- * @date   2017-09-17
- * @author 心云间、凝听 <981248356@qq.com>
  */
 function check_install_module($name = '')
 {
     return ModuleLogic::checkInstall($name);
 }
 
+
 /**
+ * @param string $name
+ * @return bool
+ * @throws \think\Exception
  * 检测是否安装某个插件
- * @param string $name 插件标识
- * @return [type] [description]
- * @date   2017-11-14
- * @author 心云间、凝听 <981248356@qq.com>
  */
 function check_install_plugin($name = '')
 {
