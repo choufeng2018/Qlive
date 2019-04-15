@@ -245,3 +245,20 @@ if (!function_exists('getUserInfoByToken')) {
         return $info;
     }
 }
+if (!function_exists('isLivingRoom')) {
+
+    /**
+     * @param $room_id
+     * @return bool
+     * 判断直播间是否在直播
+     */
+    function isLivingRoom($room_id)
+    {
+        $res = \logic('QliveLogic')->getLiveStatus(getStreamNameByRoomId($room_id));
+        if (\is_array($res)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}

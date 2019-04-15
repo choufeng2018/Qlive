@@ -55,15 +55,17 @@ class HistoryLogic extends BaseLogic
      */
     public function searchLiveHistory($map, $page)
     {
+        $map['status'] = 1;
         $list = Db::name('QliveLiveHistory')
             ->where($map)
             ->field('create_time,update_time', true)
-            ->order('hits desc')
+            ->order('open_time desc,hits desc')
             ->page($page, 10)
             ->select();
         foreach ($list as $k => $value) {
             $list[$k]['logo'] = \getImagePathById($value['logo']);
             $list[$k]['category'] = \getCategoryNameById($value['category']);
+            $list[$k]['is_living'] = \isLivingRoom($value['room_id']);
         }
         return $list;
     }
