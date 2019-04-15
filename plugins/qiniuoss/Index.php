@@ -60,12 +60,12 @@ class Index extends Plugin
     }
 
     /**
-     * 获取cdn域名
+     * 获取文件cdn前缀
      * @return [type] [description]
      * @date   2018-6-20 23:47:47
      * @author yyyvy <76836785@qq.com>
      */
-    public function getDomain()
+    public function getUploadPathUrl()
     {
         try {
             $config = $this->getConfig();
@@ -124,5 +124,6 @@ class Index extends Plugin
         //否则，完成上传操作
         return true;
     }
+
     /*******************************Qiniu OSS end ********************************/
 }
