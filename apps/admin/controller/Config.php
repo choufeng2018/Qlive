@@ -1,7 +1,7 @@
 <?php
 //配置控制器
 // +----------------------------------------------------------------------
-// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.         
+// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.
 // +----------------------------------------------------------------------
 // | [EacooPHP] 并不是自由软件,可免费使用,未经许可不能去掉EacooPHP相关版权。
 // | 禁止在EacooPHP整体或任何部分基础上发展任何派生、修改或第三方版本用于重新分发
@@ -161,7 +161,7 @@ class Config extends Admin {
             $val['name']        = 'config['.$val['name'].']';
             $val['confirm']     = $val['extra_class'] = $val['extra_attr']='';
             $val['options']     = parse_config_attr($val['options']);
-            
+
         }
 
         $content = builder('form')
@@ -260,25 +260,25 @@ class Config extends Admin {
                             'description' =>'支持的缓存类型包括file、memcache、wincache、sqlite、redis和xcache。',
                             'type'        =>'select',
                             'options'     => ['File'=>'文件','memcache'=>'Memcache','wincache'=>'wincache','sqlite'=>'Sqlite','redis'=>'redis','xcache'=>'xcache'],
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'path'=>[
                             'title'       =>'保存目录:',
                             'description' =>'绝对路径',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'prefix'=>[
                             'title'       =>'前缀:',
                             'description' =>'',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'expire'=>[
                             'title'       =>'有效期:',
                             'description' =>'缓存有效期 0表示永久缓存',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ]
                     ],
                 ],
@@ -291,20 +291,20 @@ class Config extends Admin {
                             'description' =>'支持的类型包括file、memcache、wincache、sqlite、redis和xcache。',
                             'type'        =>'select',
                             'options'     => ['none'=>'默认','memcache'=>'Memcache','redis'=>'redis'],
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'prefix'=>[
                             'title'       =>'前缀:',
                             'description' =>'',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'auto_start'=>[
                             'title'       =>'自动开启 SESSION:',
                             'description' =>'是否自动开启SESSION',
                             'type'        =>'radio',
                             'options'    =>[0=>'关闭',1=>'开启'],
-                            'value'       =>'', 
+                            'value'       =>'',
                         ]
                     ],
                 ],
@@ -316,45 +316,45 @@ class Config extends Admin {
                             'title'       =>'保存路径:',
                             'description' =>'',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'prefix'=>[
                             'title'       =>'前缀:',
                             'description' =>'',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'expire'=>[
                             'title'       =>'有效期:',
                             'description' =>'',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'domain'=>[
                             'title'       =>'有效域名:',
                             'description' =>'',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'secure'=>[
                             'title'       =>'启用安全传输:',
                             'description' =>'',
                             'type'        =>'radio',
                             'options'     =>[0=>'关闭',1=>'开启'],
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'httponly'=>[
                             'title'       =>'httponly:',
                             'description' =>'',
                             'type'        =>'text',
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                         'setcookie'=>[
                             'title'       =>'使用setcookie:',
                             'description' =>'',
                             'type'        =>'radio',
                             'options'     =>[0=>'关闭',1=>'开启'],
-                            'value'       =>'', 
+                            'value'       =>'',
                         ],
                     ],
                 ],
@@ -415,14 +415,15 @@ class Config extends Admin {
         }
     }
 
+
     /**
-     * 附件选项
-     * @return [type] [description]
-     * @date   2017-11-15
-     * @author 心云间、凝听 <981248356@qq.com>
+     * @param array $tab_list
+     * @return \app\common\layout\Content
+     * @throws \Exception
+     * 上传配置
      */
     public function attachmentOption($tab_list = [])
-    {   
+    {
         if (empty($tab_list)) {
             // 设置Tab导航数据列表
             $tab_list = logic('admin/Config')->getTabList();
@@ -444,9 +445,9 @@ class Config extends Admin {
                 $this->error('数据为空');
             }
         } else {
-            
+
             $info = config('attachment_options');//获取配置值
-            
+
             if (!isset($info['water_opacity']) || empty($info['water_opacity'])) {
                 $info['water_opacity']=100;
             }

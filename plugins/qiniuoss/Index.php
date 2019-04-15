@@ -10,6 +10,8 @@
 namespace plugins\qiniuoss;
 
 use app\common\controller\Plugin;
+use Qiniu\Auth;
+use Qiniu\Storage\UploadManager;
 
 /**
  * 七牛云储存插件
@@ -70,7 +72,7 @@ class Index extends Plugin
         try {
             $config = $this->getConfig();
             if (!empty($config['domain'])) {
-                return $config['domain'] . '/' . $config['root_path'];
+                return $config['domain'] . $config['root_path'];
             } else {
                 throw new \Exception("Error Processing Request", 1);
 
@@ -90,17 +92,17 @@ class Index extends Plugin
     {
         if (empty($config)) $config = $this->getConfig();
         //实例化OSS
-        $oss = new \Qiniu\Auth($config['access_key_id'], $config['access_key_secret']);
+        $oss = new Auth($config['access_key_id'], $config['access_key_secret']);
         $upToken = $oss->uploadToken($config['bucket']);
         return $upToken;
     }
 
+
     /**
-     * 上传指定的本地文件内容
-     * @param string $object [description]
-     * @return [type] [description]
-     * @date   2017-11-15
-     * @author 心云间、凝听 <981248356@qq.com>
+     * @param string $object
+     * @return bool|string
+     * @throws \Exception
+     * 上传操作
      */
     public function ossUpload($object = '')
     {
@@ -112,7 +114,7 @@ class Index extends Plugin
             $filePath = PUBLIC_PATH . $path;
             if (file_exists($filePath)) {
                 $ossClient = $this->ossClient();
-                $uploadMgr = new \Qiniu\Storage\UploadManager();
+                $uploadMgr = new UploadManager();
                 //putFile上传方法
                 $uploadMgr->putFile($ossClient, $object, $filePath);
             }
