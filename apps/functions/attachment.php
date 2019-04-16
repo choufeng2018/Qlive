@@ -614,8 +614,14 @@ if (!function_exists('get_image_complete_path')) {
      * @return string
      * 根据图片相对路径获取完整路径(CDN,本地)
      */
-    function get_image_complete_path($path)
+    function get_file_complete_path($path)
     {
+        //先判断path是文件id还是相对路径
+        if (is_numeric($path)) {
+            //根据id找到文件path
+            $file_info = get_attachment_info($path);
+            $path = $file_info['path'];
+        }
         //文件上传配置
         $config = config('attachment_options');
         $driver = $config['driver'];
