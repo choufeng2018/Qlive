@@ -162,6 +162,7 @@ class HistoryLogic extends BaseLogic
             $data = Db::name('QliveLiveHistory')
                 ->where($where)
                 ->where('price', $mark, 0)
+                ->whereTime('open_time', '<=', \date('Y-m-d H:i:s'))
                 ->field('id,logo,title,open_time,anchor,price,sales,hits')
                 ->page($page, 6)
                 ->order($default_order)
