@@ -65,6 +65,16 @@ class Login extends RestBase
                         ]);
                 }
                 if (!empty($result)) {
+                    //更新Users表相关数据
+                    $user_data = [
+                        'last_login_ip' => $this->request->ip(),
+                        'last_login_time' => \date('Y-m-d H:i:s'),
+                        'login_num' => Db::raw('login_num+1')
+                    ];
+                    Db::name('Users')
+                        ->where('uid', 'eq', $this->userId)
+                        ->update($user_data);
+
                     //登录成功将token返回给客户端
                     $this->success('登录成功', $token);
                 }
