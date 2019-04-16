@@ -21,8 +21,10 @@ use think\Db;
  */
 class CommentLogic extends BaseLogic
 {
+
     /**
-     * @param $live_id  直播记录的id
+     * @param $live_id 直播id
+     * @param int $status
      * @param int $page
      * @return false|\PDOStatement|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
@@ -30,10 +32,10 @@ class CommentLogic extends BaseLogic
      * @throws \think\exception\DbException
      * 评论列表
      */
-    public function getCommentsByLiveId($live_id, $page = 1)
+    public function getCommentsByLiveId($live_id, $status = 1, $page = 1)
     {
         $map = [
-            'status' => ['eq', 1],
+            'status' => ['eq', $status],
             'live_id' => $live_id,
         ];
         $comment_list = Db::name('QliveCommentList')
