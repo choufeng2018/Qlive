@@ -234,7 +234,7 @@ class AdminUser extends Admin
 
     /**
      * 个人资料
-     * @param  integer $uid [description]
+     * @param integer $uid [description]
      * @return [type] [description]
      * @date   2017-12-28
      * @author 心云间、凝听 <981248356@qq.com>
@@ -249,7 +249,8 @@ class AdminUser extends Admin
             $result = $this->adminUserModel->editData($data);
             if ($result) {
                 $uid = $data['uid'];
-                if ($uid == is_admin_login()) {//如果是编辑状态下
+                if ($uid == is_admin_login()) {
+                    //如果是编辑状态下
                     logic('AdminUser')->updateLoginSession($uid);
                 }
 

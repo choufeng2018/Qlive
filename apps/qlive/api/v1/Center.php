@@ -12,6 +12,7 @@ namespace app\qlive\api\v1;
 
 use app\common\model\User;
 use app\qlive\model\QliveRate;
+use app\qlive\model\QliveUserCertification;
 use app\rest\controller\RestUserBase;
 use think\Db;
 use think\Request;
@@ -138,7 +139,21 @@ class Center extends RestUserBase
     {
         if ($this->request->isPost()) {
             $return = logic('common/Upload')->uploadAvatar($this->userId);
-            $this->success('OK', $return);
+            return \json($return);
+        } else {
+            $this->error('提交方式不正确');
+        }
+    }
+
+    /**
+     * @return \think\response\Json
+     * 上传单个图片或文件
+     */
+    public function upload()
+    {
+        if ($this->request->isPost()) {
+            $return = \logic('common/Upload')->upload();
+            return \json($return);
         } else {
             $this->error('提交方式不正确');
         }
@@ -203,6 +218,32 @@ class Center extends RestUserBase
             }
         } else {
             $this->error('提交方式不正确');
+        }
+    }
+
+
+    /**
+     * @throws \think\exception\DbException
+     * 实名认证
+     */
+    public function certification()
+    {
+        $certification_info = QliveUserCertification::get($this->userId);
+        if (!empty($certification_info)) {
+            $this->success('已认证', $certification_info);
+        } else {
+            $param = \input();
+            if (empty($param['real_name']) || empty($param['id_number']) || empty($param['idcard_face']) || empty($param['idcard_emblem'])) {
+                $this->error('信息不完整');
+            }
+            $param['uid'] = $this->userId;
+            $creModel = new QliveUserCertification();
+            $res = $creModel->allowField(true)->save($param);
+            if ($res) {
+                $this->success('认证成功');
+            } else {
+                $this->error('认证失败');
+            }
         }
     }
 }

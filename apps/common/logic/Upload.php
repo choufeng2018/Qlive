@@ -64,8 +64,11 @@ class Upload
         }
     }
 
+
     /**
-     * 上传控制器
+     * @param array $param
+     * @return array
+     * 上传文件/图片
      */
     public function upload($param = [])
     {
@@ -89,11 +92,12 @@ class Upload
             // 获取表单上传文件 例如上传了001.jpg
             $file = $this->request->file('file');
             if (!$file) {
-                throw new \Exception("file对象文件为空，或缺失环境组件。错误未知，请前往社区反馈", 0);
+                throw new \Exception("file对象文件为空，或缺失环境组件。错误未知，请联系开发者", 0);
 
             }
 
-            if (!$file->validate(['size' => $config['maxSize'], 'ext' => $config['exts']])) {//验证通过
+            if (!$file->validate(['size' => $config['maxSize'], 'ext' => $config['exts']])) {
+                //验证未通过
                 throw new \Exception($file->getError(), 0);
 
             }
@@ -307,9 +311,9 @@ class Upload
                 // 获取表单上传文件
                 $file = $this->request->file('file');
                 $info = $file->validate([
-                        'size' => $config['image_max_size'],
-                        'ext' => $config['image_exts'],
-                    ])
+                    'size' => $config['image_max_size'],
+                    'ext' => $config['image_exts'],
+                ])
                     ->rule($config['saveName'])
                     ->move($upload_path, true, false);
                 if (empty($info)) {
