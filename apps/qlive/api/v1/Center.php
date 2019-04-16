@@ -32,7 +32,8 @@ class Center extends RestUserBase
      */
     public function index()
     {
-        $this->success('获取成功', $this->user);
+        $user_info = $this->user;
+        $this->success('获取成功', $user_info);
     }
 
     /**
