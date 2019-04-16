@@ -50,6 +50,24 @@ if (!function_exists('getAnchorIdByName')) {
     }
 }
 
+if (!function_exists('getAnchorIdByUid')) {
+    /**
+     * @param $uid
+     * @return bool|mixed
+     * 根据Users表id获取anchor表id
+     */
+    function getAnchorIdByUid($uid)
+    {
+        $anchor_id = Db::name('QliveAnchorList')
+            ->where('uid', 'eq', $uid)
+            ->value('id');
+        if (empty($anchor_id)) {
+            return false;
+        } else {
+            return $anchor_id;
+        }
+    }
+}
 if (!function_exists('getStreamByAnchorId')) {
     /**
      * @param $anchor_id
