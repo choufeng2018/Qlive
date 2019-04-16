@@ -13,6 +13,8 @@ namespace app\qlive\api\v1;
 use app\qlive\model\QliveAnchorList;
 use app\qlive\model\QliveCommentList;
 use app\qlive\model\QliveLiveHistory;
+use app\qlive\model\QliveRoomList;
+use app\user\logic\User;
 use think\Db;
 
 /**
@@ -37,6 +39,25 @@ class AnchorCenter extends Center
         if (!$this->request->isPost()) {
             $this->error('提交方式不正确');
         }
+    }
+
+    /**
+     * @throws \think\exception\DbException
+     * 主播的个人信息
+     */
+    public function index()
+    {
+        $uid = $this->userId;
+        $anchor_id = \getAnchorIdByUid($uid);
+        $user_info = User::get($uid);
+        $anchor_info = QliveAnchorList::get($anchor_id);
+        $room_info = QliveRoomList::get(['anchor_id' => $anchor_id]);
+        $return = [
+            'user_info' => $user_info,
+            'anchor_info' => $anchor_info,
+            'room_info' => $room_info,
+        ];
+        $this->success('OK', $return);
     }
 
     /**
