@@ -24,10 +24,14 @@ class Comment extends RestBase
      */
     public function commentList()
     {
-        $id = \input('id');
+        $id = \input('live_id');
         $page = \input('page');
         //评论列表
         $comment_list = \logic('CommentLogic')->getCommentsByLiveId($id, $page);
-        $this->success('Ok', $comment_list);
+        if (empty($comment_list)) {
+            $this->error('暂无数据');
+        } else {
+            $this->success('Ok', $comment_list);
+        }
     }
 }
