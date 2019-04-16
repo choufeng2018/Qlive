@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 
 use app\common\logic\Attachment as AttachmentLogic;
+use think\Request;
 
 if (!function_exists('mkdirs')) {
     /**
@@ -218,6 +219,9 @@ function listDirFiles($DirPath)
 }
 
 //列出目录下所有的文件
+/**
+ * @param $path
+ */
 function getfiles($path)
 {
     foreach (scandir($path) as $afile) {
@@ -602,5 +606,28 @@ function crop_image($path, $w, $h, $x = 0, $y = 0, $width = null, $height = null
         $image->crop($w, $h, $x = 0, $y = 0, $width = null, $height = null)->save($newImgDir);
     }
     return $newImg;
+}
+
+if (!function_exists('get_image_complete_path')) {
+    /**
+     * @param $path
+     * @return string
+     * 根据图片相对路径获取完整路径(CDN,本地)
+     */
+    function get_image_complete_path($path)
+    {
+        //文件上传配置
+        $config = config('attachment_options');
+        $driver = $config['driver'];
+        if ($driver == 'local') {
+            //如果是本地储存
+            $prefix = Request::instance()->domain();
+        } else {
+            //如果是云储存
+            $prefix = get_uploadpath_url();
+        }
+        $image_path = $prefix . $path;
+        return $image_path;
+    }
 }
 /*******************************images图片相关 end ********************************/
