@@ -11,6 +11,7 @@ namespace app\qlive\api\v1;
 
 
 use app\common\model\User;
+use app\qlive\model\QliveAnchorList;
 use app\qlive\model\QliveRate;
 use app\qlive\model\QliveUserCertification;
 use app\rest\controller\RestUserBase;
@@ -152,7 +153,8 @@ class Center extends RestUserBase
     public function upload()
     {
         if ($this->request->isPost()) {
-            $return = \logic('common/Upload')->upload();
+            $param['uid'] = $this->userId;
+            $return = \logic('common/Upload')->upload($param);
             return \json($return);
         } else {
             $this->error('提交方式不正确');
@@ -224,26 +226,75 @@ class Center extends RestUserBase
 
     /**
      * @throws \think\exception\DbException
-     * 实名认证
+     * 实名认证/获取实名认证信息
      */
     public function certification()
     {
-        $certification_info = QliveUserCertification::get($this->userId);
-        if (!empty($certification_info)) {
-            $this->success('已认证', $certification_info);
-        } else {
-            $param = \input();
-            if (empty($param['real_name']) || empty($param['id_number']) || empty($param['idcard_face']) || empty($param['idcard_emblem'])) {
-                $this->error('信息不完整');
-            }
-            $param['uid'] = $this->userId;
-            $creModel = new QliveUserCertification();
-            $res = $creModel->allowField(true)->save($param);
-            if ($res) {
-                $this->success('认证成功');
+        if ($this->request->isPost()) {
+            $certification_info = QliveUserCertification::get($this->userId);
+            if (!empty($certification_info)) {
+                $this->success('已认证', $certification_info);
             } else {
-                $this->error('认证失败');
+                $param = \input();
+                if (empty($param['real_name']) || empty($param['id_number']) || empty($param['idcard_face']) || empty($param['idcard_emblem'])) {
+                    $this->error('信息不完整');
+                }
+                $param['uid'] = $this->userId;
+                $creModel = new QliveUserCertification();
+                $res = $creModel->allowField(true)->save($param);
+                if ($res) {
+                    $this->success('认证成功');
+                } else {
+                    $this->error('认证失败');
+                }
             }
+        } else {
+            $this->error('提交方式不正确');
+        }
+    }
+
+    /**
+     * @throws \think\exception\DbException
+     * 申请成为主播
+     */
+    public function toBeAnchor()
+    {
+        if ($this->request->isPost()) {
+            //判断是否已经是主播
+            $is_anchor = QliveAnchorList::get(['uid' => $this->userId]);
+            if (!empty($is_anchor)) {
+                $this->error('已是主播,请勿重复申请');
+            }
+            //检查是否已经实名
+            $certification_info = QliveUserCertification::get(['uid' => $this->userId]);
+            if (empty($certification_info)) {
+                $this->error('请先实名认证');
+            }
+            //检查个人信息是否完整(因为要用到工作单位)
+            $user_info = User::get($this->userId);
+            if (empty($user_info['workplace'])) {
+                $this->error('请先完善个人信息');
+            }
+            $sql_data = [
+                'username' => $user_info['username'],
+                'nickname' => $user_info['nickname'],
+                'sex' => $user_info['sex'],
+                'email' => $user_info['email'],
+                'mobile' => $user_info['mobile'],
+                'idcard_face' => $certification_info['idcard_face'],
+                'idcard_emblem' => $certification_info['idcard_emblem'],
+                'uid' => $this->userId,
+                'status' => 2,
+                'marks' => \input('marks', 0, 'htmlspecialchars')
+            ];
+            $res = QliveAnchorList::create($sql_data);
+            if ($res) {
+                $this->success('申请成功,请等待平台审核');
+            } else {
+                $this->error('申请失败');
+            }
+        } else {
+            $this->error('提交方式不正确');
         }
     }
 }
