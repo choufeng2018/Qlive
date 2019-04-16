@@ -30,34 +30,4 @@ class Question extends RestBase
         $question_list = \logic('QuestionLogic')->getQuestionListByLiveId($id, $page);
         $this->success('OK', $question_list);
     }
-
-    /**
-     *发布问题
-     */
-    public function questionAdd()
-    {
-        if ($this->request->isPost()) {
-            $header = $this->request->header();
-            if (empty($header['token'])) {
-                $this->error('身份验证失败,请重新登录');
-            } else {
-                $userInfo = \getUserInfoByToken($header['token']);
-                $param = [
-                    'live_id' => \input('live_id'),
-                    'anchor' => \getAnchorNameByLiveId(\input('live_id')),
-                    'username' => $userInfo['username'],
-                    'question' => \input('question'),
-                    'status' => 0
-                ];
-                $res = \logic('QuestionLogic')->addQuestion($param);
-                if ($res) {
-                    $this->success('提问成功');
-                } else {
-                    $this->error('提问失败');
-                }
-            }
-        } else {
-            $this->error('提交方式不正确');
-        }
-    }
 }
