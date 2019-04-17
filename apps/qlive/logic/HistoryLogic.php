@@ -63,7 +63,7 @@ class HistoryLogic extends BaseLogic
             ->page($page, 10)
             ->select();
         foreach ($list as $k => $value) {
-            $list[$k]['logo'] = \getImagePathById($value['logo']);
+            $list[$k]['logo'] = \get_file_complete_path($value['logo']);
             $list[$k]['category'] = \getCategoryNameById($value['category']);
             $list[$k]['is_living'] = \isLivingRoom($value['room_id']);
         }
@@ -96,7 +96,7 @@ class HistoryLogic extends BaseLogic
                     ->whereTime('a.open_time', 'd')
                     ->field('a.id,a.title,a.anchor,a.open_time,a.logo,a.description')
                     ->find();
-                $room_list[$k]['live_room_info']['logo'] = \getImagePathById($room_list[$k]['live_room_info']['logo']);
+                $room_list[$k]['live_room_info']['logo'] = \get_file_complete_path($room_list[$k]['live_room_info']['logo']);
             }
             return $room_list;
         } else {
@@ -117,7 +117,10 @@ class HistoryLogic extends BaseLogic
      */
     public function getLivedList($map, $order, $page)
     {
-        $where = [];
+        $where = [
+            //开播时间小于现在时间的
+            'create_time' => ['<=', \time()],
+        ];
         //直播分类
         if (!empty($map['category'])) {
             $where['category'] = $map['category'];
@@ -127,7 +130,10 @@ class HistoryLogic extends BaseLogic
             $where['live_type'] = $map['type'];
         }
         //是否付费
-        $mark = $map['price'] >= 0 ? '>=' : '=';
+        if (!empty($map['price'])) {
+            $mark = $map['price'] == 1 ? '>' : '=';
+            $where['price'] = [$mark, 0.00];
+        }
 
         //排序,目前只支持按照价格,销量,点击数分别排序
         //默认排序
@@ -161,8 +167,6 @@ class HistoryLogic extends BaseLogic
         if (empty($map['range'])) {
             $data = Db::name('QliveLiveHistory')
                 ->where($where)
-                ->where('price', $mark, 0)
-                ->whereTime('open_time', '<=', \date('Y-m-d H:i:s'))
                 ->field('id,logo,title,open_time,anchor,price,sales,hits')
                 ->page($page, 6)
                 ->order($default_order)
@@ -173,7 +177,7 @@ class HistoryLogic extends BaseLogic
                     $map['range'] = 'w';
                     break;
                 case 2:
-                    $map['range'] = 'm';
+                    $map['range'] = '-1 month';
                     break;
                 case 3:
                     $map['range'] = '-3 month';
@@ -184,7 +188,6 @@ class HistoryLogic extends BaseLogic
             }
             $data = Db::name('QliveLiveHistory')
                 ->where($where)
-                ->where('price', $mark, 0)
                 ->whereTime('open_time', $map['range'])
                 ->field('id,logo,title,open_time,anchor,price,sales,hits')
                 ->order($default_order)
