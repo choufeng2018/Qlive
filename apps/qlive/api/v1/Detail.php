@@ -10,6 +10,8 @@
 namespace app\qlive\api\v1;
 
 
+use app\qlive\model\QliveBill;
+use app\qlive\model\QliveLiveHistory;
 use app\rest\controller\RestBase;
 use think\Db;
 
@@ -70,4 +72,3 @@ class Detail extends RestBase
         }
     }
 }
-

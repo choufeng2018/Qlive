@@ -12,6 +12,8 @@ namespace app\qlive\api\v1;
 
 use app\common\model\User;
 use app\qlive\model\QliveAnchorList;
+use app\qlive\model\QliveBill;
+use app\qlive\model\QliveLiveHistory;
 use app\qlive\model\QliveRate;
 use app\qlive\model\QliveUserCertification;
 use app\rest\controller\RestUserBase;
@@ -296,6 +298,49 @@ class Center extends RestUserBase
             }
         } else {
             $this->error('提交方式不正确');
+        }
+    }
+
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 订单列表
+     */
+    public function billList()
+    {
+        $page = \input('page', 1);
+
+        $list = Db::name('QliveLiveHistory')
+            ->alias('a')
+            ->join('QliveBill b', 'a.id=b.live_id')
+            ->where('b.uid', 'eq', $this->userId)
+            ->page($page, 10)
+            ->field('b.id,a.id as live_id,a.title,a.logo,b.price,b.create_time')
+            ->select();
+        if ($list) {
+            $this->success('OK', $list);
+        } else {
+            $this->error('暂无数据');
+        }
+    }
+
+    /**
+     *检测是否付费
+     */
+    public function checkBill()
+    {
+        $live_id = \input('live_id');
+        $live_info = QliveLiveHistory::get($live_id);
+        if (empty($live_info)) {
+            $this->error('数据不存在');
+        } else {
+            $bill_find = QliveBill::get(['live_id' => $live_id, 'uid' => $this->userId]);
+            if ($live_info['price'] > 0 && empty($bill_find)) {
+                $this->error('未付费');
+            } else {
+                $this->success('已购买');
+            }
         }
     }
 }
