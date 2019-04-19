@@ -15,6 +15,7 @@ use app\qlive\model\QliveAnchorList;
 use app\qlive\model\QliveBill;
 use app\qlive\model\QliveLiveHistory;
 use app\qlive\model\QliveRate;
+use app\qlive\model\QliveReplyList;
 use app\qlive\model\QliveUserCertification;
 use app\rest\controller\RestUserBase;
 use think\Db;
@@ -102,6 +103,33 @@ class Center extends RestUserBase
                 $this->success('评论成功');
             } else {
                 $this->error('评论失败');
+            }
+        } else {
+            $this->error('提交方式不正确');
+        }
+    }
+
+    /**
+     *回复评论
+     */
+    public function commentReply()
+    {
+        if ($this->request->isPost()) {
+            $to_uid = Db::name('Users')
+                ->where('username', 'eq', \input('username'))
+                ->value('uid');
+            $sql_data = [
+                'comment_id' => \input('comment_id'),
+                'reply_id' => \input('reply_id'),
+                'content' => \input('content'),
+                'from_uid' => $this->userId,
+                'to_uid' => $to_uid
+            ];
+            $res = QliveReplyList::create($sql_data);
+            if ($res) {
+                $this->success('回复成功');
+            } else {
+                $this->error('回复失败');
             }
         } else {
             $this->error('提交方式不正确');
