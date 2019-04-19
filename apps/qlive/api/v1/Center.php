@@ -45,10 +45,9 @@ class Center extends RestUserBase
      */
     public function logout()
     {
-        $header = $this->request->header();
         Db::name('UserToken')
             ->where([
-                'token' => $header['token'],
+                'token' => $this->token,
                 'device_type' => $this->deviceType,
             ])
             ->update(['token' => '']);
