@@ -11,8 +11,6 @@ namespace app\qlive\logic;
 
 
 use app\common\logic\Base as BaseLogic;
-use app\qlive\model\QliveBill;
-use app\qlive\model\QliveLiveHistory;
 use think\Db;
 
 /**
