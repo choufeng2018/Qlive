@@ -154,7 +154,7 @@ class AnchorCenter extends Center
         $id = \input('live_id');
         $page = \input('page', 1);
         //评论列表
-        $comment_list = \logic('CommentLogic')->getCommentsByLiveId($id, '', $page);
+        $comment_list = \logic('CommentLogic')->getCommentsByLiveId($id, '0,1', $page);
         if ($comment_list) {
             $this->success('Ok', $comment_list);
         } else {

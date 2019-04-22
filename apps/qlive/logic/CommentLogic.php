@@ -32,10 +32,10 @@ class CommentLogic extends BaseLogic
      * @throws \think\exception\DbException
      * 评论列表
      */
-    public function getCommentsByLiveId($live_id, $status = 1, $page = 1)
+    public function getCommentsByLiveId($live_id, $status = '1', $page = 1)
     {
         $map = [
-            'status' => ['eq', $status],
+            'status' => ['in', $status],
             'live_id' => $live_id,
         ];
         $comment_list = Db::name('QliveCommentList')
@@ -45,7 +45,7 @@ class CommentLogic extends BaseLogic
             ->select();
         if (!empty($comment_list)) {
             foreach ($comment_list as $k => $value) {
-                $comment_list['reply_list'] = $this->getReplyList($value['id']);
+                $comment_list[$k]['reply_list'] = $this->getReplyList($value['id']);
             }
         }
         return $comment_list;

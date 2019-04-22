@@ -27,7 +27,7 @@ class Comment extends RestBase
         $id = \input('live_id');
         $page = \input('page');
         //评论列表
-        $comment_list = \logic('CommentLogic')->getCommentsByLiveId($id, $page);
+        $comment_list = \logic('CommentLogic')->getCommentsByLiveId($id, '1', $page);
         if (empty($comment_list)) {
             $this->error('暂无数据');
         } else {
