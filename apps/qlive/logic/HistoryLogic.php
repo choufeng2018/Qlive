@@ -194,8 +194,8 @@ class HistoryLogic extends BaseLogic
                 ->page($page, 6)
                 ->select();
         }
-        foreach ($data as $v) {
-            $data['logo'] = \get_file_complete_path($v['logo']);
+        foreach ($data as $k => $v) {
+            $data[$k]['logo'] = \get_file_complete_path($v['logo']);
         }
         return $data;
     }

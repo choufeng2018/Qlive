@@ -40,10 +40,60 @@ class CommentLogic extends BaseLogic
         ];
         $comment_list = Db::name('QliveCommentList')
             ->where($map)
-            ->field('username,content,create_time')
+            ->field('id,username,content,create_time')
             ->page($page, 10)
             ->select();
+        if (!empty($comment_list)) {
+            foreach ($comment_list as $k => $value) {
+                $comment_list['reply_list'] = $this->getReplyList($value['id']);
+            }
+        }
         return $comment_list;
+    }
+
+    /**
+     * @param $comment_id
+     * @param int $reply_id
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 获取评论下的回复
+     */
+    function getReplyList($comment_id, $reply_id = 0)
+    {
+        $list = Db::name('QliveReplyList')
+            ->where('comment_id', 'eq', $comment_id)
+            ->where('reply_id', 'eq', $reply_id)
+            ->select();
+        if (!empty($list)) {
+            foreach ($list as $k => $v) {
+                $list[$k]['sub_reply'] = $this->getSubReplyList($v['id']);
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param $reply_id
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 获取回复下的子回复
+     */
+    function getSubReplyList($reply_id)
+    {
+        $list = Db::name('QliveReplyList')
+            ->where('reply_id', 'eq', $reply_id)
+            ->select();
+        if (!empty($list)) {
+            foreach ($list as $k => $v) {
+                $list[$k]['sub_reply'] = $this->getSubReplyList($v['id']);
+            }
+        }
+        return $list;
     }
 
     /**
