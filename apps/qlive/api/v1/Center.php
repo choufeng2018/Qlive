@@ -69,6 +69,9 @@ class Center extends RestUserBase
                 'question' => \input('question'),
                 'status' => 0
             ];
+            if (empty($param['question'])) {
+                $this->error('内容不能为空');
+            }
             $res = \logic('QuestionLogic')->addQuestion($param);
             if ($res) {
                 $this->success('提问成功');
@@ -98,6 +101,9 @@ class Center extends RestUserBase
                 'content' => \input('content'),
                 'status' => 0
             ];
+            if (empty($param['content'])) {
+                $this->error('内容不能为空');
+            }
             $res = \logic('CommentLogic')->addComment($param);
             if ($res) {
                 $this->success('评论成功');
