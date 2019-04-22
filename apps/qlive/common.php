@@ -280,3 +280,20 @@ if (!function_exists('isLivingRoom')) {
         }
     }
 }
+if (!function_exists('getHistoryLiveInfo')) {
+    /**
+     * @param $live_id
+     * @return array|false|PDOStatement|string|\think\Model
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 根据直播id获取直播详情
+     */
+    function getHistoryLiveInfo($live_id)
+    {
+        $info = Db::name('QliveLiveHistory')
+            ->where('id', 'eq', $live_id)
+            ->find();
+        return $info;
+    }
+}

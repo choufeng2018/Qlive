@@ -29,6 +29,9 @@ class RateLogic extends BaseLogic
         $rate = Db::name('QliveRate')
             ->where('live_id', 'eq', $live_id)
             ->avg('rate');
+        if (empty($rate)) {
+            $rate = 0;
+        }
         return $rate;
     }
 }

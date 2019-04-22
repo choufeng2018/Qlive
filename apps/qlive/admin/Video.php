@@ -55,6 +55,7 @@ class Video extends QliveBase
             ->keyListItem('id', 'ID')
             ->keyListItem('title', '标题')
             ->keyListItem('anchor', '所属主播')
+            ->keyListItem('live_id', '对应直播', 'callback', 'getLiveTitleById')
             ->keyListItem('live_time', '直播时间')
             ->keyListItem('url', '视频地址', 'url', '', 'target="_blank"')
             ->keyListItem('status', '状态', 'status')
@@ -108,14 +109,21 @@ class Video extends QliveBase
      * @return \app\common\layout\Content
      * @throws \think\exception\DbException
      * 新增/编辑视频
-     * todo 嵌入页面内的一段用于选择该主播的直播列表的js
      */
     public function edit($id = 0)
     {
         $title = $id > 0 ? '编辑' : '新增';
+
+        $live_all_list = Db::name('QliveLiveHistory')
+            ->column('id,title');
+        $live_all_list[0] = '请在上方选择主播';
+
+        $moreJs = \logic('VideoLogic')->getLiveListByAnchor();
         if (IS_POST) {
             $param = \input();
             $param['anchor'] = getAnchorNameById($param['anchor_id']);
+            $live_info = \getHistoryLiveInfo($param['live_id']);
+            $param['live_time'] = $live_info['open_time'];
             if ($this->videoModel->editData($param)) {
                 $this->success($title . '成功', \url('index'));
             } else {
@@ -134,11 +142,12 @@ class Video extends QliveBase
             ->addFormItem('id', 'hidden', 'ID')
             ->addFormItem('title', 'text', '视频标题', '请输入视频标题')
             ->addFormItem('anchor_id', 'select', '所属主播', '选择该视频的所有者', $this->allAnchorList)
-            ->addFormItem('live_time', 'select', '直播记录', '选择与该视频对应的历史直播', [0 => '请先在上方选择主播'])
+            ->addFormItem('live_id', 'select', '对应直播', '只显示最近30天内的记录', $live_all_list)
             ->addFormItem('url', 'file', '上传视频')
             ->addFormItem('status', 'radio', '视频状态', '是否在前台显示', [1 => '正常', 0 => '隐藏'])
             ->addFormItem('order', 'text', '排序')
             ->addFormItem('marks', 'textarea', '备注')
+            ->setExtraHtml($moreJs)
             ->setFormData($info)
             ->addButton('submit')
             ->addButton('back')
@@ -156,11 +165,11 @@ class Video extends QliveBase
     public function get_live_history()
     {
         $anchor_id = \input('anchor_id');
+        $anchor_name = \getAnchorNameById($anchor_id);
         $list = Db::name('QliveLiveHistory')
-            ->alias('a')
-            ->join('Users b', 'a.anchor=b.nickname')
-            ->where('b.uid', 'eq', $anchor_id)
-            ->column('a.id,a.title');
+            ->where('anchor', 'eq', $anchor_name)
+            ->whereTime('open_time', '-30 days')
+            ->column('id,title');
         return \json($list);
     }
 }
