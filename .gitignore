@@ -5,4 +5,5 @@ vendor
 runtime
 public/runtime
 public/uploads
+public/live
 apps/qlive/controller/Test.php
