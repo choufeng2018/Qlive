@@ -40,6 +40,7 @@ class QuestionLogic extends BaseLogic
         $question_list = Db::name('QliveQuestionList')
             ->where($map)
             ->page($page, 10)
+            ->field('status,update_time', true)
             ->select();
         return $question_list;
     }
@@ -67,9 +68,13 @@ class QuestionLogic extends BaseLogic
      */
     public function editQuestion(array $data)
     {
+        $field = [
+            'answer' => $data['answer'],
+            'status' => 1,
+        ];
         $res = Db::name('QliveQuestionList')
             ->where('id', 'eq', $data['id'])
-            ->setField('answer', $data['answer']);
+            ->setField($field);
         if ($res) {
             return true;
         } else {
