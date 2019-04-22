@@ -104,6 +104,7 @@ class AnchorCenter extends Center
             'logo' => \input('logo'),
             'category' => \input('category'),
             'live_type' => \input('live_type'),
+            'schedule' => \input('schedule', ''),
             'description' => \input('description', ''),
             'price' => \input('price', 0),
             'password' => \input('password', ''),
