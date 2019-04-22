@@ -134,7 +134,7 @@ class Video extends QliveBase
             ->addFormItem('id', 'hidden', 'ID')
             ->addFormItem('title', 'text', '视频标题', '请输入视频标题')
             ->addFormItem('anchor_id', 'select', '所属主播', '选择该视频的所有者', $this->allAnchorList)
-            ->addFormItem('live_time', 'select', '直播记录', '选择与该视频对应的历史直播', [1 => '请先在上方选择主播'])
+            ->addFormItem('live_time', 'select', '直播记录', '选择与该视频对应的历史直播', [0 => '请先在上方选择主播'])
             ->addFormItem('url', 'file', '上传视频')
             ->addFormItem('status', 'radio', '视频状态', '是否在前台显示', [1 => '正常', 0 => '隐藏'])
             ->addFormItem('order', 'text', '排序')
