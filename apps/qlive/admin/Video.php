@@ -108,6 +108,7 @@ class Video extends QliveBase
      * @return \app\common\layout\Content
      * @throws \think\exception\DbException
      * 新增/编辑视频
+     * todo 嵌入页面内的一段用于选择该主播的直播列表的js
      */
     public function edit($id = 0)
     {
