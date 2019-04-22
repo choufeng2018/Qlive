@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[28],{474:function(e,t,n){"use strict";n.r(t);var r={head:function(){return{title:"跳转中... - 尔听美直播"}},beforeCreate:function(){this.$router.push("/user/userinfo")}},o=n(24),component=Object(o.a)(r,function(){var e=this.$createElement;return(this._self._c||e)("div")},[],!1,null,null,null);t.default=component.exports}}]);
