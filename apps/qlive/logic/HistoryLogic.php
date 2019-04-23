@@ -224,7 +224,7 @@ class HistoryLogic extends BaseLogic
                 ->whereTime('open_time', '<', \date('Y-m-d H:i:s'))
                 ->find();
             $res[] = $info;
-            $res = \array_unique(\array_filter($res));
+            $res = \array_filter($res);
             foreach ($res as $k => $v) {
                 $res[$k]['logo'] = \get_file_complete_path($v['logo']);
             }
