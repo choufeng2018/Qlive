@@ -46,7 +46,7 @@ class Index extends RestBase
      */
     public function randRecommend()
     {
-        $length = \input('length');
+        $length = \input('length', 5);
         $list = \logic('HistoryLogic')->getRecommendList($length);
         $this->success('OK', $list);
     }

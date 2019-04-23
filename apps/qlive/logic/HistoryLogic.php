@@ -221,10 +221,13 @@ class HistoryLogic extends BaseLogic
             $id = $num_arr[$key];
             $info = Db::name('QliveLiveHistory')
                 ->where('id', 'eq', $id)
-                ->whereTime('open_time', '>', \date('Y-m-d H:i:s'))
+                ->whereTime('open_time', '<', \date('Y-m-d H:i:s'))
                 ->find();
             $res[] = $info;
             $res = \array_filter($res);
+            foreach ($res as $k => $v) {
+                $res[$k]['logo'] = \get_file_complete_path($v['logo']);
+            }
         }
         return $res;
     }
