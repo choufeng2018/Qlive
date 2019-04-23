@@ -32,7 +32,7 @@ class CommentLogic extends BaseLogic
      * @throws \think\exception\DbException
      * 评论列表
      */
-    public function getCommentsByLiveId($live_id, $status = '1', $page = 1)
+    public function getCommentsByLiveId($live_id, $status, $page = 1)
     {
         $map = [
             'status' => ['in', $status],
@@ -45,6 +45,7 @@ class CommentLogic extends BaseLogic
             ->select();
         if (!empty($comment_list)) {
             foreach ($comment_list as $k => $value) {
+                $comment_list[$k]['avatar'] = \get_user_avatar_by_username($value['username']);
                 $comment_list[$k]['reply_list'] = $this->getReplyList($value['id']);
             }
         }
@@ -68,6 +69,8 @@ class CommentLogic extends BaseLogic
             ->select();
         if (!empty($list)) {
             foreach ($list as $k => $v) {
+                $user_info = \get_user_info($v['from_uid']);
+                $list[$k]['avatar'] = $user_info['avatar'];
                 $list[$k]['sub_reply'] = $this->getSubReplyList($v['id']);
             }
         }
@@ -90,6 +93,8 @@ class CommentLogic extends BaseLogic
             ->select();
         if (!empty($list)) {
             foreach ($list as $k => $v) {
+                $user_info = \get_user_info($v['from_uid']);
+                $list[$k]['avatar'] = $user_info['avatar'];
                 $list[$k]['sub_reply'] = $this->getSubReplyList($v['id']);
             }
         }

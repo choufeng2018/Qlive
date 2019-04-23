@@ -40,4 +40,14 @@ class Index extends RestBase
         ];
         $this->success('OK', $list);
     }
+
+    /**
+     *获取推荐视频/猜你喜欢
+     */
+    public function randRecommend()
+    {
+        $length = \input('length');
+        $list = \logic('HistoryLogic')->getRecommendList($length);
+        $this->success('OK', $list);
+    }
 }

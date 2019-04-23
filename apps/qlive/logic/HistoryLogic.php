@@ -199,4 +199,33 @@ class HistoryLogic extends BaseLogic
         }
         return $data;
     }
+
+    /**
+     * @param int $length
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 随机获取往期的N条直播记录
+     */
+    public function getRecommendList($length = 5)
+    {
+        //数据库中存在的id
+        $num_arr = Db::name('QliveLiveHistory')->column('id');
+        //id的长度
+        $num_arr_length = \sizeof($num_arr);
+        $res = [];
+        //
+        for ($i = 1; $i <= $length; $i++) {
+            $key = \mt_rand(0, $num_arr_length - 1);
+            $id = $num_arr[$key];
+            $info = Db::name('QliveLiveHistory')
+                ->where('id', 'eq', $id)
+                ->whereTime('open_time', '>', \date('Y-m-d H:i:s'))
+                ->find();
+            $res[] = $info;
+            $res = \array_filter($res);
+        }
+        return $res;
+    }
 }

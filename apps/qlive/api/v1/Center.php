@@ -126,7 +126,7 @@ class Center extends RestUserBase
                 ->value('uid');
             $sql_data = [
                 'comment_id' => \input('comment_id'),
-                'reply_id' => \input('reply_id'),
+                'reply_id' => \input('reply_id', 0),
                 'content' => \input('content'),
                 'from_uid' => $this->userId,
                 'to_uid' => $to_uid
@@ -213,15 +213,23 @@ class Center extends RestUserBase
             //检测各项是否更改或者可以更改
             if ($param['username'] != $userInfo['username']) {
                 $this->checkUserName($param['username']);
+            } else {
+                $param['username'] = $userInfo['username'];
             }
             if ($param['nickname'] != $userInfo['nickname']) {
                 $this->checkNickName($param['nickname']);
+            } else {
+                $param['nickname'] = $userInfo['nickname'];
             }
             if ($param['mobile'] != $userInfo['mobile']) {
                 $this->checkMobile($param['mobile']);
+            } else {
+                $param['mobile'] = $userInfo['mobile'];
             }
             if ($param['email'] != $userInfo['email']) {
                 $this->checkEmail($param['email']);
+            } else {
+                $param['email'] = $userInfo['email'];
             }
 
             $userModel = new User();
@@ -275,6 +283,15 @@ class Center extends RestUserBase
                 if (empty($param['real_name']) || empty($param['id_number']) || empty($param['idcard_face']) || empty($param['idcard_emblem'])) {
                     $this->error('信息不完整');
                 }
+                //身份证号码是否已经存在
+                $id_number_count = Db::name('QliveUserCertification')
+                    ->where('id_number')
+                    ->count();
+                if ($id_number_count > 0) {
+                    $this->error('身份证号码已存在');
+                }
+
+
                 $param['uid'] = $this->userId;
                 $creModel = new QliveUserCertification();
                 $res = $creModel->allowField(true)->save($param);
