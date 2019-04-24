@@ -298,9 +298,21 @@ if (!function_exists('getHistoryLiveInfo')) {
     }
 }
 if (!function_exists('getVideoByLiveId')) {
+    /**
+     * @param $live_id
+     * @return array|false|PDOStatement|string|\think\Model
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 根据直播id获取对应视频信息
+     */
     function getVideoByLiveId($live_id)
     {
-
+        $video_info = Db::name('QliveVideoList')
+            ->where('live_id', 'eq', $live_id)
+            ->find();
+        $video_info['url'] = get_file_complete_path($video_info['url']);
+        return $video_info;
     }
 }
 if (!function_exists('getUidByAnchorId')) {

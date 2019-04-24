@@ -45,6 +45,8 @@ class Detail extends RestBase
             $live_info['playerUrls'] = \getPlayUrlByRoomId($live_info['room_id']);
             //评分,四舍五入取整
             $live_info['rate'] = \round(\logic('RateLogic')->getLiveRate($id), 0);
+            //对应视频信息
+            $live_info['video_info'] = \getVideoByLiveId($id);
         }
         $this->success('OK', $live_info);
     }
