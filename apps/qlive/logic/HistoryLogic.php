@@ -203,9 +203,10 @@ class HistoryLogic extends BaseLogic
         return $data;
     }
 
+
     /**
      * @param int $length
-     * @return array
+     * @return false|\PDOStatement|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -217,21 +218,23 @@ class HistoryLogic extends BaseLogic
         $num_arr = Db::name('QliveLiveHistory')->column('id');
         //id的长度
         $num_arr_length = \sizeof($num_arr);
-        $res = [];
-        //
-        for ($i = 1; $i <= $length; $i++) {
+
+        $ids = [];
+        while (\count($ids) < $length) {
+            //随机产生一个id的下标
             $key = \mt_rand(0, $num_arr_length - 1);
-            $id = $num_arr[$key];
-            $info = Db::name('QliveLiveHistory')
-                ->where('id', 'eq', $id)
-                ->whereTime('open_time', '<', \date('Y-m-d H:i:s'))
-                ->find();
-            $res[] = $info;
-            $res = \array_filter($res);
-            foreach ($res as $k => $v) {
-                $res[$k]['logo'] = \get_file_complete_path($v['logo']);
-            }
+            //取出这个id值
+            $ids[] = $num_arr[$key];
+            $ids = \array_unique($ids);
         }
-        return $res;
+        $info = Db::name('QliveLiveHistory')
+            ->where('id', 'in', $ids)
+            ->whereTime('open_time', '<', \date('Y-m-d H:i:s'))
+            ->select();
+
+        foreach ($info as $k => $v) {
+            $info[$k]['logo'] = \get_file_complete_path($v['logo']);
+        }
+        return $info;
     }
 }

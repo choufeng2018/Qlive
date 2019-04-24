@@ -30,6 +30,11 @@ class Index extends Base
 
     public function index()
     {
+        return $this->fetch();
+    }
+
+    public function index0()
+    {
         //正在直播的房间列表(从七牛获取)
         $liveList = \logic('QliveLogic')->listLiveStream();
         $liveList = $liveList['keys'];
