@@ -146,7 +146,7 @@ class AnchorCenter extends Center
             if ($anchor_id !== $live_info['anchor_id']) {
                 $this->error('无权进行此操作');
             }
-            if ($live_info['status'] == 2) {
+            if ($live_info['status'] == 1) {
                 $this->error('该信息不可编辑');
             }
             $sql_data = [
@@ -216,8 +216,7 @@ class AnchorCenter extends Center
      * @throws \think\exception\DbException
      * 获取自己的直播记录
      */
-    public
-    function liveList()
+    public function liveList()
     {
         $listModel = new QliveLiveHistory();
         $anchor_name = $this->user['nickname'];
@@ -242,8 +241,7 @@ class AnchorCenter extends Center
     /**
      *每个直播记录的评论
      */
-    public
-    function liveComment()
+    public function liveComment()
     {
         $id = \input('live_id');
         $page = \input('page', 1);
@@ -259,8 +257,7 @@ class AnchorCenter extends Center
     /**
      *处理评论,1=对观众可见,2=删除评论
      */
-    public
-    function setCommentStatus()
+    public function setCommentStatus()
     {
         $status = \input('status', 1);
         $comment_id = \input('id');
