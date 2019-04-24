@@ -124,7 +124,9 @@ class AnchorCenter extends Center
         }
     }
 
+
     /**
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -139,10 +141,16 @@ class AnchorCenter extends Center
             ->where('anchor', 'eq', $anchor_name)
             ->page($page, 10)
             ->select();
-        if (empty($list)) {
+        foreach ($list as $k => $value) {
+            $list[$k]['logo'] = \get_file_complete_path($value['logo']);
+        }
+        $count = $listModel->where('anchor', 'eq', $anchor_name)->count();
+        $res['count'] = $count;
+        $res['list'] = $list;
+        if (empty($res)) {
             $this->error('暂无数据');
         } else {
-            $this->success('OK', $list);
+            $this->success('OK', $res);
         }
     }
 
