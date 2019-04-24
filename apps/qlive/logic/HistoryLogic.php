@@ -44,10 +44,12 @@ class HistoryLogic extends BaseLogic
         return $list;
     }
 
+
     /**
      * @param $map
      * @param $page
      * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -62,11 +64,15 @@ class HistoryLogic extends BaseLogic
             ->order('open_time desc,hits desc')
             ->page($page, 10)
             ->select();
+
         foreach ($list as $k => $value) {
             $list[$k]['logo'] = \get_file_complete_path($value['logo']);
             $list[$k]['category'] = \getCategoryNameById($value['category']);
             $list[$k]['is_living'] = \isLivingRoom($value['room_id']);
         }
+        $list['count'] = Db::name('QliveLiveHistory')
+            ->where($map)
+            ->count();
         return $list;
     }
 
