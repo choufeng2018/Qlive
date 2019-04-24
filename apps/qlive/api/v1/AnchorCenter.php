@@ -146,7 +146,7 @@ class AnchorCenter extends Center
             if ($anchor_id !== $live_info['anchor_id']) {
                 $this->error('无权进行此操作');
             }
-            if ($live_info['status'] == 1) {
+            if ($live_info['status'] != 2) {
                 $this->error('该信息不可编辑');
             }
             $sql_data = [
