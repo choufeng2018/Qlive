@@ -70,9 +70,6 @@ class HistoryLogic extends BaseLogic
             $list[$k]['category'] = \getCategoryNameById($value['category']);
             $list[$k]['is_living'] = \isLivingRoom($value['room_id']);
         }
-        $list['count'] = Db::name('QliveLiveHistory')
-            ->where($map)
-            ->count();
         return $list;
     }
 
