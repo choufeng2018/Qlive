@@ -99,6 +99,7 @@ class AnchorCenter extends Center
         $anchor_info = QliveAnchorList::get(['uid' => $this->userId]);
         $sql_data = [
             'anchor' => $anchor_info['nickname'],
+            'anchor_id' => \getAnchorIdByName($anchor_info['nickname']),
             'room_id' => $anchor_info['room_id'],
             'title' => \input('title'),
             'logo' => \input('logo'),

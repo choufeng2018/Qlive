@@ -53,7 +53,8 @@ class Apply extends QliveBase
             ->keyListItem('title', '房间标题')
             ->keyListItem('logo', '房间封面', 'picture')
             ->keyListItem('category', '直播分类', 'array', $this->allCategory)
-            ->keyListItem('description', '描述')
+            ->keyListItem('schedule', '课程安排')
+            ->keyListItem('description', '课程描述')
             ->keyListItem('price', '价格')
             ->keyListItem('password', '房间密码')
             ->keyListItem('commentable', '是否可评论', 'array', [1 => '可以', 0 => '不可以'])
@@ -117,6 +118,8 @@ class Apply extends QliveBase
         $title = $id > 0 ? '编辑' : '新增';
         if (IS_POST) {
             $param = \input();
+            //主播id
+            $param['anchor_id'] = \getAnchorIdByName($param['anchor']);
             if ($this->historyModel->editData($param)) {
                 $this->success($title . '成功', \url('index'));
             } else {
@@ -140,7 +143,8 @@ class Apply extends QliveBase
                 ->addFormItem('category', 'multilayer_select', '直播分类', '', $this->categoryList)
                 ->addFormItem('live_type', 'select', '直播类型', '', $this->liveType)
                 ->addFormItem('logo', 'picture', '封面')
-                ->addFormItem('description', 'textarea', '描述')
+                ->addFormItem('schedule', 'textarea', '课程安排')
+                ->addFormItem('description', 'textarea', '课程描述')
                 ->addFormItem('price', 'number', '价格', '不填写则为免费')
 //                ->addFormItem('password', 'text', '房间密码')
                 ->addFormItem('open_time', 'datetime', '开播时间')
