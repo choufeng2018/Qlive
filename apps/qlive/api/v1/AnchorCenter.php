@@ -125,6 +125,89 @@ class AnchorCenter extends Center
         }
     }
 
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 编辑开播申请
+     */
+    public function editLive()
+    {
+        $live_id = \input('live_id');
+        //检查这个记录是不是对应主播
+        $uid = $this->userId;
+        $anchor_id = \getAnchorIdByUid($uid);
+        $live_info = Db::name('QliveLiveHistory')
+            ->where('id', 'eq', $live_id)
+            ->find();
+        if (empty($live_info)) {
+            $this->error('该记录不存在');
+        } else {
+            if ($anchor_id !== $live_info['anchor_id']) {
+                $this->error('无权进行此操作');
+            }
+            if ($live_info['status'] == 2) {
+                $this->error('该信息不可编辑');
+            }
+            $sql_data = [
+                'title' => \input('title'),
+                'logo' => \input('logo'),
+                'category' => \input('category'),
+                'live_type' => \input('live_type'),
+                'schedule' => \input('schedule', ''),
+                'description' => \input('description', ''),
+                'price' => \input('price', 0),
+                'password' => \input('password', ''),
+                'commentable' => \input('commentable', 1),
+                'can_ask' => \input('can_ask', 1),
+                'file' => \input('file', ''),
+                'open_time' => \input('open_time'),
+            ];
+            if (empty($sql_data['title']) || empty($sql_data['open_time'])) {
+                $this->error('标题或开播时间不能为空');
+            }
+            $historyModel = new QliveLiveHistory();
+            $res = $historyModel->allowField(true)->save($sql_data, ['id' => $live_id]);
+            if ($res) {
+                $this->success('修改成功');
+            } else {
+                $this->error('没有任何修改');
+            }
+        }
+    }
+
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     *
+     */
+    public function delLive()
+    {
+        $live_id = \input('live_id');
+        //检查这个记录是不是对应主播
+        $uid = $this->userId;
+        $anchor_id = \getAnchorIdByUid($uid);
+        $live_info = Db::name('QliveLiveHistory')
+            ->where('id', 'eq', $live_id)
+            ->find();
+        if (empty($live_info)) {
+            $this->error('该记录不存在');
+        } else {
+            if ($anchor_id !== $live_info['anchor_id']) {
+                $this->error('无权进行此操作');
+            }
+            if ($live_info['status'] == 1) {
+                $this->error('该记录不可删除');
+            }
+            $res = QliveLiveHistory::destroy($live_id);
+            if ($res) {
+                $this->success('删除成功');
+            } else {
+                $this->error('删除失败');
+            }
+        }
+    }
 
     /**
      * @throws \think\Exception
@@ -133,7 +216,8 @@ class AnchorCenter extends Center
      * @throws \think\exception\DbException
      * 获取自己的直播记录
      */
-    public function liveList()
+    public
+    function liveList()
     {
         $listModel = new QliveLiveHistory();
         $anchor_name = $this->user['nickname'];
@@ -158,7 +242,8 @@ class AnchorCenter extends Center
     /**
      *每个直播记录的评论
      */
-    public function liveComment()
+    public
+    function liveComment()
     {
         $id = \input('live_id');
         $page = \input('page', 1);
@@ -174,7 +259,8 @@ class AnchorCenter extends Center
     /**
      *处理评论,1=对观众可见,2=删除评论
      */
-    public function setCommentStatus()
+    public
+    function setCommentStatus()
     {
         $status = \input('status', 1);
         $comment_id = \input('id');
