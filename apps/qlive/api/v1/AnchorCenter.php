@@ -266,6 +266,13 @@ class AnchorCenter extends Center
         if (empty($comment_info)) {
             $this->error('评论不存在');
         }
+        //检测该主播是否有权限处理该评论
+        $live_id = $comment_info['live_id'];
+        $live_info = QliveLiveHistory::get($live_id);
+        if ($live_info['anchor_id'] !== $this->userId) {
+            $this->error('你无权进行此操作');
+        }
+
         if ($status == 1) {
             //设置观众可见
             $res = Db::name('QliveCommentList')
