@@ -34,7 +34,7 @@ class AnchorCenter extends Center
     {
         //检查这个用户是不是主播
         if ($this->userType != 2) {
-            $this->error('非法操作');
+            $this->error('你还不是主播,无法进行该操作');
         }
         if (!$this->request->isPost()) {
             $this->error('提交方式不正确');

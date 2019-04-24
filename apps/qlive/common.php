@@ -297,3 +297,23 @@ if (!function_exists('getHistoryLiveInfo')) {
         return $info;
     }
 }
+if (!function_exists('getVideoByLiveId')) {
+    function getVideoByLiveId($live_id)
+    {
+
+    }
+}
+if (!function_exists('getUidByAnchorId')) {
+    /**
+     * @param $anchor_id
+     * @return mixed
+     * 根据主播id获取对应用户id
+     */
+    function getUidByAnchorId($anchor_id)
+    {
+        $uid = Db::name('QliveAnchorList')
+            ->where('id', 'eq', $anchor_id)
+            ->value('uid');
+        return $uid;
+    }
+}

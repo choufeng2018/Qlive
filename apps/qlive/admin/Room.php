@@ -101,6 +101,10 @@ class Room extends QliveBase
                     Db::name('QliveAnchorList')
                         ->where('id', 'eq', $data['anchor_id'])
                         ->setField(['status' => 4, 'room_id' => $room_id]);
+                    //修改这个用户的角色组,改为id=2的主播用户
+                    $uid = \getUidByAnchorId($data['anchor_id']);
+                    Db::name('Users')->where('uid', 'eq', $uid)
+                        ->setField('usergroup', 2);
                 }
 
                 $this->success($title . '成功', \url('index'));
