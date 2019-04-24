@@ -226,6 +226,7 @@ class AnchorCenter extends Center
             ->page($page, 10)
             ->select();
         foreach ($list as $k => $value) {
+            $list[$k]['logo_id'] = $value['logo'];
             $list[$k]['logo'] = \get_file_complete_path($value['logo']);
         }
         $count = $listModel->where('anchor', 'eq', $anchor_name)->count();

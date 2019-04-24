@@ -311,8 +311,12 @@ if (!function_exists('getVideoByLiveId')) {
         $video_info = Db::name('QliveVideoList')
             ->where('live_id', 'eq', $live_id)
             ->find();
-        $video_info['url'] = get_file_complete_path($video_info['url']);
-        return $video_info;
+        if (empty($video_info)) {
+            return null;
+        } else {
+            $video_info['url'] = get_file_complete_path($video_info['url']);
+            return $video_info;
+        }
     }
 }
 if (!function_exists('getUidByAnchorId')) {
