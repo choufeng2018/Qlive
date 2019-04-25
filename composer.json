@@ -29,7 +29,8 @@
     "aliyuncs/oss-sdk-php": "^2.2",
     "jenssegers/agent": "^2.6",
     "pili-engineering/pili-sdk-php.v2": "dev-master",
-    "qiniu/php-sdk": "^7.2"
+    "qiniu/php-sdk": "^7.2",
+    "yansongda/pay": "^2.7"
   },
   "extra": {
     "think-path": "thinkphp"

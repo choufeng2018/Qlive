@@ -22,9 +22,9 @@ function encrypt($data)
 /**
  * 字符串解密加密
  * @param  [type] $string 加密或解密的字符串
- * @param  string $operation 操作标识。DECODE为解密
- * @param  string $key 秘钥
- * @param  integer $expiry [description]
+ * @param string $operation 操作标识。DECODE为解密
+ * @param string $key 秘钥
+ * @param integer $expiry [description]
  * @return [type] [description]
  * @date   2017-08-06
  * @author 心云间、凝听 <981248356@qq.com>
@@ -83,7 +83,7 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0)
 
 /**
  * [create_uuid 密钥串]
- * @param  string $prefix [自定义前缀 例如：BZ-]
+ * @param string $prefix [自定义前缀 例如：BZ-]
  * @author string 完整的密钥串
  */
 function create_uuid($prefix = "")
@@ -254,7 +254,7 @@ function rand_string($len = 6, $type = '', $addChars = '')
 
 /**
  * 数据签名认证
- * @param  array $data 被认证的数据
+ * @param array $data 被认证的数据
  * @return string       签名
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
