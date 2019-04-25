@@ -55,7 +55,7 @@ class Sms extends RestBase
                 'template' => $templateCode,
                 'templateParam' => [
                     'code' => $code,
-                    'product' => '耳听美',
+                    'product' => '尔听美',
                 ],
             ];
             $res = \hook('sms', $param, true);

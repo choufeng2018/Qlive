@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Project:耳听美直播
+ * Project:尔听美直播
  * Editor:xpwsg
  * Time:16:44
  * Date:2019/3/30
