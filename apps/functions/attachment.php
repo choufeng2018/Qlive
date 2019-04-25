@@ -616,6 +616,9 @@ if (!function_exists('get_image_complete_path')) {
      */
     function get_file_complete_path($path)
     {
+        if (empty($path)) {
+            return null;
+        }
         //先判断path是文件id还是相对路径
         if (is_numeric($path)) {
             //根据id找到文件path
