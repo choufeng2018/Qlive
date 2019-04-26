@@ -123,10 +123,13 @@ class Video extends QliveBase
             $param = \input();
             $param['anchor'] = getAnchorNameById($param['anchor_id']);
             $live_info = \getHistoryLiveInfo($param['live_id']);
+            //将对应直播的相关数据同步给视频
             $param['live_time'] = $live_info['open_time'];
             $param['category'] = $live_info['category'];
             $param['type'] = $live_info['live_type'];
             $param['price'] = $live_info['price'];
+            $param['hits'] = $live_info['hits'];
+            $param['sales'] = $live_info['sales'];
             if ($this->videoModel->editData($param)) {
                 $this->success($title . '成功', \url('index'));
             } else {
