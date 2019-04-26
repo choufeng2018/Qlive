@@ -232,8 +232,16 @@ class Center extends RestUserBase
                 $param['email'] = $userInfo['email'];
             }
 
+            //更新到users表中
             $userModel = new User();
-            $res = $userModel->allowField(true)->save($param, ['uid' => $this->userId]);
+            $res[0] = $userModel->allowField(true)->save($param, ['uid' => $this->userId]);
+
+            //如果是主播还需要修改主播表中资料
+            $is_anchor = \isAnchor($this->userId);
+            if ($is_anchor) {
+                $anchorModel = new QliveAnchorList();
+                $res[1] = $anchorModel->allowField(true)->save($param, ['uid' => $this->userId]);
+            }
             if ($res) {
                 $this->success('OK');
             } else {
@@ -289,6 +297,10 @@ class Center extends RestUserBase
                     ->count();
                 if ($id_number_count > 0) {
                     $this->error('身份证号码已存在');
+                }
+                $is_idcard = \isIdCard($param['id_number']);
+                if (!$is_idcard) {
+                    $this->error('身份证号不合法');
                 }
 
 
