@@ -107,6 +107,8 @@ class Video extends QliveBase
     /**
      * @param int $id
      * @return \app\common\layout\Content
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * 新增/编辑视频
      */
