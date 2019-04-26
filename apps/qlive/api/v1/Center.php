@@ -293,7 +293,7 @@ class Center extends RestUserBase
                 }
                 //身份证号码是否已经存在
                 $id_number_count = Db::name('QliveUserCertification')
-                    ->where('id_number')
+                    ->where('id_number', 'eq', $param['id_number'])
                     ->count();
                 if ($id_number_count > 0) {
                     $this->error('身份证号码已存在');
