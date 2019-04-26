@@ -3,6 +3,7 @@
 namespace app\qlive\api\v2;
 
 
+use app\qlive\model\QliveVideoList;
 use app\rest\controller\RestBase;
 use think\Db;
 
@@ -115,13 +116,19 @@ class Video extends RestBase
         $this->success('OK', $res);
     }
 
+
     /**
      * @throws \think\Exception
+     * @throws \think\exception\DbException
      * 视频增加点击数
      */
     public function addHits()
     {
         $video_id = \input('id');
+        $video_info = QliveVideoList::get($video_id);
+        if (empty($video_info)) {
+            $this->error('该视频不存在');
+        }
         $res = Db::name('QliveVideoList')
             ->where('id', 'eq', $video_id)
             ->setInc('hits');
