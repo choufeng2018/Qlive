@@ -86,6 +86,11 @@ class Anchor extends Admin
             if ($nicknameCount > 0 && $id == 0) {
                 $this->error('昵称已被占用');
             }
+            //检测用户名是否合法，只可以使用字母,数字,破折号
+            if (!preg_match('/^[a-z0-9 .\-]+$/i', $data['username'])) {
+                $this->error('用户名只允许:字母,数字,破折号');
+            }
+
             //如果选择禁播该主播,需要修改房间状态=0,禁用该主播的直播流
             //禁播主播的前提是该主播已绑定房间
             if ($id > 0 && $data['room_id'] && $data['status'] == 3) {
