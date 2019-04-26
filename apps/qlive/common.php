@@ -333,3 +333,24 @@ if (!function_exists('getUidByAnchorId')) {
         return $uid;
     }
 }
+if (!function_exists('isAnchor')) {
+    /**
+     * @param $uid
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 判断该用户是不是主播
+     */
+    function isAnchor($uid)
+    {
+        $anchor_info = Db::name('QliveAnchorList')
+            ->where('uid', 'eq', $uid)
+            ->find();
+        if (empty($anchor_info)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
