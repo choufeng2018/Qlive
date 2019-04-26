@@ -124,6 +124,9 @@ class Video extends QliveBase
             $param['anchor'] = getAnchorNameById($param['anchor_id']);
             $live_info = \getHistoryLiveInfo($param['live_id']);
             $param['live_time'] = $live_info['open_time'];
+            $param['category'] = $live_info['category'];
+            $param['type'] = $live_info['live_type'];
+            $param['price'] = $live_info['price'];
             if ($this->videoModel->editData($param)) {
                 $this->success($title . '成功', \url('index'));
             } else {
