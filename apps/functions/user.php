@@ -56,10 +56,10 @@ if (!function_exists('get_user_avatar_by_username')) {
      * @return mixed
      * 根据用户名获取头像
      */
-    function get_user_avatar_by_username($username)
+    function get_user_avatar_by_uid($uid)
     {
         $avatar = db('Users')
-            ->where('username', 'eq', $username)
+            ->where('uid', 'eq', $uid)
             ->value('avatar');
         return $avatar;
     }

@@ -45,7 +45,7 @@ class CommentLogic extends BaseLogic
             ->select();
         if (!empty($comment_list)) {
             foreach ($comment_list as $k => $value) {
-                $comment_list[$k]['avatar'] = \get_user_avatar_by_username($value['username']);
+                $comment_list[$k]['avatar'] = \get_user_avatar_by_uid($value['uid']);
                 $comment_list[$k]['reply_list'] = $this->getReplyList($value['id']);
             }
         }
