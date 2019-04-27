@@ -148,7 +148,7 @@ class Admin extends Base
                     $model,
                     $data,
                     $map,
-                    array('success' => '启用成功', 'error' => '启用失败')
+                    array('success' => '操作成功', 'error' => '操作失败')
                 );
                 break;
             case 'hide' :  // 隐藏条目
