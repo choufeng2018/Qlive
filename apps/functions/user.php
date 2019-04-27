@@ -35,12 +35,11 @@ function get_user_info($uid)
 
 }
 
+
 /**
- * 获取用户名
- * @param integer $uid [description]
- * @return [type] [description]
- * @date   2017-09-25
- * @author 心云间、凝听 <981248356@qq.com>
+ * @param int $uid
+ * @return bool|mixed
+ * 获取用户昵称
  */
 function get_nickname($uid = 0)
 {
@@ -50,9 +49,9 @@ function get_nickname($uid = 0)
     return false;
 }
 
-if (!function_exists('get_user_avatar_by_username')) {
+if (!function_exists('get_user_avatar_by_uid')) {
     /**
-     * @param $username
+     * @param $uid
      * @return mixed
      * 根据用户名获取头像
      */
