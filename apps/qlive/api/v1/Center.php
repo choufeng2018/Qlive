@@ -347,7 +347,7 @@ class Center extends RestUserBase
             if (!empty($is_anchor)) {
                 $this->error('已是主播,请勿重复申请');
             }
-            //检查是否已经实名
+            //实名信息
             $certification_info = QliveUserCertification::get(['uid' => $this->userId]);
             if (empty($certification_info)) {
                 $this->error('请先实名认证');
@@ -380,7 +380,9 @@ class Center extends RestUserBase
         }
     }
 
+
     /**
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -397,8 +399,15 @@ class Center extends RestUserBase
             ->page($page, 10)
             ->field('b.id,a.id as live_id,a.title,a.logo,b.price,b.create_time')
             ->select();
-        if ($list) {
-            $this->success('OK', $list);
+        $count = Db::name('QliveLiveHistory')
+            ->alias('a')
+            ->join('QliveBill b', 'a.id=b.live_id')
+            ->where('b.uid', 'eq', $this->userId)
+            ->count();
+        $res['list'] = $list;
+        $res['count'] = $count;
+        if ($res) {
+            $this->success('OK', $res);
         } else {
             $this->error('暂无数据');
         }
