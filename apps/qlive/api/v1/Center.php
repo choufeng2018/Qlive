@@ -70,6 +70,7 @@ class Center extends RestUserBase
             $param = [
                 'live_id' => \input('live_id'),
                 'anchor' => \getAnchorNameByLiveId(\input('live_id')),
+                //注意这里是用的昵称字段不是用户名
                 'username' => $userInfo['nickname'],
                 'question' => \input('question'),
                 'status' => 0
@@ -109,6 +110,7 @@ class Center extends RestUserBase
             $param = [
                 'live_id' => \input('live_id'),
                 'anchor' => \getAnchorNameByLiveId(\input('live_id')),
+                //注意这里是用的昵称字段不是用户名
                 'username' => $userInfo['nickname'],
                 'content' => \input('content'),
                 'status' => 0
