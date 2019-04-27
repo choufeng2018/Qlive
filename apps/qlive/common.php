@@ -354,3 +354,24 @@ if (!function_exists('isAnchor')) {
         }
     }
 }
+if (!function_exists('isCertificate')) {
+    /**
+     * @param $uid
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 判断用户是否实名认证
+     */
+    function isCertificate($uid)
+    {
+        $certification_info = Db::name('QliveUserCertification')
+            ->where('uid', 'eq', $uid)
+            ->find();
+        if (empty($certification_info)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
