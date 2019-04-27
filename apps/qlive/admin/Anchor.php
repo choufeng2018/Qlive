@@ -104,7 +104,7 @@ class Anchor extends Admin
                     ->setField('status', 0);
                 //禁用房间的推流码
                 $stream = \getStreamByAnchorId($id);
-                \logic('QliveLogic')->disableStream($stream, \strtotime('2099-12-31'));
+                \logic('QliveLogic')->disableStream($stream);
             } elseif ($id > 0 && $data['room_id'] && $data['status'] == 4) {
                 //修改主播状态
                 Db::name('QliveAnchorList')
@@ -157,9 +157,10 @@ class Anchor extends Admin
                     $this->error($this->listModel->getError());
                 }
                 $return = (new BuilderForm())
+                    ->setPageTips('<code>默认密码：123456</code>')
                     ->addFormItem('id', 'hidden', 'ID')
                     ->addFormItem('uid', 'hidden', 'UID')
-                    ->addFormItem('username', 'text', '用户名', '登录用的用户名,', '', 'readonly')
+                    ->addFormItem('username', 'text', '用户名', '登录用的用户名', '', 'readonly')
                     ->addFormItem('nickname', 'text', '主播昵称', '直播室显示的名称', '', 'readonly')
                     ->addFormItem('sex', 'radio', '性别', '', [1 => '男', 2 => '女', 0 => '保密'])
                     ->addFormItem('email', 'email', '邮箱', '请输入邮箱')
@@ -175,6 +176,7 @@ class Anchor extends Admin
                     ->fetch();
             } else {
                 $return = (new BuilderForm())
+                    ->setPageTips('<code>默认密码：123456</code>')
                     ->addFormItem('id', 'hidden', 'ID')
                     ->addFormItem('username', 'text', '用户名', '登录用的用户名,一旦确定不可修改')
                     ->addFormItem('nickname', 'text', '主播昵称', '直播室显示的名称,一旦确定不可修改')

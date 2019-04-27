@@ -157,16 +157,17 @@ class QliveLogic extends BaseLogic
         return $status;
     }
 
+
     /**
      * @param $streamKey    流名称
-     * @param $disableTime  禁用时间(Unix 时间戳, 在这之前流均不可用.)
+     * @param int $disableTime 禁用时间(Unix 时间戳,默认2099/01/01 在这之前流均不可用.)
      * @return string
      * 在一定时间内禁用某个流
      */
-    public function disableStream($streamKey, $disableTime)
+    public function disableStream($streamKey, $disableTime = 4070880000)
     {
         try {
-            $this->hub->stream($streamKey)->disable(\time() + $disableTime);
+            $this->hub->stream($streamKey)->disable($disableTime);
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }

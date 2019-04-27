@@ -90,7 +90,7 @@ class Room extends QliveBase
             //如果是新增,生成一个推流码,并且在七牛新建一个流
             if ($id == 0) {
                 $data['stream'] = \create_stream_name();
-                $createStreamRes = \logic('QliveLogic')->createStream($data['stream']);
+                \logic('QliveLogic')->createStream($data['stream']);
             }
             //如果禁用房间，则需要禁用流
             if ($id > 0 && $data['status'] == 0) {
