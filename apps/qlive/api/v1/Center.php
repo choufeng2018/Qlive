@@ -62,6 +62,11 @@ class Center extends RestUserBase
     {
         if ($this->request->isPost()) {
             $userInfo = $this->user;
+            //判断是否实名认证
+            $isCert = \isCertificate($this->userId);
+            if (!$isCert) {
+                $this->error('还未实名认证');
+            }
             $param = [
                 'live_id' => \input('live_id'),
                 'anchor' => \getAnchorNameByLiveId(\input('live_id')),
@@ -69,6 +74,8 @@ class Center extends RestUserBase
                 'question' => \input('question'),
                 'status' => 0
             ];
+            $param['anchor_id'] = \getAnchorIdByName($param['anchor']);
+            $param['uid'] = $userInfo['uid'];
             if (empty($param['question'])) {
                 $this->error('内容不能为空');
             }
@@ -92,8 +99,13 @@ class Center extends RestUserBase
     public function commentAdd()
     {
         if ($this->request->isPost()) {
-
+            //判断是否实名认证
+            $isCert = \isCertificate($this->userId);
+            if (!$isCert) {
+                $this->error('还未实名认证');
+            }
             $userInfo = $this->user;
+
             $param = [
                 'live_id' => \input('live_id'),
                 'anchor' => \getAnchorNameByLiveId(\input('live_id')),
@@ -101,6 +113,8 @@ class Center extends RestUserBase
                 'content' => \input('content'),
                 'status' => 0
             ];
+            $param['anchor_id'] = \getAnchorIdByName($param['anchor']);
+            $param['uid'] = $userInfo['uid'];
             if (empty($param['content'])) {
                 $this->error('内容不能为空');
             }
@@ -277,6 +291,7 @@ class Center extends RestUserBase
 
 
     /**
+     * @throws \think\Exception
      * @throws \think\exception\DbException
      * 实名认证/获取实名认证信息
      */
