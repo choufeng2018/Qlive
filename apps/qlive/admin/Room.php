@@ -92,10 +92,25 @@ class Room extends QliveBase
                 $data['stream'] = \create_stream_name();
                 $createStreamRes = \logic('QliveLogic')->createStream($data['stream']);
             }
+            //如果禁用房间，则需要禁用流
+            if ($id > 0 && $data['status'] == 0) {
+                $stream = \getStreamNameByRoomId($data['id']);
+                \logic('QliveLogic')->disableStream($stream);
+            }
+            //启用房间，则启用流
+            if ($id > 0 && $data['status'] == 1) {
+                $stream = \getStreamNameByRoomId($data['id']);
+                \logic('QliveLogic')->enableStream($stream);
+            }
 
             if ($this->roomModel->editData($data)) {
                 //新增房间的id号
                 $room_id = $this->roomModel->id;
+                $room_info = QliveRoomList::get($room_id);
+                //新建房间的时候如果是禁用流
+                if ($data['status'] == 0) {
+                    \logic('QliveLogic')->disableStream($room_info['stream']);
+                }
                 //如果绑定了主播,修改主播列表中主播的状态以及添加主播列表中的房间id
                 if ($data['anchor_id']) {
                     Db::name('QliveAnchorList')
