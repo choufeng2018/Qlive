@@ -39,7 +39,7 @@ class AppriseLogic extends BaseLogic
             ->select();
         foreach ($list as $k => $value) {
             $list[$k]['image'] = \get_file_complete_path($value['image']);
-            $list[$k]['lecturer'] = \get_file_complete_path($value['lecturer']);
+            $list[$k]['lecturer'] = \getAnchorNameById($value['lecturer']);
         }
         return $list;
     }
