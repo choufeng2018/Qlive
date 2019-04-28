@@ -308,6 +308,11 @@ class Center extends RestUserBase
                 if (empty($param['real_name']) || empty($param['id_number']) || empty($param['idcard_face']) || empty($param['idcard_emblem'])) {
                     $this->error('信息不完整');
                 }
+                //检测身份证号是否合法
+                $is_idcard = \check_id_card($param['id_number']);
+                if (!$is_idcard) {
+                    $this->error('身份证号不合法');
+                }
                 //身份证号码是否已经存在
                 $id_number_count = Db::name('QliveUserCertification')
                     ->where('id_number', 'eq', $param['id_number'])
@@ -315,11 +320,6 @@ class Center extends RestUserBase
                 if ($id_number_count > 0) {
                     $this->error('身份证号码已存在');
                 }
-                $is_idcard = \isIdCard($param['id_number']);
-                if (!$is_idcard) {
-                    $this->error('身份证号不合法');
-                }
-
 
                 $param['uid'] = $this->userId;
                 $creModel = new QliveUserCertification();
@@ -445,7 +445,7 @@ class Center extends RestUserBase
             ->where('uid', 'eq', $this->userId)
             ->find();
         if (empty($certification_info)) {
-            $this->error('未提交认证资料');
+            $this->error('尚未提交认证资料');
         } elseif ($certification_info['status'] == 0) {
             $this->error('后台审核中');
         } elseif ($certification_info['status'] == 1) {

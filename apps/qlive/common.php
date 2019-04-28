@@ -1,5 +1,6 @@
 <?php
 //模块自定义函数文件
+use Douyasi\IdentityCard\ID;
 use think\Db;
 
 if (!function_exists('create_stream_name')) {
@@ -372,6 +373,23 @@ if (!function_exists('isCertificate')) {
             return false;
         } else {
             return true;
+        }
+    }
+}
+if (!function_exists('check_id_card')) {
+    /**
+     * @param $number
+     * @return bool
+     * 检测是不是合法身份证号
+     */
+    function check_id_card($number)
+    {
+        $ID = new ID();
+        $passed = $ID->validateIDCard($number);
+        if ($passed) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
