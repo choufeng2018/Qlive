@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e8904c3989d7cced5f478bec3687ad7",
+    "content-hash": "1bbd02cc4b5b7ca713602a041a2a3c12",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -114,6 +114,54 @@
                 "instantiate"
             ],
             "time": "2019-03-17T17:37:11+00:00"
+        },
+        {
+            "name": "douyasi/identity-card",
+            "version": "2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/douyasi/identity-card.git",
+                "reference": "589639617d42c8456566d5d70e81a7c736552208"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/douyasi/identity-card/zipball/589639617d42c8456566d5d70e81a7c736552208",
+                "reference": "589639617d42c8456566d5d70e81a7c736552208",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-pdo": "*",
+                "ext-pdo_sqlite": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Douyasi\\IdentityCard\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "raoyc",
+                    "email": "rayc2009@gmail.com"
+                }
+            ],
+            "description": "Chinese Identity Card package",
+            "keywords": [
+                "Chinese",
+                "identity",
+                "personal identity card"
+            ],
+            "time": "2019-03-30T17:12:11+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

@@ -30,7 +30,8 @@
     "jenssegers/agent": "^2.6",
     "pili-engineering/pili-sdk-php.v2": "dev-master",
     "qiniu/php-sdk": "^7.2",
-    "yansongda/pay": "^2.7"
+    "yansongda/pay": "^2.7",
+    "douyasi/identity-card": "~2.0"
   },
   "extra": {
     "think-path": "thinkphp"

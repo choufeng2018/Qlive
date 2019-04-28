@@ -218,23 +218,27 @@ class HistoryLogic extends BaseLogic
         $num_arr = Db::name('QliveLiveHistory')->column('id');
         //id的长度
         $num_arr_length = \sizeof($num_arr);
+        if ($num_arr_length > 0) {
 
-        $ids = [];
-        while (\count($ids) < $length) {
-            //随机产生一个id的下标
-            $key = \mt_rand(0, $num_arr_length - 1);
-            //取出这个id值
-            $ids[] = $num_arr[$key];
-            $ids = \array_unique($ids);
-        }
-        $info = Db::name('QliveLiveHistory')
-            ->where('id', 'in', $ids)
-            ->whereTime('open_time', '<', \date('Y-m-d H:i:s'))
-            ->select();
+            $ids = [];
+            while (\count($ids) < $length) {
+                //随机产生一个id的下标
+                $key = \mt_rand(0, $num_arr_length - 1);
+                //取出这个id值
+                $ids[] = $num_arr[$key];
+                $ids = \array_unique($ids);
+            }
+            $info = Db::name('QliveLiveHistory')
+                ->where('id', 'in', $ids)
+                ->whereTime('open_time', '<', \date('Y-m-d H:i:s'))
+                ->select();
 
-        foreach ($info as $k => $v) {
-            $info[$k]['logo'] = \get_file_complete_path($v['logo']);
+            foreach ($info as $k => $v) {
+                $info[$k]['logo'] = \get_file_complete_path($v['logo']);
+            }
+            return $info;
+        } else {
+            return null;
         }
-        return $info;
     }
 }
