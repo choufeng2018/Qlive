@@ -11,6 +11,7 @@ namespace app\Qlive\logic;
 
 
 use app\common\logic\Base;
+use think\Db;
 
 /**
  * Class VideoLogic
@@ -52,5 +53,33 @@ var build_dropdown = function( data, element, defaultText ){
 EOF;
 
 
+    }
+
+    /**
+     * @param int $flag
+     * @param int $limit
+     * @param string $order
+     * @return false|\PDOStatement|string|\think\Collection|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 根据条件获取视频列表
+     */
+    public function getVideoByCondition($flag = 1, $limit = 6, $order = 'hist desc')
+    {
+        $map = [
+            'status' => 1,
+            'flag' => $flag,
+        ];
+        $list = Db::name('QliveVideoList')
+            ->where($map)
+            ->limit($limit)
+            ->order($order)
+            ->select();
+        if (!empty($list)) {
+            return $list;
+        } else {
+            return null;
+        }
     }
 }
