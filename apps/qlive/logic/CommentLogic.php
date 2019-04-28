@@ -40,7 +40,7 @@ class CommentLogic extends BaseLogic
         ];
         $comment_list = Db::name('QliveCommentList')
             ->where($map)
-            ->field('id,username,content,create_time')
+            ->field('id,username,content,create_time,uid')
             ->page($page, 10)
             ->select();
         if (!empty($comment_list)) {
