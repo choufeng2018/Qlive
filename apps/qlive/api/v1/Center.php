@@ -300,7 +300,7 @@ class Center extends RestUserBase
     public function certification()
     {
         if ($this->request->isPost()) {
-            $certification_info = QliveUserCertification::get($this->userId);
+            $certification_info = QliveUserCertification::get(['uid' => $this->userId]);
             if (!empty($certification_info)) {
                 $this->success('已认证', $certification_info);
             } else {
