@@ -368,7 +368,7 @@ if (!function_exists('isCertificate')) {
         $certification_info = Db::name('QliveUserCertification')
             ->where('uid', 'eq', $uid)
             ->find();
-        if (empty($certification_info)) {
+        if (empty($certification_info) || $certification_info['status'] != 1) {
             return false;
         } else {
             return true;
