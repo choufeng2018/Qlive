@@ -25,9 +25,9 @@ class Index extends RestBase
     public function index()
     {
         //顶部的预告
-        $list1 = \logic('AppriseLogic')->getAppriseList(1);
+        $list1 = \logic('AppriseLogic')->getAppriseList(2);
         //强力推荐
-        $list2 = \logic('AppriseLogic')->getAppriseList(3);
+        $list2 = \logic('AppriseLogic')->getAppriseList(4);
         //即将开播
         $list3 = \logic('HistoryLogic')->getLiveHistory('>');
         //往期热门
