@@ -97,7 +97,7 @@ class Video extends RestBase
             ->where($map)
             ->whereTime('live_time', $range)
             ->order($order)
-            ->page($page, 10)
+            ->page($page, 9)
             ->select();
         foreach ($list as $k => $value) {
             $list[$k]['live_info'] = Db::name('QliveLiveHistory')->where('id', 'eq', $value['live_id'])->find();
