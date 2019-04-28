@@ -129,6 +129,8 @@ class Video extends RestBase
         }
         //对应直播的记录
         $live_info = Db::name('QliveLiveHistory')->where('id', 'eq', $video_info['live_id'])->find();
+        //评分,四舍五入取整
+        $live_info['rate'] = \round(\logic('RateLogic')->getLiveRate($video_info['live_id']), 0);
         $video_info['url'] = \get_file_complete_path($video_info['url']);
         $live_info['logo'] = \get_file_complete_path($live_info['logo']);
         $res = [
