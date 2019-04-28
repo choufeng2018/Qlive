@@ -72,8 +72,30 @@ class Video extends RestBase
                     break;
             }
         }
+        if (\input('range')) {
+            switch (\input('range')) {
+                case 1:
+                    $range = 'w';
+                    break;
+                case 2:
+                    $range = 'm';
+                    break;
+                case 3:
+                    $range = '-3 months';
+                    break;
+                case 4:
+                    $range = 'y';
+                    break;
+                default:
+                    $range = '-100 years';
+                    break;
+            }
+        } else {
+            $range = '-100 years';
+        }
         $list = Db::name('QliveVideoList')
             ->where($map)
+            ->whereTime('live_time', $range)
             ->order($order)
             ->page($page, 10)
             ->select();
