@@ -35,6 +35,7 @@ class AppriseLogic extends BaseLogic
             ->where('status', 'eq', 1)
             ->where('flag', 'eq', $flag)
             ->field('create_time,update_time,status', true)
+            ->order('start_time asc')
             ->select();
         foreach ($list as $k => $value) {
             $list[$k]['image'] = \get_file_complete_path($value['image']);
