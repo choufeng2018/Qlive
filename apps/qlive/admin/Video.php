@@ -118,7 +118,6 @@ class Video extends QliveBase
 
         $live_all_list = Db::name('QliveLiveHistory')
             ->column('id,title');
-        $live_all_list[0] = '请在上方选择主播';
 
         $moreJs = \logic('VideoLogic')->getLiveListByAnchor();
         if (IS_POST) {
@@ -151,7 +150,7 @@ class Video extends QliveBase
             ->addFormItem('title', 'text', '视频标题', '请输入视频标题')
             ->addFormItem('anchor_id', 'select', '所属主播', '选择该视频的所有者', $this->allAnchorList)
             ->addFormItem('live_id', 'select', '对应直播', '只显示最近30天内的记录', $live_all_list)
-            ->addFormItem('url', 'file', '上传视频')
+            ->addFormItem('url', 'file', '上传视频', '请上传编辑好的MP4格式的视频文件')
             ->addFormItem('status', 'radio', '视频状态', '是否在前台显示', [1 => '正常', 0 => '隐藏'])
             ->addFormItem('order', 'text', '排序')
             ->addFormItem('marks', 'textarea', '备注')
