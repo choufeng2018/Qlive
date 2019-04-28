@@ -32,6 +32,8 @@ class Index extends RestBase
         $list3 = \logic('HistoryLogic')->getLiveHistory('>');
         //往期热门
         $list4 = \logic('HistoryLogic')->getLiveHistory('<');
+        //往期热门
+        //$list4 = \logic('VideoLogic')->getVideoByCondition();
         $list = [
             $list1,
             $list2,
