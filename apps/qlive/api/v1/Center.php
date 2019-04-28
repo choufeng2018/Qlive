@@ -431,4 +431,51 @@ class Center extends RestUserBase
             }
         }
     }
+
+
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 返回用户实名认证状态
+     */
+    public function checkCertification()
+    {
+        $certification_info = Db::name('QliveUserCertification')
+            ->where('uid', 'eq', $this->userId)
+            ->find();
+        if (empty($certification_info)) {
+            $this->error('未提交认证资料');
+        } elseif ($certification_info['status'] == 0) {
+            $this->error('后台审核中');
+        } elseif ($certification_info['status'] == 1) {
+            $this->success('已通过认证');
+        } else {
+            $this->error('未知状态');
+        }
+    }
+
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 获取主播的状态
+     */
+    public function getAnchorStatus()
+    {
+        $anchor_info = Db::name('QliveAnchorList')
+            ->where('uid', 'eq', $this->userId)
+            ->find();
+        if (empty($anchor_info)) {
+            $this->error('还不是主播');
+        } elseif ($anchor_info['status'] == 2) {
+            $this->success('后台审核中');
+        } elseif ($anchor_info['status'] == 3) {
+            $this->error('你已被禁播');
+        } elseif ($anchor_info['status'] == 4) {
+            $this->success('正常可开播');
+        } else {
+            $this->error('未知状态');
+        }
+    }
 }
