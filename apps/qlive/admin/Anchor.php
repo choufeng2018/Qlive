@@ -168,7 +168,7 @@ class Anchor extends Admin
                     ->addFormItem('idcard_face', 'picture', '身份证照片', '上传身份证人像侧')
                     ->addFormItem('idcard_emblem', 'picture', '身份证照片', '上传身份证国徽侧')
                     ->addFormItem('room_id', 'text', '房间号', '请在房间管理选择该主播进行绑定', '', 'readonly')
-                    ->addFormItem('status', 'radio', '主播状态', '请选择主播状态', [3 => '禁播', 4 => '正常'])
+                    ->addFormItem('status', 'radio', '主播状态', '<code>不允许在分配房间之前修改此项目！！！</code>', [3 => '禁播', 4 => '正常'])
                     ->addFormItem('marks', 'textarea', '备注')
                     ->setFormData($info)
                     ->addButton('submit')
