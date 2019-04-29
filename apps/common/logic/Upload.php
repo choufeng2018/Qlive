@@ -93,7 +93,6 @@ class Upload
             $file = $this->request->file('file');
             if (!$file) {
                 throw new \Exception("file对象文件为空，或缺失环境组件。错误未知，请联系开发者", 0);
-
             }
 
             if (!$file->validate(['size' => $config['maxSize'], 'ext' => $config['exts']])) {
