@@ -35,7 +35,7 @@ class HistoryLogic extends BaseLogic
             ->where('status', 'eq', 1)
             ->whereTime('open_time', $flag, \date('Y-m-d H:i:s'))
             ->field('create_time,update_time', true)
-            ->order('hits desc')
+            ->order('open_time')
             ->select();
         foreach ($list as $k => $value) {
             $list[$k]['logo'] = \getImagePathById($value['logo']);
