@@ -66,6 +66,7 @@ class CommentLogic extends BaseLogic
         $list = Db::name('QliveReplyList')
             ->where('comment_id', 'eq', $comment_id)
             ->where('reply_id', 'eq', $reply_id)
+            ->where('status', 'eq', 1)
             ->select();
         if (!empty($list)) {
             foreach ($list as $k => $v) {
