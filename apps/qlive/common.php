@@ -334,6 +334,20 @@ if (!function_exists('getUidByAnchorId')) {
         return $uid;
     }
 }
+if (!function_exists('getAnchorIdByUid')) {
+    /**
+     * @param $uid
+     * @return mixed
+     * 根据用户id获取主播id
+     */
+    function getAnchorIdByUid($uid)
+    {
+        $anchor_id = Db::name('QliveAnchorList')
+            ->where('uid', 'eq', $uid)
+            ->value('id');
+        return $anchor_id;
+    }
+}
 if (!function_exists('isAnchor')) {
     /**
      * @param $uid
