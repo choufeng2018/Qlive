@@ -219,17 +219,18 @@ class AnchorCenter extends Center
     public function liveList()
     {
         $listModel = new QliveLiveHistory();
-        $anchor_name = $this->user['nickname'];
         $page = \input('page', 1);
         $list = $listModel
-            ->where('anchor', 'eq', $anchor_name)
+            ->where('anchor_id', 'eq', $this->userId)
             ->page($page, 10)
             ->select();
         foreach ($list as $k => $value) {
             $list[$k]['logo_id'] = $value['logo'];
             $list[$k]['logo'] = \get_file_complete_path($value['logo']);
         }
-        $count = $listModel->where('anchor', 'eq', $anchor_name)->count();
+        $count = $listModel
+            ->where('anchor_id', 'eq', $this->userId)
+            ->count();
         $res['count'] = $count;
         $res['list'] = $list;
         if (empty($res)) {
