@@ -1,7 +1,7 @@
 <?php
 // 授权管理控制器
 // +----------------------------------------------------------------------
-// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.         
+// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.
 // +----------------------------------------------------------------------
 // | [EacooPHP] 并不是自由软件,可免费使用,未经许可不能去掉EacooPHP相关版权。
 // | 禁止在EacooPHP整体或任何部分基础上发展任何派生、修改或第三方版本用于重新分发
@@ -98,27 +98,31 @@ class Menu extends Admin {
                 ->content($return);
     }
 
+
     /**
+     * @param int $id
+     * @return \app\common\layout\Content
+     * @throws \Exception
      * 菜单编辑
-     * @param  integer $id [description]
-     * @return [type]      [description]
      */
     public function edit($id=0){
         $title = $id ? "编辑":"新增";
-        
+
         if(IS_POST){
             // 提交数据
             $data = $this->request->param();
+            //原系统没有这个字段，默认和选择的模块一致
+            $data['position'] = $data['depend_flag'];
             //验证数据
             $this->validateData($data,'AuthRule.edit');
-            
+
             //$data里包含主键id，则editData就会更新数据，否则是新增数据
             if ($this->authRuleModel->editData($data)) {
                 cache('admin_sidebar_menus_'.$this->currentUser['uid'],null);//清空后台菜单缓存
                 $this->success($title.'菜单成功', url('index',['pid'=>input('param.pid')]));
             } else {
                 $this->error($this->authRuleModel->getError());
-            }   
+            }
 
         } else{
 
@@ -131,10 +135,10 @@ class Menu extends Admin {
                     $pid_data  = $this->authRuleModel->where('pid',$pid)->field('depend_type,depend_flag')->find();
                     $info = ['depend_type'=>pid_data['depend_type'],'depend_flag'=>$pid_data['depend_flag'],'pid'=>$pid,'is_menu'=>1,'sort'=>99,'status'=>1];
                 } else{
-                    
+
                     $info = ['depend_type'=>1,'is_menu'=>1,'sort'=>99,'status'=>1];
                 }
-                
+
             }
             $depend_flag = logic('Auth')->getDependFlags($info['depend_type']);
             //获取上级菜单
@@ -158,12 +162,12 @@ class Menu extends Admin {
                     ->setExtraHtml($extra_html)
                     ->addButton('submit')->addButton('back')    // 设置表单按钮
                     ->fetch();
-                    
+
             return Iframe()
                     ->setMetaTitle($title.'菜单')  // 设置页面标题
                     ->content($content);
-        }   
-        
+        }
+
     }
 
     /**
@@ -191,7 +195,7 @@ class Menu extends Admin {
         if ($depend_flag!='all' && $depend_flag) {
             $map['depend_flag']=$depend_flag;
         }
-        
+
         if (IS_POST) {
             cache('admin_sidebar_menus_'.$this->currentUser['uid'],null);//清空后台菜单缓存
             $builder->doSort('auth_rule', $ids);
@@ -233,7 +237,7 @@ class Menu extends Admin {
 
             $map['id'] = ['in',$ids];
             switch ($status) {
-                case 0 :  
+                case 0 :
                     $data = ['is_menu' => 0];
                     $this->editRow(
                         $model,
@@ -242,7 +246,7 @@ class Menu extends Admin {
                         array('success'=>'标记成功','error'=>'标记失败')
                     );
                     break;
-                case 1 :  
+                case 1 :
                     $data = ['is_menu' => 1];
                     $this->editRow(
                         $model,
@@ -295,7 +299,7 @@ class Menu extends Admin {
             } else{
                 $this->error('请选择目标菜单'.$to_pid);
             }
-            
+
         }
     }
 
@@ -311,7 +315,7 @@ class Menu extends Admin {
         try {
             if (!IS_GET) {
                 throw new \Exception("非法请求", 0);
-                
+
             }
             $param = $this->request->param();
             $collect_menus = config('admin_collect_menus');
@@ -328,7 +332,7 @@ class Menu extends Admin {
         } catch (\Exception $e) {
             return json(['code'=>0,'msg'=>$e->getMessage()]);
         }
-        
+
     }
 
     /**
@@ -349,7 +353,7 @@ class Menu extends Admin {
         } else{
             cache('admin_sidebar_menus_'.$this->currentUser['uid'],null);//清空后台菜单缓存
         }
-        
+
         parent::setStatus($model);
     }
 }

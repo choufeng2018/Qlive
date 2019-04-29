@@ -91,10 +91,12 @@ class Auth extends Admin
             ->content($return);
     }
 
+
     /**
+     * @param int $id
+     * @return \app\common\layout\Content
+     * @throws \Exception
      * 规则编辑
-     * @param  integer $id [description]
-     * @return [type]      [description]
      */
     public function edit($id = 0)
     {
@@ -103,6 +105,8 @@ class Auth extends Admin
         if (IS_POST) {
             // 提交数据
             $data = $this->request->param();
+            //原系统没有这个字段，默认和选择的模块一致
+            $data['position'] = $data['depend_flag'];
             //验证数据
             $this->validateData($data, 'AuthRule.edit');
 
