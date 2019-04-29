@@ -138,7 +138,8 @@ class Center extends RestUserBase
     {
         if ($this->request->isPost()) {
             $to_uid = Db::name('Users')
-                ->where('username', 'eq', \input('username'))
+                //这里nickname和username用混，应该是nickname
+                ->where('nickname', 'eq', \input('username'))
                 ->value('uid');
             $sql_data = [
                 'comment_id' => \input('comment_id'),
