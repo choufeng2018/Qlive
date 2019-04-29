@@ -46,7 +46,7 @@ class Login extends RestBase
                 $token = md5(uniqid()) . md5(uniqid());
                 if (empty($findUserToken)) {
                     //如果token不存在则新增,不同设备不同token
-                    $result = Db::name("user_token")->insert([
+                    $result = Db::name("UserToken")->insert([
                         'token' => $token,
                         'user_id' => $this->userId,
                         'expire_time' => $expireTime,
@@ -55,7 +55,7 @@ class Login extends RestBase
                     ]);
                 } else {
                     //如果已存在token则更新
-                    $result = Db::name("user_token")
+                    $result = Db::name("UserToken")
                         ->where('user_id', $this->userId)
                         ->where('device_type', $this->deviceType)
                         ->update([
