@@ -43,7 +43,9 @@ class Certification extends QliveBase
      */
     public function index()
     {
-        list($data_list, $total) = $this->certModel->search()->getListByPage([], true, 'create_time desc');
+        list($data_list, $total) = $this->certModel->search([
+            'keyword_condition' => 'uid|real_name|id_number',
+        ])->getListByPage([], true, 'create_time desc');
         $content = (new BuilderList())
             ->keyListItem('id', 'ID')
             ->keyListItem('uid', '用户ID')
