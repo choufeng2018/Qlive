@@ -470,13 +470,13 @@ class Center extends RestUserBase
             ->where('uid', 'eq', $this->userId)
             ->find();
         if (empty($anchor_info)) {
-            $this->error('还不是主播');
+            $this->error('还不是主播', ['code' => '-1', 'msg' => '还不是主播']);
         } elseif ($anchor_info['status'] == 2) {
-            $this->success('后台审核中');
+            $this->success('后台审核中', ['code' => '2', 'msg' => '后台审核中']);
         } elseif ($anchor_info['status'] == 3) {
-            $this->error('你已被禁播');
+            $this->error('你已被禁播', ['code' => '3', 'msg' => '你已被禁播']);
         } elseif ($anchor_info['status'] == 4) {
-            $this->success('正常可开播');
+            $this->success('正常可开播', ['code' => '4', 'msg' => '正常可开播']);
         } else {
             $this->error('未知状态');
         }
