@@ -446,11 +446,13 @@ class Center extends RestUserBase
             ->where('uid', 'eq', $this->userId)
             ->find();
         if (empty($certification_info)) {
-            $this->error('尚未提交认证资料');
+            $this->error('尚未提交认证资料', ['code' => '-1', 'msg' => '尚未提交认证资料']);
         } elseif ($certification_info['status'] == 0) {
-            $this->error('后台审核中');
+            $this->error('后台审核中', ['code' => '0', 'msg' => '后台审核中']);
         } elseif ($certification_info['status'] == 1) {
-            $this->success('已通过认证');
+            $this->success('已通过认证', ['code' => '1', 'msg' => '已通过认证']);
+        } elseif ($certification_info['status'] == 2) {
+            $this->error('未通过认证', ['code' => '2', 'msg' => '未通过认证']);
         } else {
             $this->error('未知状态');
         }
