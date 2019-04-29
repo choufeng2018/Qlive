@@ -220,8 +220,9 @@ class AnchorCenter extends Center
     {
         $listModel = new QliveLiveHistory();
         $page = \input('page', 1);
+        $anchor_id = \getAnchorIdByUid($this->userId);
         $list = $listModel
-            ->where('anchor_id', 'eq', $this->userId)
+            ->where('anchor_id', 'eq', $anchor_id)
             ->page($page, 10)
             ->select();
         foreach ($list as $k => $value) {
