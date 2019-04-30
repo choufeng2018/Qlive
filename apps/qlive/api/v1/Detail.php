@@ -47,6 +47,8 @@ class Detail extends RestBase
             $live_info['rate'] = \round(\logic('RateLogic')->getLiveRate($id), 0);
             //对应视频信息
             $live_info['video_info'] = \getVideoByLiveId($id);
+            //对应直播的头像
+            $live_info['avatar'] = \get_file_complete_path(\get_user_avatar_by_uid(\getUidByAnchorId($live_info['anchor_id'])));
         }
         $this->success('OK', $live_info);
     }

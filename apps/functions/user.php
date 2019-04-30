@@ -60,6 +60,10 @@ if (!function_exists('get_user_avatar_by_uid')) {
         $avatar = db('Users')
             ->where('uid', 'eq', $uid)
             ->value('avatar');
-        return $avatar;
+        if (!empty($avatar)) {
+            return $avatar;
+        } else {
+            return '/uploads/avatar/default-avatar.png';
+        }
     }
 }
