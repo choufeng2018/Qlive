@@ -20,11 +20,16 @@ use app\rest\controller\RestBase;
 class LiveList extends RestBase
 {
     /**
-     *获取正在直播的房间列表
+     *导航栏“直播“里的数据
+     * 包含：1，正在直播的；
+     *      2，即将开播的；
      */
     public function index()
     {
-        $list = \logic('HistoryLogic')->getLivingRoomList();
+        //直播中列表
+        $list['living'] = \logic('HistoryLogic')->getLivingRoomList();
+        //即将开播列表
+        $list['coming'] = \logic('HistoryLogic')->getLiveHistory('>');
         if ($list) {
             $this->success('OK', $list);
         } else {
