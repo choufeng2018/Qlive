@@ -37,11 +37,15 @@ class HistoryLogic extends BaseLogic
             ->field('create_time,update_time', true)
             ->order('open_time')
             ->select();
-        foreach ($list as $k => $value) {
-            $list[$k]['logo'] = \getImagePathById($value['logo']);
-            $list[$k]['category'] = \getCategoryNameById($value['category']);
+        if (!empty($list)) {
+            foreach ($list as $k => $value) {
+                $list[$k]['logo'] = \getImagePathById($value['logo']);
+                $list[$k]['category'] = \getCategoryNameById($value['category']);
+            }
+            return $list;
+        } else {
+            return null;
         }
-        return $list;
     }
 
 
@@ -103,7 +107,7 @@ class HistoryLogic extends BaseLogic
             }
             return $room_list;
         } else {
-            return false;
+            return null;
         }
     }
 
