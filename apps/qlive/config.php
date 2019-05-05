@@ -35,7 +35,7 @@ return [
         'expire' => '180',
         //注册用模板
         'register' => 'SMS_73000100',
-        //重置密码
+        //密码重置模板
         'reset_password' => 'SMS_73000098'
     ],
 ];
