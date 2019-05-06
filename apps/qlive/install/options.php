@@ -34,7 +34,7 @@ return [
         'value' => '',
         'description' => '请在直播空间的域名管理中获取'
     ],
-    //暂时用不到,反正留着没问题
+    //暂时用不到,反正留着没毛病
     'BucketName' => [
         'title' => '储存空间名称:',
         'type' => 'text',
