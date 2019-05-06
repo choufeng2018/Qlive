@@ -231,7 +231,7 @@ CREATE TABLE `eacoo_qlive_room_list`  (
   `create_time` datetime(0) NULL DEFAULT NULL,
   `update_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '直播房间列表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '直播房间列表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for eacoo_qlive_user_certification
