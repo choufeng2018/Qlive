@@ -32,9 +32,21 @@ class SmsApi extends Controller
      */
     public function index()
     {
+        //30分钟内即将开播的预约
+        $time_point = \time() + 1800;
         $list = Db::name('QliveAppoint')
-            ->whereTime('live_open_time', '30 minutes')
+            ->where('status', 'eq', 0)
+            ->whereTime('live_open_time', 'between', [\time(), $time_point])
             ->select();
+        \halt($list);
+        if (empty($list)) {
+            $result = [
+                'code' => 0,
+                'msg' => '暂无任务',
+                'time' => \time(),
+            ];
+            return \json($result);
+        }
         foreach ($list as $v) {
             $user_info = User::get($v['uid']);
             $live_info = QliveLiveHistory::get($v['live_id']);
@@ -43,7 +55,7 @@ class SmsApi extends Controller
                 'type' => 3,
                 'mobile' => $user_info['mobile'],
                 'code' => '直播预约记录',
-                'ip' => $this->request->ip(),
+                'ip' => \request()->ip(),
             ];
 
             //发送短信
@@ -60,6 +72,10 @@ class SmsApi extends Controller
             if ($sms_res[0]) {
                 $res = Sms::create($sms_data);
                 if ($res) {
+                    //短信发送成功后修改预约状态
+                    Db::name('QliveAppoint')
+                        ->where('id', 'eq', $v['id'])
+                        ->setField('status', 1);
                     $result = [
                         'code' => 1,
                         'msg' => '预约成功',
