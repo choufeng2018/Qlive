@@ -36,6 +36,8 @@ return [
         //注册用模板
         'register' => 'SMS_73000100',
         //密码重置模板
-        'reset_password' => 'SMS_73000098'
+        'reset_password' => 'SMS_73000098',
+        //预约直播模板
+        'live_appoint' => 'SMS_164681921',
     ],
 ];
