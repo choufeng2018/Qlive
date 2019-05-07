@@ -38,7 +38,6 @@ class SmsApi extends Controller
             ->where('status', 'eq', 0)
             ->whereTime('live_open_time', 'between', [\time(), $time_point])
             ->select();
-        \halt($list);
         if (empty($list)) {
             $result = [
                 'code' => 0,
