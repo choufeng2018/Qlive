@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bbd02cc4b5b7ca713602a041a2a3c12",
+    "content-hash": "71373cfb5d842bfdab9ca1bea4a249f1",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -3113,16 +3113,16 @@
         },
         {
             "name": "yansongda/supports",
-            "version": "v1.8.7",
+            "version": "v1.8.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yansongda/supports.git",
-                "reference": "3e8ba6dc757352da52cb73fa1c577eceb80dcd7a"
+                "reference": "27d2692005af9900bc6aa4390bc9bd4a3d6a1fdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yansongda/supports/zipball/3e8ba6dc757352da52cb73fa1c577eceb80dcd7a",
-                "reference": "3e8ba6dc757352da52cb73fa1c577eceb80dcd7a",
+                "url": "https://api.github.com/repos/yansongda/supports/zipball/27d2692005af9900bc6aa4390bc9bd4a3d6a1fdd",
+                "reference": "27d2692005af9900bc6aa4390bc9bd4a3d6a1fdd",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3161,14 +3161,62 @@
                 "http",
                 "support"
             ],
-            "time": "2019-01-31T08:31:49+00:00"
+            "time": "2019-05-06T09:29:58+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "eaglewu/swoole-ide-helper",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wudi/swoole-ide-helper.git",
+                "reference": "d03e7e2d8ffd12e054555cae6dda8b2b3683d934"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wudi/swoole-ide-helper/zipball/d03e7e2d8ffd12e054555cae6dda8b2b3683d934",
+                "reference": "d03e7e2d8ffd12e054555cae6dda8b2b3683d934",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "eagle",
+                    "email": "eaglewudi@gmail.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "Swoole IDE Helper, to improve auto-completion",
+            "keywords": [
+                "autocomplete",
+                "codeintel",
+                "helper",
+                "ide",
+                "netbeans",
+                "phpdoc",
+                "phpstorm",
+                "sublime",
+                "swoole"
+            ],
+            "time": "2019-04-02T09:53:11+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pili-engineering/pili-sdk-php.v2": 20
+        "pili-engineering/pili-sdk-php.v2": 20,
+        "eaglewu/swoole-ide-helper": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
