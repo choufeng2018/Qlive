@@ -2,15 +2,17 @@
 /**
  * Created by PhpStorm.
  * Editor: xpwsg
- * Date: 2019/4/12
- * Time: 10:21
+ * Date: 2019/5/7
+ * Time: 14:41
  * Dedicated to my wife and daughter
  */
 
-namespace app\common\model;
+namespace app\qlive\model;
 
 
-class Sms extends Base
+use app\common\model\Base;
+
+class QliveAppoint extends Base
 {
 // 关闭自动写入update_time字段
     protected $updateTime = false;
