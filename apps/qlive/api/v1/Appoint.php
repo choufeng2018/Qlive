@@ -40,7 +40,7 @@ class Appoint extends RestUserBase
             $this->error('直播信息不存在');
         }
         if (\strtotime($live_info['open_time']) < \time()) {
-            $this->error('该直播不预约');
+            $this->error('该直播已过期');
         }
         if (\strtotime($live_info['open_time']) - \time() < 600) {
             $this->error('即将开播，无需预约');
@@ -60,43 +60,11 @@ class Appoint extends RestUserBase
             'live_id' => $live_id,
             'live_open_time' => $live_info['open_time'],
         ];
-        //短信发送记录入库数据
-        $sms_data = [
-            'type' => 3,
-            'mobile' => $user_info['mobile'],
-            'code' => '直播预约记录',
-            'ip' => $this->request->ip(),
-        ];
-        //开启事务操作
-        $modelA = new QliveAppoint();
-        $modelA->startTrans();
-        $modelS = new \app\common\model\Sms();
-        $modelS->startTrans();
-        //发送短信
-        $templateCode = \config('alisms_config.live_appoint');
-        $param = [
-            'mobile' => $user_info['mobile'],
-            'template' => $templateCode,
-            'templateParam' => [
-                'name' => $live_info['title'],
-                'time' => $live_info['open_time'],
-            ],
-        ];
-        $sms_res = \hook('sms', $param, true);
-        if ($sms_res[0]) {
-            $res1 = $modelS->save($sms_data);
-            $res2 = $modelA->save($sql_data);
-            if ($res1 === false || $res2 === false) {
-                $modelA->rollback();
-                $modelS->rollback();
-                $this->error('预约失败');
-            } else {
-                $modelS->commit();
-                $modelA->commit();
-                $this->success('预约成功');
-            }
+        $res = QliveAppoint::create($sql_data);
+        if ($res) {
+            $this->success('预约成功');
         } else {
-            $this->error('短信发送失败');
+            $this->error('预约失败');
         }
     }
 }
