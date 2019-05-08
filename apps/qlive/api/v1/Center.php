@@ -384,6 +384,45 @@ class Center extends RestUserBase
 
     /**
      * @throws \think\Exception
+     * @throws \think\exception\DbException
+     * 下单，购买视频，直播
+     */
+    public function order()
+    {
+        $live_id = \input('live_id');
+        $live_info = QliveLiveHistory::get($live_id);
+        if (empty($live_info)) {
+            $this->error('该直播不存在');
+        }
+        //检测是否已存在
+        $order_count = Db::name('QliveBill')
+            ->where('uid', 'eq', $this->userId)
+            ->where('live_id', 'eq', $live_id)
+            ->count();
+        if ($order_count > 0) {
+            $this->error('请勿重复下单');
+        }
+        $sql_data = [
+            'uid' => $this->userId,
+            'live_id' => $live_id,
+            'price' => $live_info['price'],
+            'marks' => \input('marks', ''),
+            'out_trade_no' => \get_order_sn(),
+            'order_time' => \date('Y-m-d H:i:s'),
+        ];
+        if ($live_info['price'] + 0 == 0) {
+            $sql_data['pay_status'] = 1;
+        }
+        $res = QliveBill::create($sql_data);
+        if ($res) {
+            $this->success('下单成功');
+        } else {
+            $this->error('下单失败');
+        }
+    }
+
+    /**
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -424,9 +463,10 @@ class Center extends RestUserBase
         if (empty($live_info)) {
             $this->error('数据不存在');
         } else {
-            $bill_find = QliveBill::get(['live_id' => $live_id, 'uid' => $this->userId]);
+            //该用户，已下单的直播，已经付费成功的
+            $bill_find = QliveBill::get(['live_id' => $live_id, 'uid' => $this->userId, 'pay_status' => 1]);
             if ($live_info['price'] > 0 && empty($bill_find)) {
-                $this->error('未付费');
+                $this->error('未购买');
             } else {
                 $this->success('已购买');
             }
