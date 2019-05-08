@@ -407,3 +407,15 @@ if (!function_exists('check_id_card')) {
         }
     }
 }
+if (!function_exists('get_order_sn')) {
+    /**
+     * @return string
+     * 生成订单号
+     */
+    function get_order_sn()
+    {
+        $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+        $orderSn = $yCode[intval(date('Y')) - 2019] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
+        return $orderSn;
+    }
+}
