@@ -67,4 +67,34 @@ class Appoint extends RestUserBase
             $this->error('预约失败');
         }
     }
+
+    /**
+     * @return \think\response\Json
+     * @throws \think\Exception
+     * 检测是否已经预约
+     */
+    public function checkIsAppoint()
+    {
+        $live_id = \input('live_id');
+        //检查是否已经预约过
+        $count = Db::name('QliveAppoint')
+            ->where('uid', 'eq', $this->userId)
+            ->where('live_id', 'eq', $live_id)
+            ->count();
+        if ($count > 0) {
+            $res = [
+                'code' => 0,
+                'msg' => '已经预约',
+                'time' => \time(),
+            ];
+            return \json($res);
+        } else {
+            $res = [
+                'code' => 1,
+                'msg' => '可以预约',
+                'time' => \time(),
+            ];
+            return \json($res);
+        }
+    }
 }
