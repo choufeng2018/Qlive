@@ -64,7 +64,7 @@ class SmsApi extends Controller
                 'template' => $templateCode,
                 'templateParam' => [
                     'name' => $live_info['title'],
-                    'time' => $live_info['open_time'],
+                    'time' => \date("H:i:s", \strtotime($live_info['open_time']))
                 ],
             ];
             $sms_res = \hook('sms', $param, true);
@@ -77,14 +77,14 @@ class SmsApi extends Controller
                         ->setField('status', 1);
                     $result = [
                         'code' => 1,
-                        'msg' => '预约成功',
+                        'msg' => '短信通知成功',
                         'time' => \time(),
                     ];
                     return \json($result);
                 } else {
                     $result = [
                         'code' => 0,
-                        'msg' => '预约失败',
+                        'msg' => '短信通知失败',
                         'time' => \time(),
                     ];
                     return \json($result);
