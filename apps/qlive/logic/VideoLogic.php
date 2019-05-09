@@ -33,7 +33,7 @@ $('#anchor_id').change(function() {
   // alert(anchorId);
   $.ajax({
   type:'GET',
-  url:'http://live.qiniuniu.com/admin.php/qlive/video/get_live_history/anchor_id/'+anchorId,
+  url:'http://live.natusmedical.cn/admin.php/qlive/video/get_live_history/anchor_id/'+anchorId,
   dataType:'json',
   success:function(data) {
       //填充表单
