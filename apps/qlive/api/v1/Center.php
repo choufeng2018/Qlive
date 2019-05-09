@@ -408,7 +408,6 @@ class Center extends RestUserBase
             'price' => $live_info['price'],
             'marks' => \input('marks', ''),
             'out_trade_no' => \get_order_sn(),
-            'order_time' => \date('Y-m-d H:i:s'),
         ];
         if ($live_info['price'] + 0 == 0) {
             $sql_data['pay_status'] = 1;

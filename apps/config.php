@@ -20,9 +20,9 @@ $config = [
     'data_auth_key' => 'eacoophp',
     //'extra_config_list'      => ['database', 'route', 'validate'],
     // 应用调试模式
-    'app_debug' => true,
+    'app_debug' => 1,
     // 应用Trace
-    'app_trace' => true,
+    'app_trace' => 1,
     // 应用模式状态
     'app_status' => '',
     // 是否支持多模块
