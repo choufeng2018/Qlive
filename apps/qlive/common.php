@@ -1,5 +1,6 @@
 <?php
 //模块自定义函数文件
+use app\qlive\model\QliveLiveHistory;
 use Douyasi\IdentityCard\ID;
 use think\Db;
 
@@ -417,5 +418,22 @@ if (!function_exists('get_order_sn')) {
         $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
         $orderSn = $yCode[intval(date('Y')) - 2019] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
         return $orderSn;
+    }
+}
+if (!function_exists('get_live_history_by_apprise_id')) {
+    /**
+     * @param $apprise_id
+     * @return QliveLiveHistory|bool|null
+     * @throws \think\exception\DbException
+     * 根据直播预告id获取对应开播申请数据
+     */
+    function get_live_history_by_apprise_id($apprise_id)
+    {
+        $history_info = QliveLiveHistory::get(['apprise_id' => $apprise_id]);
+        if ($history_info) {
+            return $history_info;
+        } else {
+            return false;
+        }
     }
 }
