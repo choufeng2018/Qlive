@@ -40,6 +40,8 @@ class AppriseLogic extends BaseLogic
         foreach ($list as $k => $value) {
             $list[$k]['image'] = \get_file_complete_path($value['image']);
             $list[$k]['lecturer'] = \getAnchorNameById($value['lecturer']);
+            $history_info = \get_live_history_by_apprise_id($value['id']);
+            $list[$k]['live_id'] = $history_info['id'];
         }
         return $list;
     }
