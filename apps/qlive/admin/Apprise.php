@@ -52,7 +52,7 @@ class Apprise extends QliveBase
             ->keyListItem('id', 'ID')
             ->keyListItem('title', '标题')
             ->keyListItem('image', '封面', 'picture')
-            ->keyListItem('lecturer', '讲者', 'array', $this->allAnchorList)
+            ->keyListItem('lecturer', '主播', 'array', $this->allAnchorList)
             ->keyListItem('short_content', '预告简介')
             ->keyListItem('start_time', '开始时间')
             ->keyListItem('category', '直播分类', 'array', $this->allCategory)
