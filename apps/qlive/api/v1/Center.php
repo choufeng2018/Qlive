@@ -160,6 +160,48 @@ class Center extends RestUserBase
     }
 
     /**
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 个人中心评论列表
+     */
+    public function commentList()
+    {
+        $time = \input('range');
+        switch ($time) {
+            case 1:
+                $range = 'yesterday';
+                break;
+            case 2:
+                $range = 'w';
+                break;
+            case 3:
+                $range = 'm';
+                break;
+            case 4:
+                $range = '-3 months';
+                break;
+            default:
+                $range = '-100 years';
+                break;
+
+        }
+        $comment_list['list'] = Db::name('QliveCommentList')
+            ->alias('a')
+            ->join('QliveLiveHistory b', 'a.live_id=b.id')
+            ->where('a.uid', 'eq', $this->userId)
+            ->whereTime('a.create_time', $range)
+            ->field('b.title,b.open_time,a.content,a.create_time')
+            ->select();
+        $comment_list['count'] = Db::name('QliveCommentList')
+            ->where('uid', 'eq', $this->userId)
+            ->whereTime('create_time', $range)
+            ->count();
+        $this->success('ok', $comment_list);
+    }
+
+    /**
      *评价(打分)直播
      */
     public function rate()
@@ -429,19 +471,39 @@ class Center extends RestUserBase
      */
     public function billList()
     {
-        $page = \input('page', 1);
-
+        $status = \input('status');
+        switch ($status) {
+            //未支付订单
+            case 1:
+                $map['b.status'] = 1;
+                $map['pay_status'] = 0;
+                break;
+            //已支付订单
+            case 2:
+                $map['b.status'] = 1;
+                $map['pay_status'] = 1;
+                break;
+            //作废订单
+            case 3:
+                $map['b.status'] = 2;
+                break;
+            //全部订单
+            default:
+                $map = [];
+                break;
+        }
         $list = Db::name('QliveLiveHistory')
             ->alias('a')
             ->join('QliveBill b', 'a.id=b.live_id')
             ->where('b.uid', 'eq', $this->userId)
-            ->page($page, 10)
-            ->field('b.id,a.id as live_id,a.title,a.logo,b.price,b.create_time')
+            ->where($map)
+            ->field('b.id,a.id as live_id,a.title,a.logo,b.price,b.create_time,b.status,b.pay_status')
             ->select();
         $count = Db::name('QliveLiveHistory')
             ->alias('a')
             ->join('QliveBill b', 'a.id=b.live_id')
             ->where('b.uid', 'eq', $this->userId)
+            ->where($map)
             ->count();
         $res['list'] = $list;
         $res['count'] = $count;
