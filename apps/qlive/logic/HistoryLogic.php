@@ -101,7 +101,7 @@ class HistoryLogic extends BaseLogic
                     ->where('b.stream', 'eq', $value)
                     ->where('b.status', 'eq', 1)
                     ->whereTime('a.open_time', 'd')
-                    ->field('a.id,a.title,a.anchor,a.open_time,a.logo,a.description')
+                    ->field('a.id,a.title,a.anchor,a.open_time,a.logo,a.description,a.flag,a.update_time')
                     ->find();
                 $room_list[$k]['live_room_info']['logo'] = \get_file_complete_path($room_list[$k]['live_room_info']['logo']);
             }
@@ -234,7 +234,7 @@ class HistoryLogic extends BaseLogic
             }
             $info = Db::name('QliveLiveHistory')
                 ->where('id', 'in', $ids)
-                ->whereTime('open_time', '<', \date('Y-m-d H:i:s'))
+                ->whereTime('open_time', '<', \time())
                 ->select();
 
             foreach ($info as $k => $v) {
