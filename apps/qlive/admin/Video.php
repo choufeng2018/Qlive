@@ -128,6 +128,7 @@ class Video extends QliveBase
             $param['live_time'] = $live_info['open_time'];
             $param['category'] = $live_info['category'];
             $param['type'] = $live_info['live_type'];
+            $param['flag'] = $live_info['flag'];
             $param['price'] = $live_info['price'];
             $param['hits'] = $live_info['hits'];
             $param['sales'] = $live_info['sales'];
@@ -151,8 +152,10 @@ class Video extends QliveBase
             ->addFormItem('anchor_id', 'select', '所属主播', '选择该视频的所有者', $this->allAnchorList)
             ->addFormItem('live_id', 'select', '对应直播', '只显示最近30天内的记录', $live_all_list)
             ->addFormItem('url', 'file', '上传视频', '请上传编辑好的MP4格式的视频文件')
+            ->addFormItem('logo', 'picture', '视频封面')
+            ->addFormItem('description', 'wangeditor', '视频描述')
             ->addFormItem('status', 'radio', '视频状态', '是否在前台显示', [1 => '正常', 0 => '隐藏'])
-            ->addFormItem('order', 'text', '排序')
+            ->addFormItem('order', 'text', '排序', '数字越小越靠前，最小的则是置顶')
             ->addFormItem('marks', 'textarea', '备注')
             ->setExtraHtml($moreJs)
             ->setFormData($info)
