@@ -155,7 +155,7 @@ class Apply extends QliveBase
                 ->addFormItem('commentable', 'radio', '是否可评论', '', [0 => '否', 1 => '是'])
                 ->addFormItem('can_ask', 'radio', '是否可提问', '', [0 => '否', 1 => '是'])
 //                ->addFormItem('file', 'file', '附件')
-                ->addFormItem('flag', 'select', '标记', '', $this->appriseFlag)
+                ->addFormItem('flag', 'select', '标记', '<code>如果存在多个置顶，只会显示最后操作的一个</code>', $this->appriseFlag)
                 ->addFormItem('order', 'number', '排序')
                 ->setFormData($info)
                 ->addButton('submit')
