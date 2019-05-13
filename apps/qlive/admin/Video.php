@@ -59,8 +59,8 @@ class Video extends QliveBase
             ->keyListItem('live_time', '直播时间')
             ->keyListItem('url', '视频地址', 'url', '', 'target="_blank"')
             ->keyListItem('status', '状态', 'status')
+            ->keyListItem('is_recommend', '推力推荐', 'status')
             ->keyListItem('order', '排序')
-            ->keyListItem('marks', '备注')
             ->keyListItem('right_button', '操作')
             ->setListData($data_list)
             ->setListPage($total)
@@ -141,6 +141,7 @@ class Video extends QliveBase
         $info = [
             'status' => 1,
             'order' => 50,
+            'is_recommend' => 0,
         ];
         if ($id > 0) {
             $info = QliveVideoList::get($id);
@@ -154,9 +155,10 @@ class Video extends QliveBase
             ->addFormItem('url', 'file', '上传视频', '请上传编辑好的MP4格式的视频文件')
             ->addFormItem('logo', 'picture', '视频封面')
             ->addFormItem('description', 'wangeditor', '视频描述')
-            ->addFormItem('status', 'radio', '视频状态', '是否在前台显示', [1 => '正常', 0 => '隐藏'])
+            ->addFormItem('is_recommend', 'radio', '强力推荐', '是否首页推荐', [1 => '是', 0 => '否'])
             ->addFormItem('order', 'text', '排序', '数字越小越靠前，最小的则是置顶')
             ->addFormItem('marks', 'textarea', '备注')
+            ->addFormItem('status', 'radio', '视频状态', '是否在前台显示', [1 => '正常', 0 => '隐藏'])
             ->setExtraHtml($moreJs)
             ->setFormData($info)
             ->addButton('submit')
