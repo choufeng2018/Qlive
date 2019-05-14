@@ -22,11 +22,13 @@ use think\Db;
 class CommentLogic extends BaseLogic
 {
 
+
     /**
-     * @param $live_id 直播id
-     * @param int $status
+     * @param $live_id
+     * @param $status
      * @param int $page
      * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -43,13 +45,19 @@ class CommentLogic extends BaseLogic
             ->field('id,username,content,create_time,uid')
             ->page($page, 10)
             ->select();
+
         if (!empty($comment_list)) {
             foreach ($comment_list as $k => $value) {
                 $comment_list[$k]['avatar'] = \get_user_avatar_by_uid($value['uid']);
                 $comment_list[$k]['reply_list'] = $this->getReplyList($value['id']);
             }
         }
-        return $comment_list;
+        $list['count'] = Db::name('QliveCommentList')
+            ->where($map)
+            ->field('id,username,content,create_time,uid')
+            ->count();
+        $list['list'] = $comment_list;
+        return $list;
     }
 
     /**
