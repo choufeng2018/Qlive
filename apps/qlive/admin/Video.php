@@ -59,7 +59,7 @@ class Video extends QliveBase
             ->keyListItem('live_time', '直播时间')
             ->keyListItem('url', '视频地址', 'url', '', 'target="_blank"')
             ->keyListItem('status', '状态', 'status')
-            ->keyListItem('is_recommend', '推力推荐', 'status')
+            ->keyListItem('is_recommend', '强力推荐', 'status')
             ->keyListItem('order', '排序')
             ->keyListItem('right_button', '操作')
             ->setListData($data_list)
