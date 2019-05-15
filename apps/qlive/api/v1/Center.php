@@ -169,6 +169,7 @@ class Center extends RestUserBase
     public function commentList()
     {
         $time = \input('range');
+        $page = \input('page', 1);
         switch ($time) {
             case 1:
                 $range = 'yesterday';
@@ -193,6 +194,7 @@ class Center extends RestUserBase
             ->where('a.uid', 'eq', $this->userId)
             ->whereTime('a.create_time', $range)
             ->field('b.title,b.open_time,a.content,a.create_time')
+            ->page($page, 10)
             ->select();
         $comment_list['count'] = Db::name('QliveCommentList')
             ->where('uid', 'eq', $this->userId)
