@@ -232,7 +232,7 @@ class AnchorCenter extends Center
             $list[$k]['logo'] = \get_file_complete_path($value['logo']);
         }
         $count = $listModel
-            ->where('anchor_id', 'eq', $this->userId)
+            ->where('anchor_id', 'eq', $anchor_id)
             ->count();
         $res['count'] = $count;
         $res['list'] = $list;
