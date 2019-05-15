@@ -63,7 +63,7 @@ class SmsApi extends Controller
                 'mobile' => $user_info['mobile'],
                 'template' => $templateCode,
                 'templateParam' => [
-                    'name' => $live_info['title'],
+                    'name' => '【' . $live_info['title'] . '】',
                     'time' => \date("H:i:s", \strtotime($live_info['open_time']))
                 ],
             ];
