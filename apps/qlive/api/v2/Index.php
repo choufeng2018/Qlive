@@ -108,6 +108,8 @@ class Index extends RestBase
         if (!empty($immediate_list)) {
             foreach ($immediate_list as $k => $v) {
                 $immediate_list[$k]['logo'] = \get_file_complete_path($v['logo']);
+                $immediate_list[$k]['category'] = \get_live_category_name_by_id($v['category']);
+                $immediate_list[$k]['live_type'] = \get_live_type_name_by_id($v['live_type']);
             }
         }
 
