@@ -437,3 +437,34 @@ if (!function_exists('get_live_history_by_apprise_id')) {
         }
     }
 }
+if (!function_exists('get_live_category_name')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据直播分类id获取名称
+     */
+    function get_live_category_name_by_id($id)
+    {
+        $name = Db::name('QliveCategoryList')
+            ->where('id', 'eq', $id)
+            ->value('name');
+        if (!empty($name)) {
+            return $name;
+        } else {
+            return '未知分类';
+        }
+    }
+}
+if (!function_exists('get_live_type_name_by_id')) {
+    /**
+     * @param $id
+     * @return mixed
+     * 根据直播分类id获取名称
+     */
+    function get_live_type_name_by_id($id)
+    {
+        $typeArr = config('live_type');
+        $name = $typeArr[$id];
+        return $name;
+    }
+}
