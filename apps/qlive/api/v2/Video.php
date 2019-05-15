@@ -133,6 +133,7 @@ class Video extends RestBase
         $live_info['rate'] = \round(\logic('RateLogic')->getLiveRate($video_info['live_id']), 0);
         $video_info['url'] = \get_file_complete_path($video_info['url']);
         $live_info['logo'] = \get_file_complete_path($live_info['logo']);
+        $live_info['avatar'] = \get_user_avatar_by_uid(\getUidByAnchorId($live_info['anchor_id']));
         $res = [
             'video_info' => $video_info,
             'live_info' => $live_info,
