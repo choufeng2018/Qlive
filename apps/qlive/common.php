@@ -468,3 +468,27 @@ if (!function_exists('get_live_type_name_by_id')) {
         return $name;
     }
 }
+if (!function_exists('get_live_status_by_live_id')) {
+    function get_live_status_by_live_id($live_id)
+    {
+        $room_id = Db::name('QliveLiveHistory')
+            ->where('id', 'eq', $live_id)
+            ->value('room_id');
+        $room_status = isLivingRoom($room_id);
+        if ($room_status) {
+            //在直播
+            $status = 1;
+        } else {
+            //未在直播
+            $status = 0;
+        }
+        //查找这个直播是否存在对应的视频
+        $video_info = Db::name('QliveVideoList')
+            ->where('live_id', 'eq', $live_id)
+            ->find();
+        if ($video_info) {
+            $status = 2;
+        }
+        return $status;
+    }
+}
