@@ -38,6 +38,7 @@ class Detail extends RestBase
         if (empty($live_info)) {
             $this->error('该直播信息不存在');
         } else {
+            $live_info['live_status'] = \get_live_status_by_live_id($id);
             $live_info['logo'] = \getImagePathById($live_info['logo']);
             $live_info['category'] = \getCategoryNameById($live_info['category']);
             $live_info['live_type'] = \getLiveTypeNameById($live_info['live_type']);
