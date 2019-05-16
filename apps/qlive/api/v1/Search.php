@@ -11,6 +11,7 @@ namespace app\qlive\api\v1;
 
 
 use app\rest\controller\RestBase;
+use think\Db;
 
 /**
  * Class Search
@@ -30,7 +31,47 @@ class Search extends RestBase
         if ($keyword) {
             $map['title|anchor'] = ['like', '%' . $keyword . '%'];
         }
-        $list = \logic('HistoryLogic')->searchLiveHistory($map, $page);
-        $this->success('Ok', $list);
+        //根据直播名称和主播搜索到的开播记录
+        $live_list = \logic('HistoryLogic')->searchLiveHistory($map, $page);
+
+        $live_res = [];
+        foreach ($live_list as $k => $v) {
+            $live_res[$k]['id'] = $v['id'];
+            $live_res[$k]['title'] = $v['title'];
+            $live_res[$k]['is_living'] = $v['is_living'];
+        }
+        //2019年5月16日添加：根据视频名称和主播搜索到的视频列表
+        $video_list = Db::name('QliveVideoList')
+            ->where($map)
+            ->where('status', 'eq', 1)
+            ->field('live_id,title')
+            ->select();
+        $video_res = [];
+        foreach ($video_list as $k => $v) {
+            $video_res[$k]['id'] = $v['live_id'];
+            $video_res[$k]['title'] = $v['title'];
+            $video_res[$k]['is_living'] = false;
+        }
+        $res = \array_merge($live_res, $video_res);
+        $this->success('Ok', $res);
+    }
+
+    public function index2()
+    {
+        $keyword = \input('keyword');
+        $map = [];
+        if ($keyword) {
+            $map['title|anchor'] = ['like', '%' . $keyword . '%'];
+        }
+        $list = Db::field('id,title')
+            ->name('QliveLiveHistory')
+            ->where($map)
+            ->union(function ($query) use ($map) {
+                $query->field('live_id,title')
+                    ->where($map)
+                    ->name('QliveVideoList');
+            })
+            ->select();
+        $this->success('OK', $list);
     }
 }
