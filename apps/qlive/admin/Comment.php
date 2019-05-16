@@ -56,6 +56,7 @@ class Comment extends QliveBase
             ->keyListItem('right_button', '操作')
             ->setListData($data_list)
             ->setListPage($total)
+            ->addRightButton('self', ['title' => '查看回复', 'class' => 'btn btn-info btn-xs', 'href' => url('Reply/index', ['id' => '__data_id__'])])
             ->addRightButton('delete', ['model' => 'QliveCommentList'])
             ->fetch();
         return (new Iframe())
