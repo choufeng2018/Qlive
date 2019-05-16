@@ -113,19 +113,6 @@ class Index extends RestBase
             }
         }
 
-        //往期热门
-        $hot_list = Db::name('QliveVideoList')
-            ->where('status', 'eq', 1)
-            ->order('hits desc')
-            ->field('id,title,anchor,live_id,category,logo,type,price,live_time,description')
-            ->limit(3)
-            ->select();
-        if (!empty($hot_list)) {
-            foreach ($hot_list as $k => $v) {
-                $hot_list[$k]['logo'] = \get_file_complete_path($v['logo']);
-            }
-        }
-
         //强力推荐
         $recommend_list = Db::name('QliveVideoList')
             ->where('status', 'eq', 1)
@@ -139,11 +126,26 @@ class Index extends RestBase
                 $recommend_list[$k]['logo'] = \get_file_complete_path($v['logo']);
             }
         }
+
+        //往期热门
+        $hot_list = Db::name('QliveVideoList')
+            ->where('status', 'eq', 1)
+            ->order('hits desc')
+            ->field('id,title,anchor,live_id,category,logo,type,price,live_time,description')
+            ->limit(6)
+            ->select();
+        if (!empty($hot_list)) {
+            foreach ($hot_list as $k => $v) {
+                $hot_list[$k]['logo'] = \get_file_complete_path($v['logo']);
+            }
+        }
+
+
         $data = [
             'top' => $top,
             'immediate_list' => $immediate_list,
-            'hot_list' => $hot_list,
             'recommend_list' => $recommend_list,
+            'hot_list' => $hot_list,
         ];
         $this->success('OK', $data);
     }
