@@ -102,7 +102,7 @@ class Index extends RestBase
             ->where('status', 'eq', '1')
             ->where('flag', 'neq', 2)
             ->order('update_time desc')
-            ->field('id,title,open_time,logo,anchor,category,live_type,description,flag')
+            ->field('id,title,open_time,logo,anchor,category,live_type,description,flag,price')
             ->limit(3)
             ->select();
         if (!empty($immediate_list)) {
