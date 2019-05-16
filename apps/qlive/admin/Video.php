@@ -156,7 +156,7 @@ class Video extends QliveBase
             ->addFormItem('logo', 'picture', '视频封面')
             ->addFormItem('description', 'wangeditor', '视频描述')
             ->addFormItem('is_recommend', 'radio', '强力推荐', '是否首页推荐', [1 => '是', 0 => '否'])
-            ->addFormItem('order', 'text', '排序', '数字越小越靠前，最小的则是置顶')
+            ->addFormItem('order', 'text', '排序', '越小越靠前，最小的则是置顶，相同排序选择最后更新的')
             ->addFormItem('marks', 'textarea', '备注')
             ->addFormItem('status', 'radio', '视频状态', '是否在前台显示', [1 => '正常', 0 => '隐藏'])
             ->setExtraHtml($moreJs)
