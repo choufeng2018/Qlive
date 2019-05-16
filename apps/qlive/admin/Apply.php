@@ -13,6 +13,7 @@ use app\common\builder\BuilderForm;
 use app\common\builder\BuilderList;
 use app\common\layout\Iframe;
 use app\qlive\model\QliveLiveHistory;
+use think\Db;
 
 class Apply extends QliveBase
 {
@@ -123,6 +124,14 @@ class Apply extends QliveBase
             //主播id
             $param['anchor_id'] = \getAnchorIdByName($param['anchor']);
             if ($this->historyModel->editData($param)) {
+                //如果置顶这条记录，那么将其他记录改成不置顶
+                if ($param['flag'] == 2) {
+                    $this_id = $this->historyModel->id;
+                    Db::name('QliveLiveHistory')
+                        ->whereTime('open_time', '>', \time())
+                        ->where('id', 'neq', $this_id)
+                        ->setField('flag', '1');
+                }
                 $this->success($title . '成功', \url('index'));
             } else {
                 $this->error($this->historyModel->getError());
