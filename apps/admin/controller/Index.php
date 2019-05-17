@@ -11,14 +11,17 @@ namespace app\admin\controller;
 
 use eacoo\EacooAccredit;
 
+/**
+ * Class Index
+ * @package app\admin\controller
+ */
 class Index extends Admin
 {
 
+
     /**
+     * @return mixed
      * 首页
-     * @return [type] [description]
-     * @date   2018-02-05
-     * @author 心云间、凝听 <981248356@qq.com>
      */
     public function index()
     {
