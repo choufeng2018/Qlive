@@ -584,4 +584,22 @@ class Center extends RestUserBase
             $this->error('未知状态');
         }
     }
+
+    /**
+     * @throws \think\Exception
+     * 检查是否可以评论
+     */
+    public function checkCanRate()
+    {
+        $live_id = \input('live_id');
+        $uid = $this->userId;
+        $count = Db::name('QliveRate')
+            ->where(['uid' => $uid, 'live_id' => $live_id])
+            ->count();
+        if ($count > 0) {
+            $this->error('已经评分过');
+        } else {
+            $this->success('可以评分');
+        }
+    }
 }
