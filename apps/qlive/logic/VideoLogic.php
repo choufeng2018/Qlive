@@ -27,10 +27,35 @@ class VideoLogic extends Base
     public function getLiveListByAnchor()
     {
         return <<<EOF
+        <script type="text/javascript">
+        $(function() {
+          var anchorId = $('#anchor_id').val();
+          var liveId=$('#live_id').val();
+          $.ajax({
+  type:'GET',
+  url:'http://live.natusmedical.cn/admin.php/qlive/video/get_live_history/anchor_id/'+anchorId,
+  dataType:'json',
+  success:function(data) {
+      //填充表单
+var build_dropdown = function( data, element, defaultText ){
+	element.empty().append( '<option value="">' + defaultText + '</option>' );
+	if( data ){
+		$.each( data, function( key, value ){
+			element.append( '<option value="' + key + '">' + value + '</option>' );
+		} );
+	}
+	}
+    build_dropdown(data,$('#live_id'),'请选择...');
+$('#live_id').val(liveId);
+  },
+  });
+        });
+        
+       
+        </script>
 <script type="text/javascript">
 $('#anchor_id').change(function() {
   var anchorId = $('#anchor_id').val();
-  // alert(anchorId);
   $.ajax({
   type:'GET',
   url:'http://live.natusmedical.cn/admin.php/qlive/video/get_live_history/anchor_id/'+anchorId,
@@ -49,6 +74,11 @@ var build_dropdown = function( data, element, defaultText ){
   },
   })
 })
+</script>
+<script type="text/javascript">
+function f() {
+  
+}
 </script>
 EOF;
 
