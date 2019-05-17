@@ -90,7 +90,7 @@ EOF;
      * @throws \think\exception\DbException
      * 根据条件获取视频列表
      */
-    public function getVideoByCondition($flag = 1, $limit = 6, $order = 'hist desc')
+    public function getVideoByCondition($flag = 1, $limit = 6, $order = 'hits desc')
     {
         $map = [
             'status' => 1,
