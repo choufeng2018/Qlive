@@ -75,11 +75,6 @@ var build_dropdown = function( data, element, defaultText ){
   })
 })
 </script>
-<script type="text/javascript">
-function f() {
-  
-}
-</script>
 EOF;
 
 
