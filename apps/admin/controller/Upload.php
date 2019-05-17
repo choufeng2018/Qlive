@@ -1,31 +1,39 @@
 <?php
-// 上传
-// +----------------------------------------------------------------------
-// | Copyright (c) 2016-2018 https://www.eacoophp.com, All rights reserved.
-// +----------------------------------------------------------------------
-// | [EacooPHP] 并不是自由软件,可免费使用,未经许可不能去掉EacooPHP相关版权。
-// | 禁止在EacooPHP整体或任何部分基础上发展任何派生、修改或第三方版本用于重新分发
-// +----------------------------------------------------------------------
-// | Author:  心云间、凝听 <981248356@qq.com>
-// +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
 use app\common\logic\Upload as UploadLogic;
 use app\common\model\Attachment as AttachmentModel;
 use app\common\model\TermRelationships as TermRelationshipsModel;
 
+/**
+ * Class Upload
+ * @package app\admin\controller
+ * 上传控制器
+ */
 class Upload extends Admin
 {
 
+    /**
+     * @var
+     * 附件模型
+     */
     protected $attachmentModel;
 
+    /**
+     *初始化
+     */
     function _initialize()
     {
         parent::_initialize();
         $this->attachmentModel = new AttachmentModel();
     }
 
-    /* 文件上传 */
+
+    /**
+     * @return \think\response\Json
+     * 上传文件
+     */
     public function upload()
     {
         $controller = new UploadLogic;

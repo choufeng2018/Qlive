@@ -110,7 +110,7 @@ class Upload
             $upload_info = $this->parseFile($info);
             $upload_info['is_admin'] = $this->isAdmin;
             $upload_info['uid'] = isset($param['uid']) && $param['uid'] ? $param['uid'] : $this->doUid;//设置上传者；如果为空，保存的时候会自动处理为当前用户
-            unset($info);   //释放文件，避免上传通文件无法删除
+            unset($info);   //释放文件，避免上传同文件无法删除
 
             $is_sql = $this->request->param('is_sql', 'on', 'trim');//是否保存入库
             $return = [
