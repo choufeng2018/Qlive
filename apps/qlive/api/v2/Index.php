@@ -43,12 +43,13 @@ class Index extends RestBase
         //直播中的房间列表
         $top_living = [];
         $living_room_list = \logic('HistoryLogic')->getLivingRoomList();
+//        \dump($living_room_list);
         if (!empty($living_room_list)) {
-            foreach ($living_room_list as $list) {
-                $top_living = \arraySort($list, 'update_time');
+            foreach ($living_room_list as $v) {
+                $top_living = \arraySort($v, 'update_time');
             }
         }
-
+//        \dump($top_living);
         //往期视频
         $video = Db::name('QliveVideoList')
             ->where('status', 'eq', 1)
@@ -70,15 +71,15 @@ class Index extends RestBase
             ];
         } elseif (empty($top_apply) && !empty($top_living)) {
             $top = [
-                'live_id' => $top_living[0]['id'],
-                'title' => $top_living[0]['title'],
-                'image' => \get_file_complete_path($top_living[0]['logo']),
-                'lecturer' => $top_living[0]['anchor'],
-                'category' => $top_living[0]['category'],
-                'live_type' => $top_living[0]['live_type'],
-                'start_time' => $top_living[0]['open_time'],
-                'short_content' => $top_living[0]['description'],
-                'flag' => $top_living[0]['flag'],
+                'live_id' => $top_living['live_room_info']['id'],
+                'title' => $top_living['live_room_info']['title'],
+                'image' => $top_living['live_room_info']['logo'],
+                'lecturer' => $top_living['live_room_info']['anchor'],
+//                'category' => $top_living['live_room_info']['category'],
+//                'live_type' => $top_living['live_room_info']['live_type'],
+                'start_time' => $top_living['live_room_info']['open_time'],
+                'short_content' => $top_living['live_room_info']['description'],
+                'flag' => $top_living['live_room_info']['flag'],
             ];
         } elseif (empty($top_apply) && empty($top_living)) {
             $top = [
