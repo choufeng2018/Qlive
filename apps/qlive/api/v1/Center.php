@@ -639,8 +639,12 @@ class Center extends RestUserBase
         if ($uid != $this->userId || empty($uid)) {
             $this->error('操作失败');
         } else {
-            QliveAppoint::destroy($appoint_id);
-            $this->success('删除成功');
+            $res = QliveAppoint::destroy($appoint_id);
+            if ($res) {
+                $this->success('删除成功');
+            } else {
+                $this->error('删除失败');
+            }
         }
     }
 }
