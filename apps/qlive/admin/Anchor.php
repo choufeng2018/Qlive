@@ -40,7 +40,7 @@ class Anchor extends Admin
     public function index()
     {
         list($data_list, $total) = $this->anchorModel->search([
-                'keyword_condition' => 'uid|name|nickname',
+                'keyword_condition' => 'uid|username|nickname',
             ]
         )->getListByPage([], true, 'create_time desc');
         $content = (new BuilderList())
