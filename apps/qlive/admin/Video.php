@@ -153,7 +153,7 @@ class Video extends QliveBase
             ->addFormItem('anchor_id', 'select', '所属主播', '选择该视频的所有者', $this->allAnchorList)
             ->addFormItem('live_id', 'select', '对应直播', '只显示最近30天内的记录', $live_all_list)
             ->addFormItem('url', 'file', '上传视频', '请上传编辑好的MP4格式的视频文件')
-            ->addFormItem('logo', 'picture', '视频封面')
+            ->addFormItem('logo', 'picture', '视频封面','<code>请上传800*500的图片</code>')
             ->addFormItem('description', 'wangeditor', '视频描述')
             ->addFormItem('is_recommend', 'radio', '强力推荐', '是否首页推荐', [1 => '是', 0 => '否'])
             ->addFormItem('order', 'text', '排序', '越小越靠前，最小的则是置顶，相同排序选择最后更新的')

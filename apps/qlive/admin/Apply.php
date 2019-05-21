@@ -153,7 +153,7 @@ class Apply extends QliveBase
                 ->addFormItem('title', 'text', '标题')
                 ->addFormItem('category', 'multilayer_select', '直播分类', '', $this->categoryList)
                 ->addFormItem('live_type', 'select', '直播类型', '', $this->liveType)
-                ->addFormItem('logo', 'picture', '封面')
+                ->addFormItem('logo', 'picture', '封面','<code>请上传800*500的图片</code>')
                 ->addFormItem('schedule', 'wangeditor', '直播介绍')
                 ->addFormItem('description', 'wangeditor', '课程日程')
                 ->addFormItem('content', 'wangeditor', '课程描述')
