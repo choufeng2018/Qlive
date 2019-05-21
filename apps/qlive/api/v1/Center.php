@@ -12,6 +12,7 @@ namespace app\qlive\api\v1;
 
 use app\common\model\User;
 use app\qlive\model\QliveAnchorList;
+use app\qlive\model\QliveAppoint;
 use app\qlive\model\QliveBill;
 use app\qlive\model\QliveLiveHistory;
 use app\qlive\model\QliveRate;
@@ -600,6 +601,46 @@ class Center extends RestUserBase
             $this->error('已经评分过');
         } else {
             $this->success('可以评分');
+        }
+    }
+
+    /**
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 个人中心预约列表
+     */
+    public function appointList()
+    {
+        $page = \input('page', 1);
+        $list = Db::name('QliveAppoint')
+            ->alias('a')
+            ->join('QliveLiveHistory b', 'a.live_id=b.id')
+            ->where('a.uid', 'eq', $this->userId)
+            ->field('a.*,b.title')
+            ->page($page, 10)
+            ->select();
+        $count = Db::name('QliveAppoint')->where('uid', 'eq', $this->userId)->count();
+        $res = [
+            'list' => $list,
+            'count' => $count,
+        ];
+        $this->success('OK', $res);
+    }
+
+    /**
+     *删除/取消自己的预约
+     */
+    public function delAppoint()
+    {
+        $appoint_id = \input('id');
+        $uid = Db::name('QliveAppoint')->where('id', 'eq', $appoint_id)->value('uid');
+        if ($uid != $this->userId || empty($uid)) {
+            $this->error('操作失败');
+        } else {
+            QliveAppoint::destroy($appoint_id);
+            $this->success('删除成功');
         }
     }
 }
