@@ -49,7 +49,7 @@ class History extends QliveBase
         $map = [
             'open_time' => ['<', \date('Y-m-d H:i:s', \time())],
         ];
-        list($data_list, $total) = $this->historyModel->search($search_setting)->getListByPage($map, true, 'create_time');
+        list($data_list, $total) = $this->historyModel->search($search_setting)->getListByPage($map, true, 'create_time desc');
         $content = (new BuilderList())
             ->keyListItem('id', 'ID')
             ->keyListItem('anchor', '主播')
