@@ -49,9 +49,9 @@ class Video extends QliveBase
         list($data_list, $total) = $this->videoModel->search($search_setting)->getListByPage([], true, 'id');
         $content = (new BuilderList())
             ->addTopButton('addnew')
-            ->addTopButton('resume', ['model' => 'QliveVidoeList', 'title' => '显示'])
-            ->addTopButton('forbid', ['model' => 'QliveVidoeList', 'title' => '隐藏'])
-            ->addTopButton('delete', ['model' => 'QliveVidoeList'])
+            ->addTopButton('resume', ['model' => 'QliveVideoList', 'title' => '显示'])
+            ->addTopButton('forbid', ['model' => 'QliveVideoList', 'title' => '隐藏'])
+            ->addTopButton('delete', ['model' => 'QliveVideoList'])
             ->keyListItem('id', 'ID')
             ->keyListItem('title', '标题')
             ->keyListItem('anchor', '所属主播')
@@ -65,7 +65,7 @@ class Video extends QliveBase
             ->setListData($data_list)
             ->setListPage($total)
             ->addRightButton('edit')
-            ->addRightButton('delete')
+            ->addRightButton('delete', ['model' => 'QliveVideoList'])
             ->fetch();
         return (new Iframe())
             ->setMetaTitle('视频列表')
