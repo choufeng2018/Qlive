@@ -47,7 +47,7 @@ class Apply extends QliveBase
         $content = (new BuilderList())
             //->addTopButton('resume', ['title' => '通过', 'icon' => 'fa fa-check', 'model' => 'QliveLiveHistory'])
             //->addTopButton('forbid', ['title' => '拒绝', 'icon' => 'fa fa-exclamation', 'model' => 'QliveLiveHistory'])
-            ->addTopButton('delete', ['model' => 'QliveListHistory'])
+            ->addTopButton('delete', ['model' => 'QliveLiveHistory'])
             ->keyListItem('id', 'ID')
             ->keyListItem('anchor', '主播')
             ->keyListItem('room_id', '房间号')
