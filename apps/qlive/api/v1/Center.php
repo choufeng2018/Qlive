@@ -196,6 +196,7 @@ class Center extends RestUserBase
             ->whereTime('a.create_time', $range)
             ->field('b.title,b.open_time,a.content,a.create_time')
             ->page($page, 10)
+            ->order('a.create_time desc')
             ->select();
         $comment_list['count'] = Db::name('QliveCommentList')
             ->where('uid', 'eq', $this->userId)
