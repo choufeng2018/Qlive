@@ -30,6 +30,7 @@ class Search extends RestBase
         $map = [];
         if ($keyword) {
             $map['title|anchor'] = ['like', '%' . $keyword . '%'];
+            $map['open_time'] = ['> time', \time()];
         }
         //根据直播名称和主播搜索到的开播记录
         $live_list = \logic('HistoryLogic')->searchLiveHistory($map, $page);
@@ -41,6 +42,7 @@ class Search extends RestBase
             $live_res[$k]['is_living'] = $v['is_living'];
         }
         //2019年5月16日添加：根据视频名称和主播搜索到的视频列表
+        unset($map['open_time']);
         $video_list = Db::name('QliveVideoList')
             ->where($map)
             ->where('status', 'eq', 1)
