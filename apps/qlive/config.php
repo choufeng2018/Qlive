@@ -39,5 +39,7 @@ return [
         'reset_password' => 'SMS_73000098',
         //预约直播模板
         'live_appoint' => 'SMS_164681921',
+        //主播开播提醒
+        'live_remind' => 'SMS_165692514',
     ],
 ];
