@@ -66,6 +66,8 @@ class History extends QliveBase
 //            ->keyListItem('file', '附件', 'url')
             ->keyListItem('open_time', '开播时间')
             ->keyListItem('status', '状态', 'array', [0 => '未通过', 1 => '已通过', 2 => '待处理'])
+            ->keyListItem('right_button', '操作')
+            ->addRightButton('delete', ['model' => 'QliveLiveHistory'])
             ->setListData($data_list)
             ->setListPage($total)
             ->fetch();
