@@ -225,6 +225,7 @@ class AnchorCenter extends Center
         $anchor_id = \getAnchorIdByUid($this->userId);
         $list = $listModel
             ->where('anchor_id', 'eq', $anchor_id)
+            ->order('create_time desc')
             ->page($page, 10)
             ->select();
         foreach ($list as $k => $value) {
