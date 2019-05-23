@@ -61,6 +61,34 @@ class AnchorCenter extends Center
     }
 
     /**
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 主播个人中心提问列表
+     */
+    public function questionList()
+    {
+        $anchor_id = \getAnchorIdByUid($this->userId);
+        $list = Db::name('QliveQuestionList')
+            ->alias('a')
+            ->join('QliveLiveHistory b', 'a.live_id=b.id')
+            ->where('a.anchor_id', 'eq', $anchor_id)
+            ->field('a.*,b.title')
+            ->select();
+        $count = Db::name('QliveQuestionList')
+            ->alias('a')
+            ->join('QliveLiveHistory b', 'a.live_id=b.id')
+            ->where('a.anchor_id', 'eq', $anchor_id)
+            ->count();
+        $res = [
+            'list' => $list,
+            'count' => $count
+        ];
+        $this->success('OK', $res);
+    }
+
+    /**
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -274,7 +302,7 @@ class AnchorCenter extends Center
         //检测该主播是否有权限处理该评论
         $live_id = $comment_info['live_id'];
         $live_info = QliveLiveHistory::get($live_id);
-        if ($live_info['anchor_id'] !== $this->userId) {
+        if ($live_info['anchor_id'] != \getAnchorIdByUid($this->userId)) {
             $this->error('你无权进行此操作');
         }
 
