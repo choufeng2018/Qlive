@@ -43,8 +43,8 @@ class Index extends RestBase
         //直播中的房间列表
         $top_living = [];
         $living_room_list = \logic('HistoryLogic')->getLivingRoomList();
-//        \dump($living_room_list);
-        if (!empty($living_room_list)) {
+
+        if (!empty($living_room_list[0]['live_room_info']['logo'])) {
             foreach ($living_room_list as $v) {
                 $top_living = \arraySort($v, 'update_time');
             }
