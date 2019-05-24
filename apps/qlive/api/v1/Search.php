@@ -13,8 +13,19 @@ namespace app\qlive\api\v1;
 use app\rest\controller\RestBase;
 use think\Db;
 
+/**
+ * Class Search
+ * @package app\qlive\api\v1
+ * 首页搜索控制器
+ */
 class Search extends RestBase
 {
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 入口方法
+     */
     public function index()
     {
         $keyword = \input('keyword');
@@ -31,9 +42,10 @@ class Search extends RestBase
 
         $live_res = [];
         foreach ($live_list as $k => $v) {
-            $live_res[$k]['id'] = $v['id'];
+            $live_res[$k]['live_id'] = $v['id'];
             $live_res[$k]['title'] = $v['title'];
             $live_res[$k]['living_status'] = 1;
+            $live_res[$k]['video_id'] = 0;
         }
         //正在直播中的列表
 
@@ -51,14 +63,23 @@ class Search extends RestBase
             ->select();
         $video_res = [];
         foreach ($video_list as $k => $v) {
-            $video_res[$k]['id'] = $v['live_id'];
+            $video_res[$k]['live_id'] = $v['live_id'];
             $video_res[$k]['title'] = $v['title'];
             $video_res[$k]['living_status'] = 3;
+            $video_res[$k]['video_id'] = Db::name('QliveVideoList')->where('live_id', 'eq', $v['live_id'])->value('id');
         }
         $res = \array_merge($live_res, $living_res, $video_res);
         $this->success('Ok', $res);
     }
 
+    /**
+     * @param $map
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * 获取正在直播的房间
+     */
     function getLivingRoomList($map)
     {
         unset($map['open_time']);
@@ -79,7 +100,9 @@ class Search extends RestBase
                     ->field('a.id,a.title')
                     ->order('a.open_time desc')
                     ->find();
+                $room_list[$k]['live_id'] = $room_list[$k]['id'];
                 $room_list[$k]['living_status'] = 2;
+                $room_list[$k]['video_id'] = 0;
             }
             return $room_list;
         }
