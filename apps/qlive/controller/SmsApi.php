@@ -140,8 +140,8 @@ class SmsApi extends Controller
             ->join('QliveAnchorList b', 'a.anchor_id=b.id')
             ->whereTime('a.open_time', 'between', [\time(), $time_point])
             ->where('a.status', 'eq', 1)
-            ->where('remind', 'eq', '0')
-            ->field('a.title,a.open_time,b.id,b.mobile')
+            ->where('a.remind', 'eq', '0')
+            ->field('a.id,a.title,a.open_time,b.mobile')
             ->select();
         if (empty($list)) {
             $result = [
