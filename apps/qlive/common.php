@@ -307,11 +307,13 @@ if (!function_exists('getVideoByLiveId')) {
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * 根据直播id获取对应视频信息
+     * 只需要展示视频id和url就ok了
      */
     function getVideoByLiveId($live_id)
     {
         $video_info = Db::name('QliveVideoList')
             ->where('live_id', 'eq', $live_id)
+            ->field('id as video_id,url')
             ->find();
         if (empty($video_info)) {
             return null;
