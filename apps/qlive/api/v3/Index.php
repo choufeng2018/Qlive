@@ -138,8 +138,8 @@ class Index extends RestBase
 
         $data = [
             'top' => $top,
-            'immediate_list' => $immediate_list,
             'recommend_list' => $recommend_list,
+            'immediate_list' => $immediate_list,
             'hot_list' => $hot_list,
         ];
         $this->success('OK', $data);
