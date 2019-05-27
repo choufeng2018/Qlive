@@ -96,13 +96,13 @@ class AnchorCenter extends Center
      */
     public function answerAdd()
     {
-        $anchor_info = $this->user;
+        $anchor_id = \getAnchorIdByUid($this->userId);
         $id = \input('question_id');
         $quesdtion_info = Db::name('QliveQuestionList')
             ->where('id', 'eq', $id)
             ->find();
         //检查该条问题的直播记录中的主播是不是正要处理这条问题的主播
-        if ($anchor_info['username'] == $quesdtion_info['anchor']) {
+        if ($anchor_id != $quesdtion_info['anchor_id']) {
             $data = [
                 'id' => $id,
                 'answer' => \input('content'),
