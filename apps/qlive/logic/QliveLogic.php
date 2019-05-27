@@ -148,9 +148,12 @@ class QliveLogic extends BaseLogic
      */
     public function getLiveStatus($streamKey)
     {
+        $status = false;
         try {
-            $status = $stream = $this->hub->stream($streamKey)->liveStatus();
-
+            $info = $stream = $this->hub->stream($streamKey)->liveStatus();
+            if (\is_array($info)) {
+                $status = true;
+            }
         } catch (\Exception $exception) {
             return "Error:" . $exception->getMessage();
         }
