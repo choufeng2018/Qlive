@@ -309,8 +309,7 @@ class Center extends RestUserBase
                 //因为历史原因，必须同步修改开播申请，评论列表，提问列表，视频列表中的anchor字段为更新后的nickname
                 $res[2] = Db::name('QliveCommentList')->where('anchor_id', 'eq', $anchor_id)->setField('anchor', $param['nickname']);
                 $res[3] = Db::name('QliveQuestionList')->where('anchor_id', 'eq', $anchor_id)->setField('anchor', $param['nickname']);
-                //视频表数据字段基本作废，所以不改没有关系
-                //$res[4] = Db::name('QliveVideoList')->where('anchor', 'eq', $userInfo['nickname'])->setField('anchor', $param['nickname']);
+                $res[4] = Db::name('QliveVideoList')->where('anchor_id', 'eq', $anchor_id)->setField('anchor', $param['nickname']);
                 $res[5] = Db::name('QliveLiveHistory')->where('anchor_id', 'eq', $anchor_id)->setField('anchor', $param['nickname']);
             }
 //            \halt($res);
