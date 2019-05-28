@@ -295,13 +295,19 @@ class Center extends RestUserBase
                 $param['email'] = $userInfo['email'];
             }
 
+            //防止头像被清除
+            if (empty($param['avatar'])) {
+                unset($param['avatar']);
+            }
             //更新到users表中
             $userModel = new User();
+
             $res[0] = $userModel->allowField(true)->save($param, ['uid' => $this->userId]);
 
 
             $is_anchor = \isAnchor($this->userId);
             if ($is_anchor) {
+                //获取这个主播的id
                 $anchor_id = \getAnchorIdByUid($this->userId);
                 //如果是主播还需要修改主播表中资料
                 $anchorModel = new QliveAnchorList();
