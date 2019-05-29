@@ -33,8 +33,6 @@ class Past extends RestBase
         $map = [
             'status' => 1,
         ];
-        //排序条件
-        $order = [];
 
         $page = \input('page', 1);
         //直播分类
@@ -50,6 +48,7 @@ class Past extends RestBase
             $mark = \input('price') == 1 ? '>' : '=';
             $map['price'] = [$mark, 0];
         }
+        //排序
         if (\input('order')) {
             switch (\input('order')) {
                 case 1:
@@ -74,6 +73,8 @@ class Past extends RestBase
                     $order = 'open_time desc';
                     break;
             }
+        } else {
+            $order = 'open_time desc';
         }
         if (\input('range')) {
             switch (\input('range')) {
@@ -99,6 +100,7 @@ class Past extends RestBase
         $list = Db::name('QliveLiveHistory')
             ->where($map)
             ->whereTime('open_time', $range)
+            ->whereTime('open_time', '<', \time())
             ->field('id as live_id,logo,title,open_time,anchor,price')
             ->order($order)
             ->page($page, 9)
