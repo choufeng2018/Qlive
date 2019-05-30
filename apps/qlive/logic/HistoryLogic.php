@@ -100,6 +100,7 @@ class HistoryLogic extends BaseLogic
                     ->join('QliveRoomList b', 'a.room_id=b.id')
                     ->where('b.stream', 'eq', $value)
                     ->where('b.status', 'eq', 1)
+                    ->where('a.status', 'eq', 1)
                     ->whereTime('a.open_time', 'd')
                     ->field('a.id,a.title,a.anchor,a.open_time,a.logo,a.description,a.flag,a.update_time')
                     ->find();
